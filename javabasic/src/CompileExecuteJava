@@ -1,0 +1,3 @@
+javac ClassName.java
+java package.ClassName
+
