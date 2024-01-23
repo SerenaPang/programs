@@ -1,4 +1,5 @@
 package org.bigjava.ch18.generics;
+
 import java.util.NoSuchElementException;
 
 /**
