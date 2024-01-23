@@ -66,19 +66,70 @@ public class Tree {
 			return root.size();
 		}
 	}
+	
+	/**
+	 * Traverses the tree with a given root in pre order
+	 * @param v the visitor to be invoked at each node
+	 * */
 	public static void preorder(Visitor v) {
 		preorder(root, v);
 	}
-
+	/**
+	 * Traverses the tree with a given root in pre order
+	 * @param n the root of the tree
+	 * @param v the visitor to be invoked at each node
+	 * */
 	public static void preorder(Node n, Visitor v) {
-		// TODO Auto-generated method stub
-		
+		if (n == null) {
+			return;
+		}
+		v.visit(n.data);
+		for (Node c : n.children) {
+			preorder(c,v);
+		}
+	}
+	
+	/**
+	 * Traverses the tree with a given root in post order
+	 * @param n the root of the tree
+	 * @param v the visitor to be invoked at each node
+	 * */
+	public static void postorder(Node n, Visitor v) {
+		if (n == null) {
+			return;
+		}
+		v.visit(n.data);
+		for(Node c : n.children) {
+			postorder(c,v);
+		}
+	}
+	
+	class BreadthFirstIterator implements Iterator{
+		private Queue<Node> q;
+		public BreadthFirstIterator(Node root) 
+		{
+			q = new LinkedList<>();
+			if (root != null) {q.add(root);}
+		}
+
+		@Override
+		public boolean hasNext() {
+			return q.size() > 0;
+		}
+
+		@Override
+		public Object next() {
+			Node n = q.remove();
+			for (Node c : n.children) {
+				q.add(c);
+			}
+			return n.data;
+		}
 	}
 
 	public Iterator iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+		return new BreadthFirstIterator(root);
+	}
 }
 	
 	
