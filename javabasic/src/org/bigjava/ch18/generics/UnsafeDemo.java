@@ -1,4 +1,4 @@
-package generic_classes;
+package org.bigjava.ch18.generics;
 
 public class UnsafeDemo {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package generic_classes;
+package org.bigjava.ch18.generics;
 /**
  * A list iterator allows access of a position in a linked list
  * This interface contains a subset of the methods of the standard java.util.listIterator interface

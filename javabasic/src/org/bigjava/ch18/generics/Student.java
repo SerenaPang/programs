@@ -1,4 +1,4 @@
-package generic_classes;
+package org.bigjava.ch18.generics;
 /**
  * a student with a name and a major
  * */

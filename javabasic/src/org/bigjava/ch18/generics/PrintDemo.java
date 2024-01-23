@@ -1,4 +1,4 @@
-package generic_classes;
+package org.bigjava.ch18.generics;
 import java.awt.Color;
 
 /**
