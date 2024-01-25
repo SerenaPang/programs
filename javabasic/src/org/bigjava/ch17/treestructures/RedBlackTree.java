@@ -247,22 +247,175 @@ public class RedBlackTree {
 			bubbleUp(toBeRemoved.parent);
 		}
 	}
-	
-	
-	
-	
-	
-}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * move a charge from two children of a parent 
+	 * @param parent a node with two children, or null(in which case nothing is done)
+	 * */
+	private void bubbleUp(Node parent) {
+		if (parent == null) {
+			return;
+		}
+		parent.color++;
+		parent.left.color--;
+		parent.right.color--;
+		
+		if (bubbleUpFix(parent.left)) {
+			return;
+		}
+		if (bubbleUpFix(parent.right)) {
+			return;
+		}
+		if (parent.color == DOUBLE_BLACK) {
+			if (parent.parent == null) {
+				parent.color = BLACK;
+			}
+			else{
+				bubbleUp(parent.parent);	
+			}
+		}
+	}
+
+	/**
+	 * fixes a negative red or double red violation introduced by bubbling up
+	 * @param child the child to check for negative red or double red violations
+	 * @return true if the tree was fixed
+	 * */
+	private boolean bubbleUpFix(Node child) {
+		 if(child.color == NEGATIVE_RED) {
+			 fixNegativeRed(child);
+			 return true;
+		 } else if(child.color == RED) {
+			 if (child.left != null && child.left.color == RED) {
+				 fixDoubleRed(child.left);
+				 return true;
+			 }
+			 if (child.right != null && child.right.color == RED) {
+				 fixDoubleRed(child.right);
+				 return true;
+			 }
+		 }
+		return false;
+	}
+
+	/**
+	 * fixes a "double red" violation
+	 * @param child the child with a red parent
+	 * */
+	private void fixDoubleRed(Node child) {
+		Node parent = child.parent;
+		Node grandParent = parent.parent;
+		if (grandParent == null) {
+			parent.color = BLACK;
+			return;
+		}
+		Node n1,n2,n3,t1,t2,t3,t4;
+		if (parent == grandParent.left) {
+			n3 = grandParent; t4 = grandParent.right;
+			if (child == parent.left) {
+				n1 = child;
+				n2 = parent;
+				t1 = child.left;
+				t2 = child.right;
+				t3 = parent.right;
+			} else {
+				n1 = parent;
+				n2 = child;
+				t1 = parent.left;
+				t2 = child.left;
+				t3 = child.right;
+			}
+		}else {
+				n1 = grandParent;
+				t1 = grandParent.left;
+				if (child == parent.left) {
+					n2 = child;
+					n3 = parent;
+					t2 = child.left;
+					t3 = child.right;
+					t4 = parent.right;
+				} else {
+					n2 = parent;
+					n3 = child;
+					t2 = parent.left;
+					t3 = child.left;
+					t4 = child.right;
+				}
+			}
+			replaceWith(grandParent, n2);
+			n1.setLeftChild(t1);
+			n1.setRightChild(t2);
+			n2.setLeftChild(n1);
+			n2.setRightChild(t3);
+			n3.setLeftChild(t4);
+			n2.color = grandParent.color - 1;
+			n1.color = BLACK;
+			n3.color = BLACK;
+			
+			if (n2 == root) {
+				root.color = BLACK;
+			}
+			else if(n2.color == RED && n2.parent.color == RED) {
+				fixDoubleRed(n2);
+			}
+		}
+		
+	/**
+	 * fixes a "negative red" violation
+	 * @param negRed the negative red node
+	 * */
+	private void fixNegativeRed(Node negRed) {
+		Node parent = negRed.parent;
+		Node child;
+		if (parent.left == negRed) {
+			Node n1 = negRed.left;
+			Node n2 = negRed;
+			Node n3 = negRed.right;
+			Node n4 = parent;
+			Node t1 = n3.left;
+			Node t2 = n3.right;
+			Node t3 = n4.right;
+			
+			n1.color = RED;
+			n2.color = BLACK;
+			n4.color = BLACK;
+			
+			replaceWith(n4, n3);
+			n3.setLeftChild(n2);
+			n3.setRightChild(n4);
+			n2.setLeftChild(n1);
+			n4.setLeftChild(t2);
+			n4.setRightChild(t3);
+			
+			child = n1;
+		}
+		else //mirror image
+		{
+			Node n4 = negRed.right;
+			Node n3 = negRed;
+			Node n2 = negRed.left;
+			Node n1 = parent;
+			Node t3 = n2.right;
+			Node t2 = n2.left;
+			Node t1 = n1.left;
+			n4.color = RED;
+			n3.color = BLACK;
+			n1.color = BLACK;
+			
+			replaceWith(n1 ,n2);
+			n2.setRightChild(n3);
+			n2.setLeftChild(n1);
+			n1.setRightChild(t2);
+			n1.setLeftChild(t1);
+			
+			child = n4;
+		}
+		
+		if (child.left != null && child.left.color == RED) {
+			fixDoubleRed(child.left);
+		} else if (child.right != null && child.right.color == RED) {
+			fixDoubleRed(child.right);
+		}	
+	}
+}	
 }
