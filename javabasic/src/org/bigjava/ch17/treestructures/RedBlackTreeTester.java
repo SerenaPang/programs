@@ -12,8 +12,7 @@ public class RedBlackTreeTester {
 		System.out.println("All tests passed.");
 	}
 
-	private static void removelTest(Object removalTestTemplate) {
-		// TODO Auto-generated method stub
+	private static void removelTest(RedBlackTree t) {
 		
 	}
 
@@ -28,7 +27,14 @@ public class RedBlackTreeTester {
 	 * */
 	private static void insertionTest(String letters) {
 		PermutationGenerator gen = new PermutationGenerator(letters);
-		
+		for(String perm : gen.getPermutations()) {
+			RedBlackTree t = new RedBlackTree();
+			for (int i = 0; i < perm.length(); i++) {
+				String s = perm.substring(i, i + 1);
+				t.add(s);
+			}
+			assertEquals(letters, t.toString().replace(" ", ""));
+		}
 	}
 	/**
 	 * runs simple test from the textbook
