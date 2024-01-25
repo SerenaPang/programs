@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class implements a reb-black tree whose nodes hold objects that implement the Comparable interface
+ * This class implements a red -black tree whose nodes hold objects that implement the Comparable interface
  * */
 public class RedBlackTree {
 	static Node root; //package access, for testing 
@@ -35,7 +35,7 @@ public class RedBlackTree {
 		}
 		fixAfterAdd(newNode);
 	}
-	
+
 	/**
 	 * Tries to find an object in the tree
 	 * @param obj the object to find
@@ -81,9 +81,9 @@ public class RedBlackTree {
 			}
 			//toBeRemoved contains obj
 			//if one of the children is empty, use the other
-			if (tobeRemoved.left == null || toBeRemoved.right == null) {
+			if (toBeRemoved.left == null || toBeRemoved.right == null) {
 				Node newChild;
-				if (tobeRemoved.left == null) {
+				if (toBeRemoved.left == null) {
 					newChild = toBeRemoved.right;
 				} else {
 					newChild = toBeRemoved.left;
@@ -102,96 +102,11 @@ public class RedBlackTree {
 			//smallest contains smallest child in right subtree
 			//move contents, unlink child
 			toBeRemoved.data = smallest.data;
-			fixBeforeRemoved(smallest);
+			fixBeforeRemove(smallest);
 			replaceWith(smallest, smallest.right);
 		}
 	}
 	
-	
-	/**
-	 * Yields the contents of the tree in sorted order
-	 * @return all data items traversed in in order, with a space after each item
-	 * */
-	public String toString() {
-		return toString(root);
-	}
-	
-	/**
-	 * Yields the contents of the subtree with the given root in sorted order
-	 * @param parent the root of the subtree
-	 * @return all data items traversed in in order, with a space after each item
-	 * */
-	private static String toString(Node parent) {
-		if (parent == null) {
-			return "";
-		}
-		return toString(parent.left) + parent.data + " " + toString(parent.right);
-	}
-	
-	/**
-	 * a node of a red-black tree stores a data item and references of the child nodes to the left and to the right.
-	 * The color is the "cost" of passing the node; 1 for black or 0 for red
-	 * temporarily, it may be set to 2 or -1
-	 * */
-	static class Node {
-		public Comparable data;
-		public Node left;
-		public Node right;
-		public Node parent;
-		public int color;
-	
-	
-	/**
-	 * constructs a red node with no data
-	 * */
-	public Node() {}
-	
-	/**
-	 * sets the left child and updates its parent reference
-	 * @param child the new left child
-	 * */
-	public void setLeftChild(Node child) {
-		left = child;
-		if (child != null) {
-			child.parent = this;
-		}
-	}
-	
-	/**
-	 * sets the right child and updates its parent reference
-	 * @param child the new right child
-	 * */
-	public void setRightChild(Node child) {
-		right = child;
-		if (child != null) {
-			child.parent = this;
-		}
-	}
-	
-	/**
-	 * inserts a new node as a descendant of this node
-	 * @param newNode the node to insert
-	 * */
-	public void addNode(Node newNode) {
-		int comp = newNode.data.compareTo(data);
-		if (comp < 0) {
-			if (left == null) {
-				left = newNode;
-				left.parent = this;
-			} else {
-				left.addNode(newNode);
-			}
-		}
-		else if (comp > 0) {
-			if (right == null) {
-				right = newNode;
-				right.parent = this;
-			}
-			else {
-				right.addNode(newNode);
-			}
-		}
-	}
 	
 	/**
 	 * updates the parent's and replacement node's links when this node is replaced
@@ -199,7 +114,7 @@ public class RedBlackTree {
 	 * @param toBeReplaced the node that is to be replaced
 	 * @param replacement the node that replaces that node
 	 * */
-	private void replaceWith(Node toBeReplaced, Node replacement) {
+	private static void replaceWith(Node toBeReplaced, Node replacement) {
 		if (toBeReplaced.parent == null) {
 			replacement.parent = null;
 			root = replacement;
@@ -247,7 +162,7 @@ public class RedBlackTree {
 			bubbleUp(toBeRemoved.parent);
 		}
 	}
-
+	
 	/**
 	 * move a charge from two children of a parent 
 	 * @param parent a node with two children, or null(in which case nothing is done)
@@ -367,7 +282,8 @@ public class RedBlackTree {
 	private void fixNegativeRed(Node negRed) {
 		Node parent = negRed.parent;
 		Node child;
-		if (parent.left == negRed) {
+		if (parent.left == negRed) 
+		{
 			Node n1 = negRed.left;
 			Node n2 = negRed;
 			Node n3 = negRed.right;
@@ -411,11 +327,102 @@ public class RedBlackTree {
 			child = n4;
 		}
 		
-		if (child.left != null && child.left.color == RED) {
+		if (child.left != null && child.left.color == RED) 
+		{
 			fixDoubleRed(child.left);
-		} else if (child.right != null && child.right.color == RED) {
+		} else if (child.right != null && child.right.color == RED) 
+		{
 			fixDoubleRed(child.right);
 		}	
 	}
-}	
+
+	
+	/**
+	 * Yields the contents of the tree in sorted order
+	 * @return all data items traversed in in order, with a space after each item
+	 * */
+	public String toString() {
+		return toString(root);
+	}
+	
+	/**
+	 * Yields the contents of the subtree with the given root in sorted order
+	 * @param parent the root of the subtree
+	 * @return all data items traversed in in order, with a space after each item
+	 * */
+	private static String toString(Node parent) {
+		if (parent == null) {
+			return "";
+		}
+		return toString(parent.left) + parent.data + " " + toString(parent.right);
+	}
+
+	
+	/**
+	 * a node of a red-black tree stores a data item and references of the child nodes to the left and to the right.
+	 * The color is the "cost" of passing the node; 1 for black or 0 for red
+	 * temporarily, it may be set to 2 or -1
+	 * */
+	static class Node {
+		public Comparable data;
+		public Node left;
+		public Node right;
+		public Node parent;
+		public int color;
+	
+	
+	/**
+	 * constructs a red node with no data
+	 * */
+	public Node() {}
+	
+	/**
+	 * sets the left child and updates its parent reference
+	 * @param child the new left child
+	 * */
+	public void setLeftChild(Node child) {
+		left = child;
+		if (child != null) {
+			child.parent = this;
+		}
+	}
+	
+	/**
+	 * sets the right child and updates its parent reference
+	 * @param child the new right child
+	 * */
+	public void setRightChild(Node child) {
+		right = child;
+		if (child != null) {
+			child.parent = this;
+		}
+	}
+	
+	/**
+	 * inserts a new node as a descendant of this node
+	 * @param newNode the node to insert
+	 * */
+	public void addNode(Node newNode) {
+		int comp = newNode.data.compareTo(data);
+		if (comp < 0) {
+			if (left == null) {
+				left = newNode;
+				left.parent = this;
+			} else {
+				left.addNode(newNode);
+			}
+		}
+		else if (comp > 0) {
+			if (right == null) {
+				right = newNode;
+				right.parent = this;
+			}
+			else {
+				right.addNode(newNode);
+			}
+		}
+	}
+	
 }
+}
+
