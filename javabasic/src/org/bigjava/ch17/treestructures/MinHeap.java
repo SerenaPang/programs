@@ -102,9 +102,13 @@ public class MinHeap {
 		return elements.size() == 1;
 	}
 
+	/**
+	 * returns the value of the right child
+	 * @param index the index of a node in this heap
+	 * @return the value of the right child of the given node
+	 * */
 	private Comparable getRightChild(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return elements.get(2 * index + 1);
 	}
 	
 	/**
@@ -115,10 +119,14 @@ public class MinHeap {
 	private int getRightChildIndex(int index) {
 		return 2 * index + 1;
 	}
-
+	
+	/**
+	 * returns the value of the left child
+	 * @param index the index of a node in this heap
+	 * @return the value of the left child of the given node
+	 * */
 	private Comparable getLeftChild(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return elements.get(2 * index);
 	}
 
 	/**
@@ -139,9 +147,13 @@ public class MinHeap {
 		return index / 2;
 	}
 
-	private boolean getParent(int index) {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 * returns the value of the parent
+	 * @param index the index of a node in this heap
+	 * @return the value of the parent of the given node
+	 * */
+	private Comparable getParent(int index) {
+		return elements.get(index / 2);
 	}
 }
 
