@@ -17,5 +17,4 @@ public class Arrival extends Event{
 		Customer c = new Customer(now);
 		bank.add(c);
 	}
-
 }
