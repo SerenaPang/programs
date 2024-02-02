@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UsefulFileOperations {
 	public static void main(String[] args) throws IOException{
@@ -38,6 +40,20 @@ public class UsefulFileOperations {
 		String contents = new String(Files.readAllBytes(input), "UTF-8");
 		//writing a string to a file
 		Path output3 = Paths.get(input + ".lowercase");
+		contents = contents.toLowerCase();
+		Files.write(output3, contents.getBytes("UTF-8"));
+		System.out.println("The lowercase of " + input + " is in " + output3);
+		
+		String target = ";";
+		final int MAX_LINES = 10;
+		List<String> result = null;
+		try (Stream<String> lineStream = Files.lines(input)) {
+			result = lineStream.filter(s -> s.contains(target)).limit(MAX_LINES).collect(Collectors.toList());
+		}
+		System.out.println("The first ten lines containing a semicolon: " + result);
+		//copying and moving
+		Path output4 = Paths.get(input + ".copied");
+		
 		
 	}
 }
