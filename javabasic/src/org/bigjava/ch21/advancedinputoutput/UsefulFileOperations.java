@@ -53,7 +53,15 @@ public class UsefulFileOperations {
 		System.out.println("The first ten lines containing a semicolon: " + result);
 		//copying and moving
 		Path output4 = Paths.get(input + ".copied");
-		
-		
+		if (Files.exists(output4)) {
+			Files.delete(output4);
+		}
+		Files.copy(input,  output4);
+		Path output5 = Paths.get(output4 + ".moved");
+		if (Files.exists(output5)) {
+			Files.delete(output5);
+		}
+		Files.move(output4, output5);
+		System.out.println(input + " was copied to " + output4 + " which was moved to " + output5);		
 	}
 }
