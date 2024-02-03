@@ -47,7 +47,10 @@ public class PerfumeDataProcessor {
 	public Map<Person, ArrayList<Perfume>> getCommentsForPerfumes(Person name, Perfume aPerfume){
 		ArrayList<Perfume> perfumes = new ArrayList<Perfume>();
 		mapOfcommentsForPerfumes.putIfAbsent(name, perfumes);
-		
+		//TODO: ADD THE PERFUMES TO THE LST
+		//SORT THE LIST OF PERFUMES IN THE LIST
+		//PUT THE PERSON AND THE SORTED PERFUME TO THE MAP		
+		//PRINT THE MAP WITH NAME OF THE PERSON WHO MAKE THE COMMENT; NAME OF PERFUME, AND THEIR RATINGS
 		
 		return mapOfcommentsForPerfumes;	
 	}
