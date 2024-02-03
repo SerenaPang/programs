@@ -5,7 +5,10 @@ import java.util.Scanner;
  * This class takes the user input of the number of perfumes, names, how much they like it.
  * and display a summary for the perfume.
  * */
-public class PerfumeRecorder {
+public class Perfume {
+	String name;
+	Rating rating;
+	
 	/**
 	 * This method gets the number of perfumes to record
 	 * */
@@ -30,13 +33,23 @@ public class PerfumeRecorder {
 	}
 	
 	/**
+	 * This method sets the name of the perfume
+	 * */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
 	 * This method takes in the likeness score from the user
 	 * */
-	public double getScore() {
-		Scanner input = new Scanner(System.in);
-		System.out.println("Please enter the score of how much you like the perfume lowest(0 - 100)to highest: ");
-		double score = input.nextDouble();
-		System.out.println(score + " Recorded!");
-		return score;
+	public double getRatingScore() {
+		return rating.getRatingScore();
 	}
+	
+	/**
+	 * This method sets the rating of the perfume
+	 * */
+	public void setRatingScore(double rating) {
+		this.rating.ratingScore = rating;
+	}	
 }

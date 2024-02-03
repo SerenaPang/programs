@@ -17,14 +17,14 @@ public class UserInterface {
 	 * gets user input for the perfume
 	 * */
 	public void getInfo() {
-		dp.infoToMap();
+		//dp.infoToMap();
 	}
 	
 	/**
 	 * This method display the summary of the ranking of the perfumes
 	 * */
 	public void displayInfo() {
-		dp.displayMap();
+		//dp.displayMap();
 	}
 	
 	/**

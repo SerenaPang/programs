@@ -1,4 +1,6 @@
 package projects.perfumes;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -6,27 +8,62 @@ import java.util.TreeMap;
  * on the likeness of the perfume from lowest 0 to highest 100
  * */
 public class PerfumeDataProcessor {
-	TreeMap<Double, String> mapOfPerfume = new TreeMap<Double, String>();
-	PerfumeRecorder info = new PerfumeRecorder();
+	Perfume perfume = new Perfume();	
+	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
+	Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes;
 	
 	/**
-	 * This method gets the perfume's name and the user likeness and put them in a map
+	 * This method creates a Perfume object using the information provided by the user
 	 * */
-	public TreeMap<Double, String> infoToMap() {
-		String name = info.getName();
-		double score = info.getScore();	
-		mapOfPerfume.put(score, name);
-		return mapOfPerfume;
+	public Perfume createPerfume() {
+		Perfume p = new Perfume();
+		String name = p.getName();
+		double rating = p.getRatingScore();
+		p.setName(name);
+		p.setRatingScore(rating);
+		return p;
+	}
+
+	/**
+	 * This method gets the perfume's name and the user likeness and put them in a list
+	 * */
+	public void addToList(Perfume perfume) {
+		listOfPerfumes.add(perfume);
 	}
 	
 	/**
-	 * This method display the map in sorted order based on the likeness ranking
+	 * This method creates a Person object
 	 * */
-	public void displayMap() {
-		 // Iterating over the elements of the tree map
-        for (Double key : mapOfPerfume.keySet()) {
-            System.out.println("Likeness: " + key + ", Name: " + mapOfPerfume.get(key));
+	public Person createPerson() {
+		Person person = new Person();
+		String name = person.getName();
+		person.setName(name);
+		return person;
+	}
+	
+	/**
+	 * This method put the user info into a map, and adds a list of perfumes to a map
+	 **/
+	public Map<Person, ArrayList<Perfume>> getCommentsForPerfumes(Person name, Perfume aPerfume){
+		ArrayList<Perfume> perfumes = new ArrayList<Perfume>();
+		mapOfcommentsForPerfumes.putIfAbsent(name, perfumes);
+		
+		
+		return mapOfcommentsForPerfumes;	
+	}
+	
+	/**
+	 * This method display list of perfumes
+	 * */
+	public void displayList() {
+		 // Iterating over the elements of the list
+        for (Perfume element : listOfPerfumes) {
+            System.out.println("name: " + element.getName() + ", rating: " + element.getRatingScore());
         }
 	}
 	
+	/**
+	 * This method sorts the list of perfumes according to the ratings
+	 * */
+
 }
