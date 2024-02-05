@@ -9,15 +9,16 @@ import java.util.Scanner;
 public class Rating {
 	double ratingScore;
 
+	//move to ui
 	/**
 	 * This method takes in the likeness rating from the user
 	 * */
-	public void getScoreFromUser() {
+	public double getScoreFromUser() {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Please enter the score of how much you like the perfume lowest(0 - 100)to highest: ");
 		double score = input.nextDouble();
 		System.out.println(score + " Recorded!");
-		ratingScore = score;
+		return score;
 	}
 	
 	/**

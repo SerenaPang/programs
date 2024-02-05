@@ -10,6 +10,7 @@ public class Perfume {
 	Rating rating;
 	double ratingScore;
 	
+	//move to ui
 	/**
 	 * This method gets the number of perfumes to record
 	 * */
@@ -22,6 +23,7 @@ public class Perfume {
 		return numbers;	
 	}
 	
+	//move to ui
 	/**
 	 * This method takes in the names of the perfume, 
 	 * */
