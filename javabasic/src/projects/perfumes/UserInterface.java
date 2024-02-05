@@ -10,8 +10,8 @@ import java.util.Scanner;
  * */
 public class UserInterface {
 	PerfumeDataProcessor dp = new PerfumeDataProcessor();
-	static ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
-	static Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();;
+	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
+	Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();;
 	
 	
 	/**
@@ -89,7 +89,7 @@ public class UserInterface {
 	 * This method display the summary of the ranking of the perfumes
 	 * */
 	public void displayInfo() {
-		//dp.displayMap();
+		dp.displayMap(mapOfcommentsForPerfumes);
 	}
 	
 	/**

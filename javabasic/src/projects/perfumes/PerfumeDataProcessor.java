@@ -106,7 +106,7 @@ public class PerfumeDataProcessor {
 	public static void main(String[] args) {
 		//test sorted list
 		ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
-		PerfumeDataProcessor p = new PerfumeDataProcessor(listOfPerfumes);
+		PerfumeDataProcessor p = new PerfumeDataProcessor();
 		Perfume a = new Perfume();
 		a.setName("a");
 		a.setRating(5.5);
