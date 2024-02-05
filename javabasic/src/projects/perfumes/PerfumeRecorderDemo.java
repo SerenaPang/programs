@@ -15,8 +15,6 @@ public class PerfumeRecorderDemo {
 			Scanner in = new Scanner(System.in);
 			String choices = in.next();
 			
-			//case "a": ui.getInfo();
-			
 			switch(choices) {
 			    case "a": ui.getInfo();
 				break;

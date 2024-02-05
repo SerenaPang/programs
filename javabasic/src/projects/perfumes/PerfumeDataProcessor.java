@@ -13,7 +13,7 @@ import java.util.TreeMap;
 public class PerfumeDataProcessor {
 	Perfume perfume = new Perfume();	
 	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
-
+	static Map<Person, ArrayList<Perfume>> universalMap = new HashMap<Person, ArrayList<Perfume>>();
 
 	
 	/**
@@ -49,13 +49,13 @@ public class PerfumeDataProcessor {
 	 * This method put the user info into a map, adds the perfume to the list of perfumes and put a list of perfumes to a map
 	 **/
 	public Map<Person, ArrayList<Perfume>> putPersonCommentsToMap(Person name, Perfume aPerfume, ArrayList<Perfume> perfumeList,Map<Person, ArrayList<Perfume>> commentsMap){
-		Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = commentsMap;
+		this.universalMap = commentsMap;
 		//adds the perfume to the list of perfumes
 		perfumeList.add(aPerfume);
 		//sort the list of perfumes based on the rating
 		ArrayList<Perfume> sortedListOfPerfumes = sortList(perfumeList);
 		//put perfume and rating and person to the map
-		mapOfcommentsForPerfumes.putIfAbsent(name, sortedListOfPerfumes);
+		commentsMap.putIfAbsent(name, sortedListOfPerfumes);
 		return commentsMap;	
 	}
 	
@@ -82,7 +82,7 @@ public class PerfumeDataProcessor {
 	 * This method display list of perfumes and person who comment them
 	 * */
 	public void displayList(String personName, ArrayList <Perfume> perfumeList) {
-		System.out.println("Comments from: " + personName);
+		//System.out.println("Comments from: " + personName);
 		 // Iterating over the elements of the list
         for (Perfume element : perfumeList) {
             System.out.println("name: " + element.getName() + ", rating: " + element.getRating());
@@ -96,7 +96,7 @@ public class PerfumeDataProcessor {
 		for(Entry<Person, ArrayList<Perfume>> entry : map.entrySet()) {
 			String personName = entry.getKey().getName();
 			//get the perfume list and print the list of perfumes
-			displayList(personName, entry.getValue()); // the list of perfume objects
+			displayList(entry.getValue()); // the list of perfume objects
 		}
 	}
 	
