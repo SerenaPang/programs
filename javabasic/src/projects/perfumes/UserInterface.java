@@ -1,12 +1,19 @@
 package projects.perfumes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * This class gets the information from the user and put it to the processor
  * */
 public class UserInterface {
-	//PerfumeDataProcessor dp = new PerfumeDataProcessor();
+	PerfumeDataProcessor dp = new PerfumeDataProcessor();
+	static ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
+	static Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();;
+	
+	
 	/**
 	 * This method prints a welcome message to the user
 	 * */
@@ -49,10 +56,32 @@ public class UserInterface {
 		System.out.println(name + " Recorded!");
 		return name;
 	}
+	
+	/**
+	 * This method takes in the names of the person 
+	 * */
+	public String getPersonName() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Please enter your name: ");
+		String name = input.nextLine();
+		System.out.println("Hi " + name + "!");
+		return name;
+	}
 	/**
 	 * gets user input for the perfume
 	 * */
 	public void getInfo() {
+		Person person = new Person();
+		Perfume perfume = new Perfume();
+		
+		String personName = getPersonName();
+		String perfumeName = getPerfumeName();
+		double ratingScore = getScoreFromUser();
+		person.setName(personName);
+		perfume.setName(perfumeName);
+		perfume.setRating(ratingScore);
+		dp.putPersonCommentsToMap(person, perfume, listOfPerfumes, mapOfcommentsForPerfumes);
+		
 		//dp.infoToMap();
 	}
 	

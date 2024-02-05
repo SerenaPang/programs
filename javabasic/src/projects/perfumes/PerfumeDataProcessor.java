@@ -14,10 +14,7 @@ public class PerfumeDataProcessor {
 	Perfume perfume = new Perfume();	
 	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
 
-	
-	public PerfumeDataProcessor(ArrayList<Perfume> listOfPerfumes){
-		this.listOfPerfumes = listOfPerfumes;
-	}
+
 	
 	/**
 	 * This method creates a Perfume object using the information provided by the user
