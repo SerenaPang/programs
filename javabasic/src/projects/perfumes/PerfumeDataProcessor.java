@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 /**
  * This class gets the information for the perfume and map them into a tree map, the order is based 
@@ -82,7 +81,7 @@ public class PerfumeDataProcessor {
 	 * This method display list of perfumes and person who comment them
 	 * */
 	public void displayList(String personName, ArrayList <Perfume> perfumeList) {
-		//System.out.println("Comments from: " + personName);
+		 System.out.println("Comments from: " + personName);
 		 // Iterating over the elements of the list
         for (Perfume element : perfumeList) {
             System.out.println("name: " + element.getName() + ", rating: " + element.getRating());
@@ -96,7 +95,11 @@ public class PerfumeDataProcessor {
 		for(Entry<Person, ArrayList<Perfume>> entry : map.entrySet()) {
 			String personName = entry.getKey().getName();
 			//get the perfume list and print the list of perfumes
-			displayList(entry.getValue()); // the list of perfume objects
+			//displayList(personName, entry.getValue()); // the list of perfume objects
+			for (Perfume element : entry.getValue()) {
+	            System.out.println("perfume name: " + element.getName() + ", rating: " + element.getRating() + "comment by: " + personName);
+	        }
+			System.out.println();
 		}
 	}
 	
@@ -138,11 +141,17 @@ public class PerfumeDataProcessor {
 		
 		//test put to map
 		Person aPerson = new Person();
-		aPerson.setName("Jude");
+		aPerson.setName("serena");
 		Map<Person, ArrayList<Perfume>> myMap = new HashMap<Person, ArrayList<Perfume>>();
 		p.putPersonCommentsToMap(aPerson, a, listOfPerfumes, myMap);
+		p.putPersonCommentsToMap(aPerson, b, listOfPerfumes, myMap);
+		p.putPersonCommentsToMap(aPerson, c, listOfPerfumes, myMap);
+		p.putPersonCommentsToMap(aPerson, d, listOfPerfumes, myMap);
+		p.putPersonCommentsToMap(aPerson, e, listOfPerfumes, myMap);
+		
+		p.displayList(listOfPerfumes);
 		//print map
-		p.displayMap(myMap);
+		//p.displayMap(myMap);
 		
 	}
 }

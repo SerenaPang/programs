@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class UserInterface {
 	PerfumeDataProcessor dp = new PerfumeDataProcessor();
 	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
-	Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();
+	static Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();
 	
 	
 	/**
@@ -81,8 +81,6 @@ public class UserInterface {
 		perfume.setName(perfumeName);
 		perfume.setRating(ratingScore);
 		mapOfcommentsForPerfumes = dp.putPersonCommentsToMap(person, perfume, listOfPerfumes, mapOfcommentsForPerfumes);
-		
-		//dp.infoToMap();
 	}
 	
 	/**
