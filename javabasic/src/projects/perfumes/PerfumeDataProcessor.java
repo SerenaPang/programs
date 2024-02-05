@@ -24,7 +24,7 @@ public class PerfumeDataProcessor {
 		String name = p.getName();
 		double rating = p.getRating();
 		p.setName(name);
-		p.setRatingScore(rating);
+		p.setRating(rating);
 		return p;
 	}
 
