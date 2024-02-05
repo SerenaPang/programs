@@ -1,5 +1,7 @@
 package projects.perfumes;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,13 +14,17 @@ public class PerfumeDataProcessor {
 	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
 	Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes;
 	
+	public PerfumeDataProcessor(ArrayList<Perfume> listOfPerfumes){
+		this.listOfPerfumes = listOfPerfumes;
+	}
+	
 	/**
 	 * This method creates a Perfume object using the information provided by the user
 	 * */
 	public Perfume createPerfume() {
 		Perfume p = new Perfume();
 		String name = p.getName();
-		double rating = p.getRatingScore();
+		double rating = p.getRating();
 		p.setName(name);
 		p.setRatingScore(rating);
 		return p;
@@ -58,15 +64,54 @@ public class PerfumeDataProcessor {
 	/**
 	 * This method display list of perfumes
 	 * */
-	public void displayList() {
+	public void displayList(ArrayList <Perfume> perfumeList) {
 		 // Iterating over the elements of the list
-        for (Perfume element : listOfPerfumes) {
-            System.out.println("name: " + element.getName() + ", rating: " + element.getRatingScore());
+        for (Perfume element : perfumeList) {
+            System.out.println("name: " + element.getName() + ", rating: " + element.getRating());
         }
 	}
 	
 	/**
 	 * This method sorts the list of perfumes according to the ratings
 	 * */
-
+	public List<Perfume> sortList(ArrayList <Perfume> perfumeList){
+		perfumeList.sort(Comparator.comparingDouble(Perfume::getRating));
+		return perfumeList;
+	}
+	
+	/**
+	 * test sort method for the list of perfumes
+	 * */
+	public static void main(String[] args) {
+		ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
+		PerfumeDataProcessor p = new PerfumeDataProcessor(listOfPerfumes);
+		Perfume a = new Perfume();
+		a.setName("a");
+		a.setRating(5.5);
+		p.addToList(a);
+		
+		Perfume b = new Perfume();
+		b.setName("b");
+		b.setRating(3.3);
+		p.addToList(b);
+		
+		Perfume c = new Perfume();
+		c.setName("c");
+		c.setRating(1.1);
+		p.addToList(c);
+		
+		
+		Perfume d = new Perfume();
+		d.setName("d");
+		d.setRating(1.1);
+		p.addToList(d);
+		
+		Perfume e = new Perfume();
+		e.setName("e");
+		e.setRating(6.6);
+		p.addToList(e);
+		
+		p.sortList(listOfPerfumes);
+		p.displayList(listOfPerfumes);
+	}
 }

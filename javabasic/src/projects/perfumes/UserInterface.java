@@ -3,7 +3,7 @@ package projects.perfumes;
  * This class gets the information from the user and put it to the processor
  * */
 public class UserInterface {
-	PerfumeDataProcessor dp = new PerfumeDataProcessor();
+	//PerfumeDataProcessor dp = new PerfumeDataProcessor();
 	/**
 	 * This method prints a welcome message to the user
 	 * */

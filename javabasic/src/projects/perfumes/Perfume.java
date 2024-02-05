@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Perfume {
 	String name;
 	Rating rating;
+	double ratingScore;
 	
 	/**
 	 * This method gets the number of perfumes to record
@@ -24,11 +25,18 @@ public class Perfume {
 	/**
 	 * This method takes in the names of the perfume, 
 	 * */
-	public String getName() {
+	public String getPerfumeName() {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Please enter the name of the perfume: ");
 		String name = input.nextLine();
 		System.out.println(name + " Recorded!");
+		return name;
+	}
+	
+	/**
+	 * This method takes in the names of the perfume, 
+	 * */
+	public String getName() {
 		return name;
 	}
 	
@@ -42,9 +50,9 @@ public class Perfume {
 	/**
 	 * This method takes in the likeness score from the user
 	 * */
-	public double getRatingScore() {
-		return rating.getRatingScore();
-	}
+//	public double getRatingScore() {
+//		return rating.getRatingScore();
+//	}
 	
 	/**
 	 * This method sets the rating of the perfume
@@ -52,4 +60,13 @@ public class Perfume {
 	public void setRatingScore(double rating) {
 		this.rating.ratingScore = rating;
 	}	
+	
+	public void setRating(double ratingScore) {
+		this.ratingScore = ratingScore;
+	}	
+	
+	public double getRating() {
+		return ratingScore;
+	}
+	
 }
