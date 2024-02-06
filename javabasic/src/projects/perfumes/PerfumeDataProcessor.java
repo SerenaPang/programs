@@ -92,16 +92,21 @@ public class PerfumeDataProcessor {
 	 * This method display the map of person and list of perfumes
 	 * */
 	public void displayMap(Map<Person, ArrayList<Perfume>> map) {	
-		for(Entry<Person, ArrayList<Perfume>> entry : map.entrySet()) {
-			String personName = entry.getKey().getName();
-			//get the perfume list and print the list of perfumes
-			//displayList(personName, entry.getValue()); // the list of perfume objects
-			for (Perfume element : entry.getValue()) {
-	            System.out.println("perfume name: " + element.getName() + ", rating: " + element.getRating() + "comment by: " + personName);
-	        }
+//		for(Entry<Person, ArrayList<Perfume>> entry : map.entrySet()) {
+//			String personName = entry.getKey().getName();
+//			//get the perfume list and print the list of perfumes
+//			//displayList(personName, entry.getValue()); // the list of perfume objects
+//			for (Perfume element : entry.getValue()) {
+//	            System.out.println("perfume name: " + element.getName() + ", rating: " + element.getRating() + "comment by: " + personName);
+//	        }
+		for (Person personName : map.keySet()) {
+		   // System.out.println("person: " + personName); 
+		    for (Perfume perfume: map.get(personName)){
+		        System.out.println("name: " + perfume.getName() + ", rating: " + perfume.getRating());
+		    }
+		}
 			System.out.println();
 		}
-	}
 	
 	/**
 	 * test sort method and put to map in this class
@@ -149,9 +154,9 @@ public class PerfumeDataProcessor {
 		p.putPersonCommentsToMap(aPerson, d, listOfPerfumes, myMap);
 		p.putPersonCommentsToMap(aPerson, e, listOfPerfumes, myMap);
 		
-		p.displayList(listOfPerfumes);
+		//p.displayList(listOfPerfumes);
 		//print map
-		//p.displayMap(myMap);
+		p.displayMap(myMap);
 		
 	}
 }
