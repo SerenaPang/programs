@@ -61,7 +61,21 @@ public class BankService implements Runnable{
 	 * @param command the command to execute
 	 * */
 	private void executeCommand(String command) {
-		// TODO Auto-generated method stub
-		
+		int account = in.nextInt();
+		if (command.equals("DEPOSIT")) {
+			double ammount = in.nextDouble();
+			bank.deposit(account, ammount);
+		}
+		else if (command.equals("WITHDRAW")) {
+			double amount = in.nextDouble();
+			bank.withdraw(account, amount);
+		}
+		else if(!command.equals("BALANCE")) {
+			out.println("Invalid command");
+			out.flush();
+			return;
+		}
+		out.println(account + " " + bank.getBalance(account));
+		out.flush();
 	}
 }
