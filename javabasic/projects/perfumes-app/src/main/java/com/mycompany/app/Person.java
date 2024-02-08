@@ -1,4 +1,4 @@
-package projects.perfumes;
+package com.mycompany.app;
 
 /**
  * This class contains a person's name
@@ -13,4 +13,8 @@ public class Person {
 	public String getName() {
 		return name;
 	}	
+	
+	public String toString() {
+		return name;
+	}
 }

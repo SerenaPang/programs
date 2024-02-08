@@ -1,4 +1,4 @@
-package projects.perfumes;
+package com.mycompany.app;
 import java.util.Scanner;
 
 /**

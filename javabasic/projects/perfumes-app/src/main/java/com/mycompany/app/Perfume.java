@@ -1,4 +1,4 @@
-package projects.perfumes;
+package com.mycompany.app;
 
 /**
  * This class takes the user input of the number of perfumes, names, how much they like it.
