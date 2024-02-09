@@ -16,8 +16,7 @@ public class PerfumeDataProcessor {
 	Map<Person, ArrayList<Perfume>> universalMap = new HashMap<Person, ArrayList<Perfume>>();
 
 	
-	public PerfumeDataProcessor(ArrayList<Perfume> listOfPerfumes, Map<Person, ArrayList<Perfume>> universalMap) {
-		this.listOfPerfumes = listOfPerfumes;
+	public PerfumeDataProcessor(Map<Person, ArrayList<Perfume>> universalMap) {
 		this.universalMap = universalMap;
 	}
 
@@ -51,15 +50,22 @@ public class PerfumeDataProcessor {
 	}
 	
 	/**
-	 * This method put the user info into a map, adds the perfume to the list of perfumes and put a list of perfumes to a map
+	 * This method checks if this person is already in the map, if yes find the list for him and add the perfume to the list, sort the list, put the list to the map.
+	 * if person is not in the map, create a new list, sort it, put the information to the map
 	 **/
-	public Map<Person, ArrayList<Perfume>> putPersonCommentsToMap(Person name, Perfume aPerfume, ArrayList<Perfume> perfumeList,Map<Person, ArrayList<Perfume>> commentsMap){
-		//adds the perfume to the list of perfumes
-		perfumeList.add(aPerfume);
-		//sort the list of perfumes based on the rating
-		 sortList(perfumeList);
-		//put perfume and rating and person to the map
-		commentsMap.putIfAbsent(name, perfumeList);
+	public Map<Person, ArrayList<Perfume>> putPersonCommentsToMap(Person person, Perfume aPerfume, Map<Person, ArrayList<Perfume>> commentsMap){
+		if (commentsMap.size() == 0 || !commentsMap.containsKey(person)) {
+			//create a new list 
+			ArrayList<Perfume> perfumeList = new ArrayList<>();
+			perfumeList.add(aPerfume);
+			sortList(perfumeList);
+			commentsMap.put(person, perfumeList);		
+		} else {
+			ArrayList<Perfume> perfumeList = commentsMap.get(person);
+			perfumeList.add(aPerfume);
+			sortList(perfumeList);
+			commentsMap.put(person, perfumeList);
+		}		
 		return commentsMap;	
 	}
 	
@@ -105,18 +111,11 @@ public class PerfumeDataProcessor {
 	 * */
 	public void displayMap(Map<Person, ArrayList<Perfume>> map) {	
 		System.out.println("printing map: ");
-//		for(Entry<Person, ArrayList<Perfume>> entry : map.entrySet()) {
-//			String personName = entry.getKey().getName();
-//			//get the perfume list and print the list of perfumes
-//			//displayList(personName, entry.getValue()); // the list of perfume objects
-//			for (Perfume element : entry.getValue()) {
-//	            System.out.println("perfume name: " + element.getName() + ", rating: " + element.getRating() + "comment by: " + personName);
-//	        }
 		for (Person person : map.keySet()) {
 		    System.out.println("person: " + person.getName()); 
-//		    for (Perfume perfume: map.get(person.getName())){
-//		        System.out.println("Person: " + person.getName() + " Perfume: " + perfume.getName() + ", rating: " + perfume.getRating());
-//		    }
+		    for (Perfume perfume: map.get(person)){
+		        System.out.println("Perfume: " + perfume.getName() + ", Rating: " + perfume.getRating());
+		    }
 		}
 			System.out.println();
 		}
@@ -126,61 +125,43 @@ public class PerfumeDataProcessor {
 	 * */
 	public static void main(String[] args) {
 		//test sorted list
-		ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
+	//	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
 		Map<Person, ArrayList<Perfume>> myMap = new HashMap<Person, ArrayList<Perfume>>();
 		
-		PerfumeDataProcessor p = new PerfumeDataProcessor(listOfPerfumes, myMap);
+		PerfumeDataProcessor p = new PerfumeDataProcessor(myMap);
 		Perfume a = new Perfume();
 		a.setName("a");
 		a.setRating(5.5);
-	//	listOfPerfumes.add(a);
-	//	p.addToList(a);
 		
 		Perfume b = new Perfume();
 		b.setName("b");
 		b.setRating(3.3);
-	//	listOfPerfumes.add(b);
-	//	p.addToList(b);
 		
 		Perfume c = new Perfume();
 		c.setName("c");
 		c.setRating(1.1);
-//		p.addToList(c);
-		
 		
 		Perfume d = new Perfume();
 		d.setName("d");
 		d.setRating(1.1);
-//		p.addToList(d);
 		
 		Perfume e = new Perfume();
 		e.setName("e");
 		e.setRating(6.6);
-//		p.addToList(e);
-		
-		//ArrayList<Perfume> sortedListOfPerfumes = p.sortList(listOfPerfumes);
-		p.sortList(listOfPerfumes);
-		
 		
 	//	test put to map
 		Person aPerson = new Person();
-		aPerson.setName("Serena");
-		
-		
-		p.putPersonCommentsToMap(aPerson, a, listOfPerfumes, myMap);
-		p.putPersonCommentsToMap(aPerson, b, listOfPerfumes, myMap);
+		aPerson.setName("Serena");	
+		p.putPersonCommentsToMap(aPerson, a, myMap);
+		p.putPersonCommentsToMap(aPerson, b, myMap);
 	
 		
 		Person person2 = new Person();
 		person2.setName("Silver");
-		p.putPersonCommentsToMap(person2, c, listOfPerfumes, myMap);
-		p.putPersonCommentsToMap(person2, d, listOfPerfumes, myMap);
-		p.putPersonCommentsToMap(person2, e, listOfPerfumes, myMap);
-		
-		System.out.println("Print list of perfumes");
-		p.displayList(listOfPerfumes);
+		p.putPersonCommentsToMap(person2, c, myMap);
+		p.putPersonCommentsToMap(person2, d, myMap);
+		p.putPersonCommentsToMap(person2, e, myMap);
 		//print map
-		p.displayMap(myMap);
-//		
+		p.displayMap(myMap);	
 	}
 }

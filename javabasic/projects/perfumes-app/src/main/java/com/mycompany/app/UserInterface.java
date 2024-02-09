@@ -9,10 +9,8 @@ import java.util.Scanner;
  * This class gets the information from the user and put it to the processor
  * */
 public class UserInterface {
-	PerfumeDataProcessor dp = new PerfumeDataProcessor();
-	ArrayList<Perfume> listOfPerfumes = new ArrayList<Perfume>();
 	static Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();
-	
+	PerfumeDataProcessor dp = new PerfumeDataProcessor(mapOfcommentsForPerfumes);
 	
 	/**
 	 * This method prints a welcome message to the user
@@ -80,7 +78,7 @@ public class UserInterface {
 		person.setName(personName);
 		perfume.setName(perfumeName);
 		perfume.setRating(ratingScore);
-		mapOfcommentsForPerfumes = dp.putPersonCommentsToMap(person, perfume, listOfPerfumes, mapOfcommentsForPerfumes);
+		mapOfcommentsForPerfumes = dp.putPersonCommentsToMap(person, perfume, mapOfcommentsForPerfumes);
 	}
 	
 	/**
