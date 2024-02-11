@@ -1,6 +1,7 @@
 package com.mycompany.app;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,12 +59,12 @@ public class PerfumeDataProcessor {
 			//create a new list 
 			ArrayList<Perfume> perfumeList = new ArrayList<>();
 			perfumeList.add(aPerfume);
-			sortList(perfumeList);
+			sortListDescending(perfumeList);
 			commentsMap.put(personName, perfumeList);		
 		} else {
 			ArrayList<Perfume> perfumeList = commentsMap.get(personName);
 			perfumeList.add(aPerfume);
-			sortList(perfumeList);
+			sortListDescending(perfumeList);
 			commentsMap.put(personName, perfumeList);
 		}		
 		return commentsMap;	
@@ -78,6 +79,14 @@ public class PerfumeDataProcessor {
 		return perfumeList;
 	}
 	
+	/**
+	 * This method sorts the list of perfumes according to the ratings in desceding order
+	 * @param <Perfume>
+	 * */
+	public ArrayList<Perfume> sortListDescending(ArrayList <Perfume> perfumeList){
+		Collections.sort(perfumeList, new RateComparator()); 
+		return perfumeList;
+	}
 	
 	/**
 	 * This method display list of perfumes
