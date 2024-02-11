@@ -9,7 +9,7 @@ import java.util.Scanner;
  * This class gets the information from the user and put it to the processor
  * */
 public class UserInterface {
-	static Map<Person, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<Person, ArrayList<Perfume>>();
+	Map<String, ArrayList<Perfume>> mapOfcommentsForPerfumes = new HashMap<String, ArrayList<Perfume>>();
 	PerfumeDataProcessor dp = new PerfumeDataProcessor(mapOfcommentsForPerfumes);
 	
 	/**
@@ -78,7 +78,7 @@ public class UserInterface {
 		person.setName(personName);
 		perfume.setName(perfumeName);
 		perfume.setRating(ratingScore);
-		mapOfcommentsForPerfumes = dp.putPersonCommentsToMap(person, perfume, mapOfcommentsForPerfumes);
+		mapOfcommentsForPerfumes = dp.putPersonCommentsToMap(personName, perfume, mapOfcommentsForPerfumes);
 	}
 	
 	/**
