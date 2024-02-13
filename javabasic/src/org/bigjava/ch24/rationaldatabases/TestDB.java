@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class TestDB {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
-			System.out.println("Usage: java -classpath driver_class_path" + File.pathSeparator + ".TestDB propertiesFile");
+			System.out.println("Usage: java -classpath /Users/serenapang/Development/JavaBasics/javabasic/src/org/bigjava/ch24/rationaldatabases" + File.pathSeparator + ".TestDB propertiesFile");
 			return;
 		}
 		
