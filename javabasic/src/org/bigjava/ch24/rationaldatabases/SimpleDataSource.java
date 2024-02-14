@@ -25,8 +25,8 @@ public class SimpleDataSource {
 		props.load(in);
 		
 		String driver = props.getProperty("jdbc.driver");
-		url = props.getProperty("jdbc.");
-		username = props.getProperty("");
+		url = props.getProperty("jdbc.url");
+		username = props.getProperty("jdbc.username");
 		if(username == null) {
 			username = "";
 		}
@@ -34,6 +34,9 @@ public class SimpleDataSource {
 		if (password == null) {
 			password = "";
 		}
+		System.out.println(username);
+		System.out.println(password);
+		System.out.println(url);
 		if (driver != null) {
 			Class.forName(driver);
 		}

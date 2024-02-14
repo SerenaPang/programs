@@ -7,12 +7,12 @@ import java.sql.Statement;
 
 /**
  * Tests a database installation by creating and querying a sample table. call this program as
- * java -classpath driver_class_path;.TestDB propertiesFile
+ * java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib;.TestDB propertiesFile
  * */
 public class TestDB {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
-			System.out.println("Usage: java -classpath /Users/serenapang/Development/JavaBasics/javabasic/src/org/bigjava/ch24/rationaldatabases" + File.pathSeparator + ".TestDB propertiesFile");
+			System.out.println("Usage: java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib" + File.pathSeparator + ".TestDB propertiesFile");
 			return;
 		}
 		
