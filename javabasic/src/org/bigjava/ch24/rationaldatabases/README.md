@@ -36,9 +36,12 @@ ij> connect 'jdbc:derby:bigjavadb' user 'test' password 'test123';
 
 
 ```
-Compile and execute class
+Compile and execute class:
 
+Go to the package where all the classes are and execute:
 javac *.java
+
+Then go to where you can see src folder and execute:
 
 java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:.  \
           org.bigjava.ch24.rationaldatabases.TestDB \
