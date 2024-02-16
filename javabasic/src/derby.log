@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Feb 14 16:22:56 PST 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018d-aa25-20f1-00000f948718 
+Thu Feb 15 21:16:05 PST 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018d-b057-dedf-00000f942000 
 on database directory /Users/serenapang/Development/JavaBasics/javabasic/src/bigjavadb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
 Loaded from file:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation

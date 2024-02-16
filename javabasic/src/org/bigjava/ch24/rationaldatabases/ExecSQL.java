@@ -1,4 +1,4 @@
-package org.bigjava.ch24.rationaldatabases;
+ package org.bigjava.ch24.rationaldatabases;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -35,6 +35,7 @@ public class ExecSQL {
 				String line = in.nextLine();
 				try
 				{
+					System.out.println("Executing " + line);
 					boolean hasResultSet = stat.execute(line);
 					if (hasResultSet) 
 					{
