@@ -1,4 +1,5 @@
-package org.bigjava.ch24.rationaldatabases;
+package org.bigjava.ch24.rationaldatabases.practice;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -12,10 +13,10 @@ import java.util.Scanner;
 /**
  * Executes all SQL statements from a file or the console
  * */
-public class ExecSQL {
+public class ExecuteSQL {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException{
 		if (args.length == 0) {
-			System.out.println("Usage: java -classpath driver_class_ path" + File.pathSeparator + ".ExecSQL propertiesFile [SQLcommandFile]");
+			System.out.println("Usage: java -classpath driver_class_ path" + File.pathSeparator + ".ExecuteSQL propertiesFile [SQLcommandFile]");
 			return;
 		}
 		SimpleDataSource.init(args[0]);

@@ -51,7 +51,7 @@ Once that the database is created, connect using:
 $DERBY_HOME/bin/ij
 connect 'jdbc:derby:bigjavadb';
 ```
-FOR REFERENCE READ AND UNDERSTAND AT:
+#FOR REFERENCE READ AND UNDERSTAND AT:
 
 ```
 https://www.codejava.net/java-se/jdbc/connect-to-apache-derby-java-db-via-jdbc
@@ -69,20 +69,34 @@ Then go to where you can see src folder and execute:
 java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:.  \
           org.bigjava.ch24.rationaldatabases.TestDB \
            ./org/bigjava/ch24/rationaldatabases/derby.properties
+           
+java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:.  \
+          org.bigjava.ch24.rationaldatabases.InvoiceEntry\
+           ./org/bigjava/ch24/rationaldatabases/derby.properties
 ```
 
-To compile and execute sql quries from a file:
+#To compile and execute sql quries from a file:
  
 ```
+connect to server:   $DERBY_HOME/bin/startNetworkServer
+
 javac org/bigjava/ch24/rationaldatabases/*.java
  
 java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  \
           org.bigjava.ch24.rationaldatabases.ExecSQL \
            ./org/bigjava/ch24/rationaldatabases/derby.properties ./org/bigjava/ch24/rationaldatabases/Product.sql
            
-           java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  \
+java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  \
           org.bigjava.ch24.rationaldatabases.ExecSQL \
            ./org/bigjava/ch24/rationaldatabases/derby.properties ./org/bigjava/ch24/rationaldatabases/Invoice.sql
+           
+java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  \
+          org.bigjava.ch24.rationaldatabases.ExecSQL \
+           ./org/bigjava/ch24/rationaldatabases/derby.properties ./org/bigjava/ch24/rationaldatabases/Customer.sql
+           
+java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  \
+          org.bigjava.ch24.rationaldatabases.ExecSQL \
+           ./org/bigjava/ch24/rationaldatabases/derby.properties ./org/bigjava/ch24/rationaldatabases/LineItem.sql
            
 ```
 
