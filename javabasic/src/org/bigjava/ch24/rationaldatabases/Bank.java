@@ -25,7 +25,5 @@ public class Bank {
 			}
 			return c;
 		}
-	}
-	
-	
+	}	
 }

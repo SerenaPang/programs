@@ -3,8 +3,7 @@ package org.bigjava.ch24.rationaldatabases;
 /**
 A bank customer with a checking and savings account.
 */
-public class Customer
-{  
+public class Customer{  
 private int customerNumber;
 private BankAccount checkingAccount;
 private BankAccount savingsAccount;
