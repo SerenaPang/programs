@@ -34,7 +34,8 @@ public class SimpleDataSource {
 		System.out.println("username: " + username);
 		System.out.println("password: " + password);
 		System.out.println("url: " + url);
-		System.out.println(driver);
+		System.out.println("driver:'" + driver + "'");
+		
 		if (driver != null) {
 			Class.forName(driver);
 		}

@@ -1,7 +1,12 @@
 # How to execute this
 
+FOR REFERENCE READ AND UNDERSTAND AT:
 
-Configure JAVA_HOME
+```
+https://www.codejava.net/java-se/jdbc/connect-to-apache-derby-java-db-via-jdbc
+```
+
+#Configure JAVA_HOME
 
 
 ```
@@ -9,7 +14,7 @@ Display system information regarding java environment and derby version:
  java -jar $DERBY_HOME/lib/derbyrun.jar sysinfo
 ````
 
-Set up the path:
+#Set up the path:
 
 ```
  echo ~/.zshrc
@@ -27,19 +32,19 @@ Connect to server:
 ```
 $DERBY_HOME/BIN/startNetworkServer
 ```
-Check the version:
+#Check the version:
 
 ```
 $DERBY_HOME/bin/ij
 ```
 
-Create Database:
+#Create Database:
 
 ```
  connect 'jdbc:derby:bigjavadb;create=true';
 ```
 
-Connect to database:
+#Connect to database:
 
 ```
 connect 'jdbc:derby:bigjavadb' user 'test' password 'test123';
@@ -51,13 +56,10 @@ Once that the database is created, connect using:
 $DERBY_HOME/bin/ij
 connect 'jdbc:derby:bigjavadb';
 ```
-#FOR REFERENCE READ AND UNDERSTAND AT:
 
-```
-https://www.codejava.net/java-se/jdbc/connect-to-apache-derby-java-db-via-jdbc
-```
 
-Compile and execute class: Go to the package where all the classes are and execute:
+#Compile and execute class: 
+Go to the package where all the classes are and execute:
 
 ```
 javac *.java
@@ -75,7 +77,7 @@ java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar
            ./org/bigjava/ch24/rationaldatabases/derby.properties
 ```
 
-#To compile and execute sql quries from a file:
+To compile and execute sql quries from a file:
  
 ```
 connect to server:   $DERBY_HOME/bin/startNetworkServer
