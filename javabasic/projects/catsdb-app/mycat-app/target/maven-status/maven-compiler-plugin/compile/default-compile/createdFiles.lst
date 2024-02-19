@@ -1,0 +1,5 @@
+com/mycompany/app/TestCatDB.class
+com/mycompany/app/Cat.class
+com/mycompany/app/SimpleDataSource.class
+com/mycompany/app/ExecuteSQL.class
+com/mycompany/app/CatHouse.class
