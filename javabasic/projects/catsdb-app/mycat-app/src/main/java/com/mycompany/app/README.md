@@ -3,16 +3,26 @@
 At the pom.xml level
 
 ```
-mvn package
+mvn package assembly:single
+
+```
+
+
+
+#Shows all the denpendencies in the jar
+
+```
+jar -tvf target/mycat-app-2.0-RELEASE-jar-with-dependencies.jar 
 
 ```
 
 #Compile and Execute the file
 
 ```
-java -cp target/mycat-app-1.0-SNAPSHOT.jar com.mycompany.app.App
-java -cp target/mycat-app-1.0-SNAPSHOT.jar com.mycompany.app.TestCatDB
-mvn compile
+java -classpath ./target/mycat-app-2.0-RELEASE-jar-with-dependencies.jar \
+    com.mycompany.app.TestCatDB  \
+    ./src/main/java/com/mycompany/app/database.properties
+    
 ```
 
 #How to connect to Derby at:
@@ -38,6 +48,8 @@ If 501 28757 19344 is the process code, take the process id:
 
 ```
 kill -9 28757 
+
+kill -9 30578
 
 ```
 
@@ -66,15 +78,8 @@ $DERBY_HOME/bin/ij
 connect 'jdbc:derby:catjavadb';
 ```
 
-#Compile the classes in this packeage:
-
-```
-javac org/bigjava/ch24/rationaldatabases/practice/*.java
-
-java -classpath /Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derby.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbyclient.jar:/Users/serenapang/Downloads/db-derby-10.15.2.0-bin/lib/derbynet.jar:.  org.bigjava.ch24.rationaldatabases.practice.TestCatDB ./org/bigjava/ch24/rationaldatabases/practice/database.properties
 
 
-```
 
 #Execute the Query in the sql file:
 
