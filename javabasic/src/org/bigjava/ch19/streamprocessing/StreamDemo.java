@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StreamDemo {
-	public static void main(String[] args[]) throws IOException
+	public static void main(String[] args) throws IOException
 	{
-		Scanner in= new Scanner(new File("../countries.txt"));
+		Scanner in= new Scanner(new File("/Users/serenapang/Development/JavaBasics/javabasic/src/org/bigjava/ch19/streamprocessing/countries.txt "));
 		List<String> wordList = new ArrayList<>();
 		while(in.hasNextLine()) {
 			wordList.add(in.nextLine());

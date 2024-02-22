@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+/**
+ * A class shows any collections can be convert to streams
+ * */
 public class Streams {
 	public static void main(String[] args) throws IOException{
 		Stream<String> words = Stream.of("Mary", "had", "a", "little", "lamb");
@@ -26,7 +29,7 @@ public class Streams {
 		words = wordList.stream();
 		show("A stream of words from a list", words);
 		
-		try (Stream<String> lines = Files.lines(Paths.get("countries.txt"))) {
+		try (Stream<String> lines = Files.lines(Paths.get("/Users/serenapang/Development/JavaBasics/javabasic/src/org/bigjava/ch19/streamprocessing/countries.txt"))) {
 			show("A stream of lines from a file", lines);
 		}	
 	}
