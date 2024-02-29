@@ -2,15 +2,11 @@ package org.bigjava.ch20.gui;
 
 import javax.swing.JFrame;
 
-/**
- * This program uses a menu to display font effects
- * */
-public class FontViewer2 {
+public class ColorViewer {
 	public static void main(String[] args)
 	{
-		JFrame frame = new FontFrame2();
+		JFrame frame = new ColorFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("FontViewer");
 		frame.setVisible(true);
 	}
 }
