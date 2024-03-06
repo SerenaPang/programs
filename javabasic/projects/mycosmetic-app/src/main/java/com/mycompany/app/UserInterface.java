@@ -1,8 +1,14 @@
 package com.mycompany.app;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
+/**
+ * create a frame to show the user interface of the cosmetic app
+ * */
 public class UserInterface extends JFrame implements ActionListener{
+	ArrayList<Cosmetic> listOfProduct = new ArrayList<>();
+	
 	static JTextField tBrand;
 	static JTextField tName;
 	static JTextField tCategory;
@@ -62,9 +68,16 @@ public class UserInterface extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e)
 	{
 		String s = e.getActionCommand();
-		if (s.equals("save")) {
+		if (s.equals("Save") ) {
 			l.setText(tBrand.getText());
 			tBrand.setText("  ");
+			tBrand.setText("  ");
+			tName.setText("  ");
+			tCategory.setText("  ");
+			tId.setText("  ");
+		 
+		} else if(s.equals("Search")) {
+			tSearch.setText("  ");
 		}
 	}
 	
