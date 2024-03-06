@@ -22,7 +22,7 @@ jar -tvf target/mycat-app-2.0-RELEASE-jar-with-dependencies.jar
 java -classpath ./target/mycat-app-2.0-RELEASE-jar-with-dependencies.jar \
     com.mycompany.app.TestCatDB  \
     ./src/main/java/com/mycompany/app/database.properties
-    
+     
 ```
 
 #How to connect to Derby at:
