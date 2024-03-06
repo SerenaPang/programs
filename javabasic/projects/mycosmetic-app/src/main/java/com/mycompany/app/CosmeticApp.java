@@ -5,7 +5,7 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 
 /**
- * Hello world!
+ * The app to save and saerch forthe cosmetic product information from a text file
  *
  */
 public class CosmeticApp 

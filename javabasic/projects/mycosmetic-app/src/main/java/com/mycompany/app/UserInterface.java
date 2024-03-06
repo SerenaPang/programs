@@ -21,6 +21,8 @@ public class UserInterface extends JFrame implements ActionListener{
 	static JButton bSearch;
 	static JLabel l;
 	
+	String searchId;
+	
 	UserInterface() {
 		
 	}
@@ -69,16 +71,33 @@ public class UserInterface extends JFrame implements ActionListener{
 	{
 		String s = e.getActionCommand();
 		if (s.equals("Save") ) {
-			l.setText(tBrand.getText());
-			tBrand.setText("  ");
+			l.setText(tBrand.getText() + " " + tName.getText() + " " + tCategory.getText() + " " + tId.getText());
 			tBrand.setText("  ");
 			tName.setText("  ");
 			tCategory.setText("  ");
 			tId.setText("  ");
-		 
+			
+			//create a cosmetic object and add it to the list
+			Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
+			listOfProduct.add(cosme);
 		} else if(s.equals("Search")) {
+			searchId = tSearch.getText();
 			tSearch.setText("  ");
 		}
+	}
+	
+	/**
+	 * This method returns the list of cosmetic product info input by the user
+	 * */
+	public ArrayList<Cosmetic> getList(){
+		return listOfProduct;
+	}
+	
+	/**
+	 * This method gets the product id of the product that the user wants to search for
+	 * */
+	public String getSearchId() {
+		return searchId;
 	}
 	
 }

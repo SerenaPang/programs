@@ -3,13 +3,13 @@ package com.mycompany.app;
 /**
  * A cosmetic object class that has getters and setters
  * */
-public class Cosmetic() {
+public class Cosmetic {
 	private String brand;
 	private String name;
 	private String category;
-	private int id;
+	private String id;
 	
-	public Cosmetic(String brand, String name, String category, int id) {
+	public Cosmetic(String brand, String name, String category, String id) {
 		this.brand = brand;
 		this.name = name;
 		this.category = category;
@@ -28,7 +28,7 @@ public class Cosmetic() {
 		return category;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
@@ -44,7 +44,7 @@ public class Cosmetic() {
 		this.category = category;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id  = id;
 	}
 }
