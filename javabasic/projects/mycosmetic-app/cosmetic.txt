@@ -1,2 +1,1 @@
-Brand:Name:Color:ID
-This is another line
+writing here in the text file..  :   

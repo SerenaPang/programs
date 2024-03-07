@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * create a frame to show the user interface of the cosmetic app
  * */
 public class UserInterface extends JFrame implements ActionListener{
-	ArrayList<Cosmetic> listOfProduct = new ArrayList<>();
+	TextFileWriter writer = new TextFileWriter();
 	
 	static JTextField tBrand;
 	static JTextField tName;
@@ -77,20 +77,18 @@ public class UserInterface extends JFrame implements ActionListener{
 			tCategory.setText("  ");
 			tId.setText("  ");
 			
-			//create a cosmetic object and add it to the list
-			Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
-			listOfProduct.add(cosme);
+			//create a cosmetic object and write it to the text file
+			//Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
+			String b = tBrand.getText();
+			String n = tName.getText();
+			String c = tCategory.getText();
+			String i = tId.getText();
+			System.out.println("Writing text file: ");
+	    	writer.writeLine(b, n, c, i);
 		} else if(s.equals("Search")) {
 			searchId = tSearch.getText();
 			tSearch.setText("  ");
 		}
-	}
-	
-	/**
-	 * This method returns the list of cosmetic product info input by the user
-	 * */
-	public ArrayList<Cosmetic> getList(){
-		return listOfProduct;
 	}
 	
 	/**
