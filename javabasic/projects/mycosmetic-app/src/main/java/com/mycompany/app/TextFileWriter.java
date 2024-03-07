@@ -1,42 +1,39 @@
 package com.mycompany.app;
 
 import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class TextFileWriter {
-	public void write() {
-		File file = new File("cosmetic.txt");
 		
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-			bw.write("Brand:Name:Color:ID");
-			bw.newLine();
-			bw.write("This is another line");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
-	
 	public void writeLine(String brand, String name, String category, String id) {
-		File file = new File("cosmetic.txt");
-		
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-			bw.write("writing here in the text file..");
-	//		bw.write(brand + ":");
-//			bw.write(":");
-//			bw.write(name);
-//			bw.write(":");
-//			bw.write(category);
-//			bw.write(":");
-//			bw.write(id);
-			String line = brand + ": " + name;
-			bw.write(line);
-			bw.newLine();
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
+		//if the file exsist, open it append it, if not ccreate a new one
+		try {
+			File file = new File("cosmetic.txt");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			//add string to the file in new lines
+			pw.println(brand + ":" + name + ":" + category + ":" + id);
+			
+			//add a new line to the file content
+			pw.println();
+			pw.close();
+			System.out.println("Data successfully appended at the end of file");
+			
+		} catch(IOException ioe) {
+			System.out.println("Exception occur opening file:");
+			ioe.printStackTrace();
+		}	
 	}
 	
 }

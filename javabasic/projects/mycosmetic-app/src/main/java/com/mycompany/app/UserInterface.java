@@ -72,10 +72,7 @@ public class UserInterface extends JFrame implements ActionListener{
 		String s = e.getActionCommand();
 		if (s.equals("Save") ) {
 			l.setText(tBrand.getText() + " " + tName.getText() + " " + tCategory.getText() + " " + tId.getText());
-			tBrand.setText("  ");
-			tName.setText("  ");
-			tCategory.setText("  ");
-			tId.setText("  ");
+	
 			
 			//create a cosmetic object and write it to the text file
 			//Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
@@ -85,6 +82,12 @@ public class UserInterface extends JFrame implements ActionListener{
 			String i = tId.getText();
 			System.out.println("Writing text file: ");
 	    	writer.writeLine(b, n, c, i);
+	    	
+			tBrand.setText("  ");
+			tName.setText("  ");
+			tCategory.setText("  ");
+			tId.setText("  ");
+			
 		} else if(s.equals("Search")) {
 			searchId = tSearch.getText();
 			tSearch.setText("  ");
