@@ -9,19 +9,27 @@ import java.util.ArrayList;
 public class UserInterface extends JFrame implements ActionListener{
 	TextFileWriter writer = new TextFileWriter();
 	
-	static JTextField tBrand;
-	static JTextField tName;
-	static JTextField tCategory;
-	static JTextField tId;
-	static JTextField tSearch;
+	static JTextField textBrand;
+	static JTextField textName;
+	static JTextField textCategory;
+	static JTextField textId;
+	static JTextField textSearch;
 	
 	
-	static JFrame f;
+	static JFrame frame;
 	static JButton bSave;
 	static JButton bSearch;
-	static JLabel l;
+	
+	static JLabel lableBrand;	
+	static JLabel lableName;
+	static JLabel lableCategory;
+	static JLabel lableId;
+	static JLabel lableSearch;
 	
 	String searchId;
+	
+	final int MIN = 0;
+	final int MAX = 1000;
 	
 	UserInterface() {
 		
@@ -29,9 +37,14 @@ public class UserInterface extends JFrame implements ActionListener{
 	
 	public void createUI() {
 		//create a new frame to store text field and button
-		f = new JFrame("Cosmetic Product");
+		frame = new JFrame("Cosmetic Product");
 		//label to dispaly text
-		l = new JLabel("nothing entered");
+		lableBrand = new JLabel("Brand: ");
+		lableName = new JLabel("Name: ");
+		lableCategory= new JLabel("Category: ");
+		lableId= new JLabel("Id: ");
+		lableSearch= new JLabel("Nothing on Search");
+				
 		//cerate a new button for user to submit info
 		bSave = new JButton("Save");
 		//create a new button for user to search product info
@@ -40,60 +53,102 @@ public class UserInterface extends JFrame implements ActionListener{
 		UserInterface ui = new UserInterface();
 		bSave.addActionListener(ui);
 		
-		tBrand = new JTextField("enter the brand here", 40);
-		tName = new JTextField("enter the name here", 40);
-		tCategory = new JTextField("enter the category here", 40);
-		tId = new JTextField("enter the id here", 40);
-		tSearch = new JTextField("enter the id here to search", 40);
+		textBrand = new JTextField("enter the brand here", 40);
+		textName = new JTextField("enter the name here", 40);
+		textCategory = new JTextField("enter the category here", 40);
+		textId = new JTextField("enter the id here", 40);
+		textSearch = new JTextField("enter the id here to search", 40);
 		
-		JPanel p = new JPanel();
+		JPanel panel = new JPanel();
 		
-		p.add(tBrand);
-		p.add(tName);
-		p.add(tCategory);
-		p.add(tId);
+		//adding labels and buttons to the panel
+		panel.add(lableBrand);
+		panel.add(textBrand);
 		
+		panel.add(lableName);
+		panel.add(textName);
 		
-		p.add(bSave);
-		p.add(l);
+		panel.add(lableCategory);
+		panel.add(textCategory);
 		
-		p.add(tSearch);
-		p.add(bSearch);
+		panel.add(lableId);
+		panel.add(textId);
+			
+		panel.add(bSave);
+					
+		panel.add(lableSearch);	
+		panel.add(textSearch);
+		panel.add(bSearch);
 		
 		
 		//add panel to frame
-		f.add(p);
-		f.setSize(500, 500);
-		f.show();
+		frame.add(panel);
+		frame.setSize(600, 900);
+		frame.show();
 	}
 	
-	public void actionPerformed(ActionEvent e)
-	{
-		String s = e.getActionCommand();
-		if (s.equals("Save") ) {
-			l.setText(tBrand.getText() + " " + tName.getText() + " " + tCategory.getText() + " " + tId.getText());
-	
-			
+	public void actionPerformed(ActionEvent e){
+		String actionButton = e.getActionCommand();
+		if (actionButton.equals("Save") ) {
+			//printing the user input on the label
+			lableBrand.setText(textBrand.getText());
+			lableName.setText(textName.getText());
+			lableCategory.setText(textCategory.getText());
+			lableId.setText(textId.getText());
+					
 			//create a cosmetic object and write it to the text file
 			//Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
-			String b = tBrand.getText();
-			String n = tName.getText();
-			String c = tCategory.getText();
-			String i = tId.getText();
-			System.out.println("Writing text file: ");
-	    	writer.writeLine(b, n, c, i);
-	    	
-			tBrand.setText("  ");
-			tName.setText("  ");
-			tCategory.setText("  ");
-			tId.setText("  ");
+			String brand = textBrand.getText();
+			String name = textName.getText();
+			String category = textCategory.getText();
+			String id = textId.getText();
 			
-		} else if(s.equals("Search")) {
-			searchId = tSearch.getText();
-			tSearch.setText("  ");
+			//input validation
+			if (validateNumInput(id)) {
+				//write the user input to the text file
+				System.out.println("Writing text file: ");
+		    	writer.writeLine(brand, name, category, id);
+			} else {
+				lableId.setText("You should enter a numeric value for product id");
+			}
+			    	
+	    	//set input boxes to blank for next input
+	    	textBrand.setText("  ");
+	    	textName.setText("  ");
+			textCategory.setText("  ");
+			textId.setText("  ");
+			
+		} else if(actionButton.equals("Search")) {
+			searchId = textSearch.getText();
+			//input validation
+			if (validateNumInput(searchId)) {
+				lableSearch.setText("Searching for " + searchId);
+				textSearch.setText("  ");	
+			} else {
+				lableId.setText("You should enter a numeric value to search product id");
+			}
+			
+					
 		}
 	}
 	
+/**
+ * This method validate if the user input is number or not
+ * */	
+	public boolean validateNumInput(String input) {
+		int numId;
+		try {
+			numId = Integer.parseInt(input);
+		}catch (NumberFormatException e) {
+			return false;
+		}
+		if (numId <= MAX && numId >= MIN) {
+			return true;
+		}
+		return false;
+	}
+	
+
 	/**
 	 * This method gets the product id of the product that the user wants to search for
 	 * */
