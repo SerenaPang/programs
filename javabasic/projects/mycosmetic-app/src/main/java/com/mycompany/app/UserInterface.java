@@ -51,7 +51,9 @@ public class UserInterface extends JFrame implements ActionListener{
 		bSearch = new JButton("Search");
 		
 		UserInterface ui = new UserInterface();
+		//add listener for the buttons
 		bSave.addActionListener(ui);
+		bSearch.addActionListener(ui);
 		
 		textBrand = new JTextField("enter the brand here", 50);
 		textName = new JTextField("enter the name here",50);
@@ -90,10 +92,10 @@ public class UserInterface extends JFrame implements ActionListener{
 		String actionButton = e.getActionCommand();
 		if (actionButton.equals("Save") ) {
 			//printing the user input on the label
-			lableBrand.setText(textBrand.getText());
-			lableName.setText(textName.getText());
-			lableCategory.setText(textCategory.getText());
-			lableId.setText(textId.getText());
+			lableBrand.setText("brand(last entry): " + textBrand.getText());
+			lableName.setText("name(last entry): " + textName.getText());
+			lableCategory.setText("category(last entry): " + textCategory.getText());
+			lableId.setText("id(last entry): " + textId.getText());
 					
 			//create a cosmetic object and write it to the text file
 			//Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
@@ -112,20 +114,21 @@ public class UserInterface extends JFrame implements ActionListener{
 			}
 			    	
 	    	//set input boxes to blank for next input
-	    	textBrand.setText("  ");
-	    	textName.setText("  ");
-			textCategory.setText("  ");
-			textId.setText("  ");
+	    	textBrand.setText("enter brand here");
+	    	textName.setText("enter name here");
+			textCategory.setText("enter category here");
+			textId.setText("enter id here");
 			
-		} //else if(actionButton.equals("Search")) {
-		else {
-			searchId = textSearch.getText();
+		} else if(actionButton.equals("Search")) {
+			searchId = textSearch.getText();			
 			//input validation
 			if (validateNumInput(searchId)) {
+				
 				lableSearch.setText("Searching for " + searchId);
-				textSearch.setText("  ");	
+				textSearch.setText("enter product id here");	
 			} else {
-				lableSearch.setText("enter a numeric value to search");
+				lableSearch.setText("you should enter a numeric value to search");
+				textSearch.setText("enter a NUMERIC product id here");	
 			}				
 		}
 	}
