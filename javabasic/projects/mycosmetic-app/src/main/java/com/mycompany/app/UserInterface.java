@@ -39,7 +39,7 @@ public class UserInterface extends JFrame implements ActionListener{
 		//create a new frame to store text field and button
 		frame = new JFrame("Cosmetic Product");
 		//label to dispaly text
-		lableBrand = new JLabel("Brand: ");
+		lableBrand = new JLabel("Brand: ", 10);
 		lableName = new JLabel("Name: ");
 		lableCategory= new JLabel("Category: ");
 		lableId= new JLabel("Id: ");
@@ -53,11 +53,11 @@ public class UserInterface extends JFrame implements ActionListener{
 		UserInterface ui = new UserInterface();
 		bSave.addActionListener(ui);
 		
-		textBrand = new JTextField("enter the brand here", 40);
-		textName = new JTextField("enter the name here", 40);
-		textCategory = new JTextField("enter the category here", 40);
-		textId = new JTextField("enter the id here", 40);
-		textSearch = new JTextField("enter the id here to search", 40);
+		textBrand = new JTextField("enter the brand here", 50);
+		textName = new JTextField("enter the name here",50);
+		textCategory = new JTextField("enter the category here",50);
+		textId = new JTextField("enter the id here",50);
+		textSearch = new JTextField("enter the id here to search",50);
 		
 		JPanel panel = new JPanel();
 		
@@ -79,11 +79,10 @@ public class UserInterface extends JFrame implements ActionListener{
 		panel.add(lableSearch);	
 		panel.add(textSearch);
 		panel.add(bSearch);
-		
-		
+				
 		//add panel to frame
 		frame.add(panel);
-		frame.setSize(600, 900);
+		frame.setSize(600, 400);
 		frame.show();
 	}
 	
@@ -118,17 +117,16 @@ public class UserInterface extends JFrame implements ActionListener{
 			textCategory.setText("  ");
 			textId.setText("  ");
 			
-		} else if(actionButton.equals("Search")) {
+		} //else if(actionButton.equals("Search")) {
+		else {
 			searchId = textSearch.getText();
 			//input validation
 			if (validateNumInput(searchId)) {
 				lableSearch.setText("Searching for " + searchId);
 				textSearch.setText("  ");	
 			} else {
-				lableId.setText("You should enter a numeric value to search product id");
-			}
-			
-					
+				lableSearch.setText("enter a numeric value to search");
+			}				
 		}
 	}
 	
