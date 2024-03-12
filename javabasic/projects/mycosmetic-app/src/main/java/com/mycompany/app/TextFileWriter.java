@@ -33,5 +33,4 @@ public class TextFileWriter {
 			ioe.printStackTrace();
 		}	
 	}
-	
 }
