@@ -23,10 +23,9 @@ public class TextFileWriter {
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
 			//add string to the file in new lines
-			pw.println(brand + ":" + name + ":" + category + ":" + id);
-			
+			pw.println(brand + ":" + name + ":" + category + ":" + id);		
 			//add a new line to the file content
-			pw.println();
+			//pw.println();
 			pw.close();
 			System.out.println("Data successfully appended at the end of file");
 			

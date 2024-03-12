@@ -7,9 +7,9 @@ public class Cosmetic {
 	private String brand;
 	private String name;
 	private String category;
-	private String id;
+	private int id;
 	
-	public Cosmetic(String brand, String name, String category, String id) {
+	public Cosmetic(String brand, String name, String category, int id) {
 		this.brand = brand;
 		this.name = name;
 		this.category = category;
@@ -28,7 +28,7 @@ public class Cosmetic {
 		return category;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -44,7 +44,11 @@ public class Cosmetic {
 		this.category = category;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id  = id;
+	}
+	
+	public String toString() {
+		return this.brand + " " + this.name + " " + this.category + " " + this.id;
 	}
 }

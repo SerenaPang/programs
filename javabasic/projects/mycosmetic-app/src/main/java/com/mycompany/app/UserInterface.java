@@ -97,8 +97,7 @@ public class UserInterface extends JFrame implements ActionListener{
 			lableCategory.setText("category(last entry): " + textCategory.getText());
 			lableId.setText("id(last entry): " + textId.getText());
 					
-			//create a cosmetic object and write it to the text file
-			//Cosmetic cosme = new Cosmetic(tBrand.getText(), tName.getText(), tCategory.getText(), tId.getText());
+			//take the user input inforamtion
 			String brand = textBrand.getText();
 			String name = textName.getText();
 			String category = textCategory.getText();

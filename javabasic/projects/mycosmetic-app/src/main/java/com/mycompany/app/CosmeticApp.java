@@ -19,12 +19,14 @@ public class CosmeticApp
 //    	
 
     	
-    	UserInterface ui = new UserInterface();
-    	ui.createUI();
+//    	UserInterface ui = new UserInterface();
+//    	ui.createUI();
     	
-    	TextFileReader reader = new TextFileReader();
-    	System.out.println("Reading text file: ");
-    	reader.read();
+//    	TextFileReader reader = new TextFileReader();
+//    	System.out.println("Reading text file: ");
+//    	reader.read();
 
+    	InfoProcessor infoProcessor = new InfoProcessor();
+    	infoProcessor.getSearchItem(1);
     }
 }
