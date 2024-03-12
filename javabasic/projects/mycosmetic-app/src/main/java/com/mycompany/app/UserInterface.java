@@ -119,11 +119,13 @@ public class UserInterface extends JFrame implements ActionListener{
 			textId.setText("enter id here");
 			
 		} else if(actionButton.equals("Search")) {
-			searchId = textSearch.getText();			
+			searchId = textSearch.getText();		
 			//input validation
-			if (validateNumInput(searchId)) {
-				
+			if (validateNumInput(searchId)) {	
 				lableSearch.setText("Searching for " + searchId);
+				InfoProcessor infoProcessor = new InfoProcessor();
+				int numSearchId = Integer.parseInt(searchId);
+		    	infoProcessor.getSearchItem(numSearchId);
 				textSearch.setText("enter product id here");	
 			} else {
 				lableSearch.setText("you should enter a numeric value to search");
