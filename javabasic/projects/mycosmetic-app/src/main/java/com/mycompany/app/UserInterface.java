@@ -104,7 +104,7 @@ public class UserInterface extends JFrame implements ActionListener{
 			String id = textId.getText();
 			
 			//input validation
-			if (validateNumInput(id)) {
+			if (validateEmptyInput(brand) && validateEmptyInput(name) && validateEmptyInput(category) && validateNumInput(id)) {
 				//write the user input to the text file
 				System.out.println("Writing text file: ");
 		    	writer.writeLine(brand, name, category, id);
@@ -121,7 +121,7 @@ public class UserInterface extends JFrame implements ActionListener{
 		} else if(actionButton.equals("Search")) {
 			searchId = textSearch.getText();		
 			//input validation
-			if (validateNumInput(searchId)) {	
+			if (validateEmptyInput(searchId) && validateNumInput(searchId)) {	
 				lableSearch.setText("Searching for " + searchId);
 				InfoProcessor infoProcessor = new InfoProcessor();
 				int numSearchId = Integer.parseInt(searchId);
@@ -150,12 +150,20 @@ public class UserInterface extends JFrame implements ActionListener{
 		return false;
 	}
 	
+	/**
+	 * This method validate if the user input is empty or not
+	 * */	
+	public boolean validateEmptyInput(String input) {
+		if (input.isBlank() || input.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * This method gets the product id of the product that the user wants to search for
 	 * */
 	public String getSearchId() {
 		return searchId;
-	}
-	
+	}	
 }

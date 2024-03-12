@@ -1,6 +1,7 @@
 package com.mycompany.app;
 
 import java.util.List;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,19 +12,6 @@ import java.util.Scanner;
 public class TextFileReader {
 	//create a list to store all cosmetic products
 	ArrayList<Cosmetic> products = new ArrayList<Cosmetic>();
-	
-	public void read() {
-		File file = new File("cosmetic.txt");
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String line; //has to be seperate or else will be infinite loop
-			while((line = br.readLine())!= null) {
-				System.out.println(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
 	
 	/**
 	 * read file context and populate list of cosmetics
