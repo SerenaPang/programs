@@ -12,24 +12,17 @@ public class InfoProcessor {
 	 * @param id product id to search
 	 * @return cosmetic object that has the matching search id
 	 * */
-//	public Cosmetic getSearchItem(int id) {
-//		reader.readFile();
-//		products = reader.getList();
-//		for (Cosmetic cosme : products) {
-//			System.out.println(cosme.toString());
-//		}
-//	}
-	
-	public void getSearchItem(int id) {
+	public Cosmetic getSearchItem(int id) {
 		reader.readFile();
 		products = reader.getList();
+		System.out.println("Printing list: ");
 		for (Cosmetic cosme : products) {
-			System.out.println(cosme.toString());
+			//if the search id matches with the current id, return it
+			if (id == cosme.getId()) {
+				System.out.println(cosme.toString());
+				return cosme;
+			}
 		}
+		return null;
 	}
-	
-	/**
-	 * 
-	 * */
-	
 }

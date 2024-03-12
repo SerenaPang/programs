@@ -25,6 +25,9 @@ public class TextFileReader {
 		}		
 	}
 	
+	/**
+	 * read file context and populate list of cosmetics
+	 * */
 	public void readFile() {
 		try {
 			File file = new File("cosmetic.txt");
@@ -42,7 +45,7 @@ public class TextFileReader {
 				Cosmetic cosme = new Cosmetic(brand, name, category, numId);
 				//add the object to the list
 				products.add(cosme);
-				System.out.println(brand + " " + name + " " + category + " " + numId);
+				//System.out.println(brand + " " + name + " " + category + " " + numId);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
