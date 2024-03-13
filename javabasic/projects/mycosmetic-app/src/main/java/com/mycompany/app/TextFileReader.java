@@ -1,20 +1,22 @@
 package com.mycompany.app;
 
 import java.util.List;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 
 public class TextFileReader {
-	//create a list to store all cosmetic products
-	ArrayList<Cosmetic> products = new ArrayList<Cosmetic>();
-	
+	//create a map to store all the product, the key is the product id
+	Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
+		
 	/**
-	 * read file context and populate list of cosmetics
+	 * read file context and populate map of cosmetics
+	 * The key is the id of the 
 	 * */
 	public void readFile() {
 		try {
@@ -31,19 +33,19 @@ public class TextFileReader {
 				int numId = Integer.parseInt(details[3]);
 				
 				Cosmetic cosme = new Cosmetic(brand, name, category, numId);
-				//add the object to the list
-				products.add(cosme);
+				//put cosmetic object to the map
+				productMap.put(numId, cosme);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
 	}
-	
+
 	/**
-	 * Returns the list of products that contains all the cosmetic
+	 * Returns the map of products that contains all the cosmetic
 	 * */
-	public ArrayList<Cosmetic> getList(){
-		return products;
+	public Map<Integer, Cosmetic> getMap(){
+		return productMap;
 	}	
 }
 
