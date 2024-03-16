@@ -10,11 +10,14 @@ import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+// TODO Create a class name FileProcessor that will contain the logic of TextFileWriter and TextFileReader.
+
 public class TextFileWriter {
 		
 	public void writeLine(String brand, String name, String category, String id) {
 		//if the file exsist, open it append it, if not ccreate a new one
 		try {
+			// TODO when the application is initialized passed the file name using -store /path/to/file
 			File file = new File("cosmetic.txt");
 			if (!file.exists()) {
 				file.createNewFile();

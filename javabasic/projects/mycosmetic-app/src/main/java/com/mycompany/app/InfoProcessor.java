@@ -1,6 +1,10 @@
 package com.mycompany.app;
+
 import java.util.ArrayList;
 import java.util.Map;
+
+
+// TODO Move this class to com.mycompany.controller package.
 
 /**
  * This class process the cosmetic information 
@@ -18,6 +22,8 @@ public class InfoProcessor {
 		reader.readFile();
 		productMap = reader.getMap();
 		System.out.println("Printing map: ");
+
+		// TODO Why do we need to iterate through productMap.entrySet() if productMap uses key value pairs??
 		for (Map.Entry<Integer, Cosmetic> mapEntries : productMap.entrySet()) {
 			//if the search id matches with the current id, return it
 			if (id == mapEntries.getKey()) {
@@ -25,6 +31,7 @@ public class InfoProcessor {
 				return mapEntries.getValue();
 			}
 		}
+
 		return null;
 	}	
 }

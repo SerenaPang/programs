@@ -3,6 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+// TODO Move this class to com.mycompany.view package.
+
 /**
  * create a frame to show the user interface of the cosmetic app
  * */
@@ -52,6 +54,7 @@ public class UserInterface extends JFrame implements ActionListener{
 		
 		UserInterface ui = new UserInterface();
 		//add listener for the buttons
+		// TODO Create Listener class for every button. It could be an anonymous class.
 		bSave.addActionListener(ui);
 		bSearch.addActionListener(ui);
 		
@@ -63,6 +66,8 @@ public class UserInterface extends JFrame implements ActionListener{
 		
 		JPanel panel = new JPanel();
 		
+		// TODO Use GridLayout to create the forms (Research if your are not familiar).
+
 		//adding labels and buttons to the panel
 		panel.add(lableBrand);
 		panel.add(textBrand);

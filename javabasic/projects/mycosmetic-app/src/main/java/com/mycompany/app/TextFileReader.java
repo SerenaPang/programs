@@ -10,6 +10,10 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
+
+// TODO Move this file to the com.mycompany.controller package.
+
+// TODO Write comment describing the format of the file.
 public class TextFileReader {
 	//create a map to store all the product, the key is the product id
 	Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
@@ -20,6 +24,7 @@ public class TextFileReader {
 	 * */
 	public void readFile() {
 		try {
+			// TODO when the application is initialized passed the file name using -store /path/to/file
 			File file = new File("cosmetic.txt");
 			Scanner scanner = new Scanner(file);
 		
@@ -31,7 +36,8 @@ public class TextFileReader {
 				String name = details[1];
 				String category = details[2];
 				int numId = Integer.parseInt(details[3]);
-				
+
+				// TODO Store entries in this order id:name:brand:category
 				Cosmetic cosme = new Cosmetic(brand, name, category, numId);
 				//put cosmetic object to the map
 				productMap.put(numId, cosme);
