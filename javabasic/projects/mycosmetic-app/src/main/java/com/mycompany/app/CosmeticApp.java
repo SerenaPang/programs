@@ -1,7 +1,7 @@
 package com.mycompany.app;
 
 /**
- * The app to save and saerch forthe cosmetic product information from a text file
+ * The app to save and search for the cosmetic product information from a text file
  */
 public class CosmeticApp 
 {
