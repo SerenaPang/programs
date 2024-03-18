@@ -1,14 +1,7 @@
 package com.mycompany.app;
 
-// TODO Remove this exception if it is not needed.
-import java.io.IOException;
-import java.util.ArrayList;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-
 /**
  * The app to save and saerch forthe cosmetic product information from a text file
- *
  */
 public class CosmeticApp 
 {
