@@ -1,7 +1,5 @@
 package com.mycompany.app;
 
-
-// TODO Create a com.mycompany.model package and move this class there.
 // TODO Leave the fields from the FORM empty
 // TODO When the information is saved, Notify the user with JOptionDialog.showMessage().
 // TODO When the information is saved, clean all the fields.
