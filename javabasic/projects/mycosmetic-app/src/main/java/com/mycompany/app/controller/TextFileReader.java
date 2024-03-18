@@ -10,9 +10,6 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-
-// TODO Move this file to the com.mycompany.controller package.
-
 // TODO Write comment describing the format of the file.
 public class TextFileReader {
 	//create a map to store all the product, the key is the product id

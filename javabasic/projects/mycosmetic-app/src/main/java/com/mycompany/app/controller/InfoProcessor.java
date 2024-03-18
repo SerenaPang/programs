@@ -3,9 +3,6 @@ package com.mycompany.app;
 import java.util.ArrayList;
 import java.util.Map;
 
-
-// TODO Move this class to com.mycompany.controller package.
-
 /**
  * This class process the cosmetic information 
  * */
@@ -31,7 +28,6 @@ public class InfoProcessor {
 				return mapEntries.getValue();
 			}
 		}
-
 		return null;
 	}	
 }
