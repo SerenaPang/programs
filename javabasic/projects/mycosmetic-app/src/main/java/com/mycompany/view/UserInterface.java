@@ -3,8 +3,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
-// TODO Move this class to com.mycompany.view package.
-
 /**
  * create a frame to show the user interface of the cosmetic app
  * */
