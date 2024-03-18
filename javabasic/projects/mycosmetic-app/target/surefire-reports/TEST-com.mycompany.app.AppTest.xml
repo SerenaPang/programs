@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.AppTest" time="0.029" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.AppTest" time="0.027" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="13"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter9736865093787682575.jar /Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire 2024-03-13T15-18-40_986-jvmRun1 surefire12261038784069499845tmp surefire_05528649444634416390tmp"/>
+    <property name="sun.java.command" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter7785730310332519232.jar /Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire 2024-03-18T11-37-23_504-jvmRun1 surefire9708642773473657764tmp surefire_014635638709814532920tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/test-classes:/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/classes:/Users/serenapang/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/serenapang/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter9736865093787682575.jar"/>
+    <property name="surefire.real.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter7785730310332519232.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="13.0.2+8"/>
@@ -53,5 +53,5 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="57.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.mycompany.app.AppTest" time="0.002"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.mycompany.app.AppTest" time="0.001"/>
 </testsuite>
