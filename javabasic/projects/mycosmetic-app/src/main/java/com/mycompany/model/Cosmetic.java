@@ -1,7 +1,6 @@
 package com.mycompany.app;
 
-// TODO Leave the fields from the FORM empty
-// TODO When the information is saved, Notify the user with JOptionDialog.showMessage().
+
 // TODO When the information is saved, clean all the fields.
 // TODO When JOptionDiaglog is open, used the WARNING OR INFO icons.
 // TODO Delete the .class and all generated files from github.

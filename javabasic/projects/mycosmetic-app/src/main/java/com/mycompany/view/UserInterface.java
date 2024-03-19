@@ -138,10 +138,10 @@ public class UserInterface extends JFrame implements ActionListener{
 				InfoProcessor infoProcessor = new InfoProcessor();
 				int numSearchId = Integer.parseInt(searchId);
 		    	infoProcessor.getSearchItem(numSearchId);
-				textSearch.setText("enter product id here");	
+				textSearch.setText("");	
 			} else {
 				lableSearch.setText("you should enter a numeric value to search");
-				textSearch.setText("enter a NUMERIC product id here");	
+				textSearch.setText("");	
 			}				
 		}
 	}
