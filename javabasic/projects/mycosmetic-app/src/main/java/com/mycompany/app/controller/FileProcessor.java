@@ -36,8 +36,7 @@ public class FileProcessor{
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
 			//add string to the file in new lines
-			pw.println(brand + ":" + name + ":" + category + ":" + id);		
-		
+			pw.println(id + ":" + name + ":" + brand + ":" + category);	
 			pw.close();
 			System.out.println("Data successfully appended at the end of file");
 			
@@ -61,12 +60,11 @@ public class FileProcessor{
 				//seperate the line with :, and create a cosmetic object
 				String line = scanner.nextLine();
 				String[] details = line.split(":");
-				String brand = details[0];
+				int numId = Integer.parseInt(details[0]);
 				String name = details[1];
-				String category = details[2];
-				int numId = Integer.parseInt(details[3]);
-
-				// TODO Store entries in this order id:name:brand:category
+				String brand = details[2];
+				String category = details[3];
+				
 				Cosmetic cosme = new Cosmetic(numId, name, brand, category);
 				//put cosmetic object to the map
 				productMap.put(numId, cosme);
