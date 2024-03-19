@@ -24,6 +24,7 @@ public class UserInterface extends JFrame implements ActionListener{
 	static JLabel lableName;
 	static JLabel lableCategory;
 	static JLabel lableId;
+	static JLabel labelInfoEntered;
 	static JLabel lableSearch;
 	
 	String searchId;
@@ -39,11 +40,13 @@ public class UserInterface extends JFrame implements ActionListener{
 		//create a new frame to store text field and button
 		frame = new JFrame("Cosmetic Product");
 		//label to dispaly text
-		lableBrand = new JLabel("Brand: ", 10);
+		lableBrand = new JLabel("Brand: ");
 		lableName = new JLabel("Name: ");
 		lableCategory= new JLabel("Category: ");
 		lableId= new JLabel("Id: ");
-		lableSearch= new JLabel("Nothing on Search");
+		labelInfoEntered = new JLabel(" ");
+		lableSearch = new JLabel("Nothing on Search");
+	
 				
 		//cerate a new button for user to submit info
 		bSave = new JButton("Save");
@@ -79,6 +82,7 @@ public class UserInterface extends JFrame implements ActionListener{
 		panel.add(lableId);
 		panel.add(textId);
 			
+		panel.add(labelInfoEntered);
 		panel.add(bSave);
 					
 		panel.add(lableSearch);	
@@ -94,11 +98,16 @@ public class UserInterface extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		String actionButton = e.getActionCommand();
 		if (actionButton.equals("Save") ) {
+			
+			lableBrand.setText("brand: ");
+			lableName.setText("name: ");
+			lableCategory.setText("category: ");
+			lableId.setText("id: ");
 			//printing the user input on the label
-			lableBrand.setText("brand(last entry): " + textBrand.getText());
-			lableName.setText("name(last entry): " + textName.getText());
-			lableCategory.setText("category(last entry): " + textCategory.getText());
-			lableId.setText("id(last entry): " + textId.getText());
+			labelInfoEntered.setText("id: " + textId.getText() +
+					" name: " + textName.getText() +
+					" brand: " + textBrand.getText() +
+					" category: " + textCategory.getText());
 					
 			//take the user input inforamtion
 			String brand = textBrand.getText();
@@ -116,10 +125,10 @@ public class UserInterface extends JFrame implements ActionListener{
 			}
 			    	
 	    	//set input boxes to blank for next input
-	    	textBrand.setText("enter brand here");
-	    	textName.setText("enter name here");
-			textCategory.setText("enter category here");
-			textId.setText("enter id here");
+	    	textBrand.setText("");
+	    	textName.setText("");
+			textCategory.setText("");
+			textId.setText("");
 			
 		} else if(actionButton.equals("Search")) {
 			searchId = textSearch.getText();		

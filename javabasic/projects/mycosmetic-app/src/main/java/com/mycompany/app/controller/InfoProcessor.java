@@ -12,7 +12,7 @@ public class InfoProcessor {
 	//map of <Cosmetic> products, key:product id, value: cosmetic object that has the matching product id
 	Map<Integer, Cosmetic> productMap;
 	/**
-	 * Iterate the map of the cosmetic object to find the cosmetic object that matches the user id and return it
+	 * find the cosmetic object that matches the user id and return it
 	 * @param id product id to search
 	 * @return cosmetic object that has the matching search id
 	 * */

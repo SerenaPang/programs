@@ -34,8 +34,8 @@ public class TextFileReader {
 				String category = details[2];
 				int numId = Integer.parseInt(details[3]);
 
-				// TODO Store entries in this order id:name:brand:category
-				Cosmetic cosme = new Cosmetic(numId,name,brand,category);
+				//Store entries in this order id:name:brand:category
+				Cosmetic cosme = new Cosmetic(numId, name, brand, category);
 				//put cosmetic object to the map
 				productMap.put(numId, cosme);
 			}
