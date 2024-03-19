@@ -1,7 +1,5 @@
 package com.mycompany.app;
 
-
-// TODO When the information is saved, clean all the fields.
 // TODO When JOptionDiaglog is open, used the WARNING OR INFO icons.
 // TODO Delete the .class and all generated files from github.
 

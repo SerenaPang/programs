@@ -108,7 +108,7 @@ public class UserInterface extends JFrame implements ActionListener{
 			if (validateEmptyInput(brand) && validateEmptyInput(name) && validateEmptyInput(category) && validateNumInput(id)) {
 				//write the user input to the text file
 				System.out.println("Writing text file: ");
-		    	writer.writeLine(brand, name, category, id);
+		    	writer.writeLine(id, name, brand, category);
 		    	
 		    	lableBrand.setText("brand: ");
 				lableName.setText("name: ");

@@ -16,6 +16,8 @@ import java.util.HashMap;
 /**
  * This class read the file and extract the information from the file.
  * and write the user input into the file.
+ * The format of the file is 
+ * id:name:brand:category
  * */
 public class FileProcessor{
 	//create a map to store all the product, the key is the product id
