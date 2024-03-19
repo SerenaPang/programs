@@ -97,18 +97,7 @@ public class UserInterface extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		String actionButton = e.getActionCommand();
-		if (actionButton.equals("Save") ) {
-			
-			lableBrand.setText("brand: ");
-			lableName.setText("name: ");
-			lableCategory.setText("category: ");
-			lableId.setText("id: ");
-			//printing the user input on the label
-			labelInfoEntered.setText("id: " + textId.getText() +
-					" name: " + textName.getText() +
-					" brand: " + textBrand.getText() +
-					" category: " + textCategory.getText());
-					
+		if (actionButton.equals("Save") ) {				
 			//take the user input inforamtion
 			String brand = textBrand.getText();
 			String name = textName.getText();
@@ -120,6 +109,17 @@ public class UserInterface extends JFrame implements ActionListener{
 				//write the user input to the text file
 				System.out.println("Writing text file: ");
 		    	writer.writeLine(brand, name, category, id);
+		    	
+		    	lableBrand.setText("brand: ");
+				lableName.setText("name: ");
+				lableCategory.setText("category: ");
+				lableId.setText("id: ");
+				//show the user input on the label after the information is saved
+				labelInfoEntered.setText("id: " + textId.getText() +
+						" name: " + textName.getText() +
+						" brand: " + textBrand.getText() +
+						" category: " + textCategory.getText());
+				
 			} else {
 				lableId.setText("You should enter a numeric value for product id");
 			}
