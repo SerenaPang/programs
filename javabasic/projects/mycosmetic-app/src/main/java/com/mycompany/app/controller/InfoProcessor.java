@@ -21,14 +21,11 @@ public class InfoProcessor {
 		productMap = fileReader.getMap();
 		System.out.println("Printing map: ");
 
-		// TODO Why do we need to iterate through productMap.entrySet() if productMap uses key value pairs??
-		for (Map.Entry<Integer, Cosmetic> mapEntries : productMap.entrySet()) {
 			//if the search id matches with the current id, return it
-			if (id == mapEntries.getKey()) {
-				System.out.println(mapEntries.getValue().toString());
-				return mapEntries.getValue();
-			}
-		}
+			if (productMap.containsKey(id)) {
+				System.out.println(productMap.get(id).toString());
+				return productMap.get(id);
+			}	
 		return null;
 	}
 }
