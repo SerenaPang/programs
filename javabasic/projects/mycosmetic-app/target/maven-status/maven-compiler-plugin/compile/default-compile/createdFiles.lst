@@ -1,6 +1,7 @@
-com/mycompany/app/TextFileWriter.class
+com/mycompany/app/FileProcessor.class
 com/mycompany/app/TextFileReader.class
-com/mycompany/app/UserInterface.class
 com/mycompany/app/InfoProcessor.class
 com/mycompany/app/CosmeticApp.class
+com/mycompany/app/TextFileWriter.class
+com/mycompany/app/UserInterface.class
 com/mycompany/app/Cosmetic.class

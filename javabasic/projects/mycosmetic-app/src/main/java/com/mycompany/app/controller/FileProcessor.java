@@ -7,12 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.List;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
@@ -71,7 +67,7 @@ public class FileProcessor{
 				int numId = Integer.parseInt(details[3]);
 
 				// TODO Store entries in this order id:name:brand:category
-				Cosmetic cosme = new Cosmetic(brand, name, category, numId);
+				Cosmetic cosme = new Cosmetic(numId, name, brand, category);
 				//put cosmetic object to the map
 				productMap.put(numId, cosme);
 			}
