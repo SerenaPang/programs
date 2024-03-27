@@ -19,13 +19,15 @@ public class InfoProcessor {
 	public Cosmetic getSearchItem(int id) {
 		fileReader.readFile();
 		productMap = fileReader.getMap();
-		System.out.println("Printing map: ");
+		System.out.println("Finding id " + id + " in text file...");
 
 			//if the search id matches with the current id, return it
 			if (productMap.containsKey(id)) {
+				System.out.print("ID " + id + " in the text file: ");
 				System.out.println(productMap.get(id).toString());
 				return productMap.get(id);
-			}	
+			}
+		System.out.println("There is no matching id " + id + " in the text file.");
 		return null;
 	}
 }

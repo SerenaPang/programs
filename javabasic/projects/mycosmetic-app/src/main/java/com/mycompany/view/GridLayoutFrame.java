@@ -33,6 +33,7 @@ public class GridLayoutFrame extends JFrame {
 	static JLabel lableId;
 	
 	static JLabel labelInfoEntered;
+	static JLabel labelValidationMesage;
 	
 	final int idMIN = 0;
 	final int idMAX = 1000;
@@ -58,7 +59,6 @@ public class GridLayoutFrame extends JFrame {
 	 * */
 	private void createSaveButtonPanel() {
 		JPanel contextPanel = new JPanel();
-		//contextPanel.setLayout(new GridLayout(5, 2));
 		contextPanel.setLayout(new GridLayout(7, 2));
 		add(contextPanel);
 		
@@ -67,6 +67,7 @@ public class GridLayoutFrame extends JFrame {
 		lableCategory = new JLabel("Category: ");
 		lableId = new JLabel("Id: ");
 		labelInfoEntered = new JLabel("");
+		labelValidationMesage = new JLabel("");
 				
 		textBrand = new JTextField("");
 		textName = new JTextField("");
@@ -87,6 +88,7 @@ public class GridLayoutFrame extends JFrame {
 		contextPanel.add(textId);
 		
 		contextPanel.add(labelInfoEntered);
+		contextPanel.add(labelValidationMesage);
 		
 		//add save button to the panel	
 		contextPanel.add(makeSaveButton("SAVE"));
@@ -165,7 +167,7 @@ public class GridLayoutFrame extends JFrame {
 						" category: " + textCategory.getText());
 				
 			} else {
-				lableId.setText("You should enter a numeric value for product id");
+				labelValidationMesage.setText("You should enter a numeric value for product id");
 			}
 			    	
 	    	//set input boxes to blank for next input
@@ -203,7 +205,7 @@ public class GridLayoutFrame extends JFrame {
 		    	infoProcessor.getSearchItem(numSearchId);
 				textSearch.setText("");	
 			} else {
-				lableSearch.setText("you should enter a numeric value to search");
+				labelValidationMesage.setText("you should enter a numeric value to search");
 				textSearch.setText("");	
 			}
 		}		
@@ -239,10 +241,8 @@ public class GridLayoutFrame extends JFrame {
 	 * This method gets the product id of the product that the user wants to search for
 	 * */
 	public String getSearchId() {
-		//return searchId;
-		return null;
+		return searchId;
 	}
-
 	
 	/**
 	 * create a cosmetic ui for the user
@@ -253,5 +253,4 @@ public class GridLayoutFrame extends JFrame {
 		frame.setTitle("Cosmetic");
 		frame.setVisible(true);
 	}
-	
 }

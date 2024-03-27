@@ -70,8 +70,6 @@ public class UserInterface extends JFrame implements ActionListener{
 		textSearch = new JTextField("enter the id here to search",50);
 		
 		JPanel panel = new JPanel();
-		
-		// TODO Use GridLayout to create the forms (Research if your are not familiar).
 
 		//adding labels and buttons to the panel
 		panel.add(lableBrand);
@@ -123,8 +121,6 @@ public class UserInterface extends JFrame implements ActionListener{
 		
 		JPanel panel = new JPanel();
 		
-		// TODO Use GridLayout to create the forms (Research if your are not familiar).
-
 		//adding labels and buttons to the panel
 		panel.add(lableBrand);
 		panel.add(textBrand);

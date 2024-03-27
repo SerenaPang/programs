@@ -7,9 +7,6 @@ public class CosmeticApp
 {
     public static void main( String[] args )
     {  	
-    	//UserInterface ui = new UserInterface();
-    	//ui.createUI();
-    	//ui.createGridPanel();
     	GridLayoutFrame ui = new GridLayoutFrame();
     	ui.createUi();
     }
