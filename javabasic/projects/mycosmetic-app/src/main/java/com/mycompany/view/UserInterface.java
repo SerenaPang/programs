@@ -1,5 +1,6 @@
 package com.mycompany.app;
 import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -7,7 +8,8 @@ import java.util.ArrayList;
  * create a frame to show the user interface of the cosmetic app
  * */
 public class UserInterface extends JFrame implements ActionListener{
-	TextFileWriter writer = new TextFileWriter();
+	//TextFileWriter writer = new TextFileWriter();
+	FileProcessor writer = new FileProcessor();
 	
 	static JTextField textBrand;
 	static JTextField textName;
@@ -17,6 +19,8 @@ public class UserInterface extends JFrame implements ActionListener{
 	
 	
 	static JFrame frame;
+	static JFrame gridFrame;
+	
 	static JButton bSave;
 	static JButton bSearch;
 	
@@ -93,6 +97,63 @@ public class UserInterface extends JFrame implements ActionListener{
 		frame.add(panel);
 		frame.setSize(600, 400);
 		frame.show();
+	}
+	
+	public void createGridPanel() {
+		//create a new frame to store text field and button
+		gridFrame = new JFrame("Cosmetic Product");
+		//label to dispaly text
+		lableBrand = new JLabel("Brand: ");
+		lableName = new JLabel("Name: ");
+		lableCategory= new JLabel("Category: ");
+		lableId= new JLabel("Id: ");
+		labelInfoEntered = new JLabel(" ");
+		lableSearch = new JLabel("Nothing on Search");		
+						
+		//cerate a new button for user to submit info
+		JButton saveButton = new JButton("SAVE");
+		//create a new button for user to search product info
+		JButton searchButton = new JButton("SEARCH");
+	
+		textBrand = new JTextField("enter the brand here", 50);
+		textName = new JTextField("enter the name here",50);
+		textCategory = new JTextField("enter the category here",50);
+		textId = new JTextField("enter the id here",50);
+		textSearch = new JTextField("enter the id here to search",50);
+		
+		JPanel panel = new JPanel();
+		
+		// TODO Use GridLayout to create the forms (Research if your are not familiar).
+
+		//adding labels and buttons to the panel
+		panel.add(lableBrand);
+		panel.add(textBrand);
+		
+		panel.add(lableName);
+		panel.add(textName);
+		
+		panel.add(lableCategory);
+		panel.add(textCategory);
+		
+		panel.add(lableId);
+		panel.add(textId);
+			
+		panel.add(labelInfoEntered);
+		panel.add(bSave);
+					
+		panel.add(lableSearch);	
+		panel.add(textSearch);
+		panel.add(bSearch);
+				
+		//ADD buttons to frame
+		gridFrame.add(saveButton);
+		gridFrame.add(searchButton);
+		
+		//add panel to frame
+		gridFrame.setLayout(new GridLayout(1,1));
+		//gridFrame.add(panel);
+		gridFrame.setSize(300, 300);
+		gridFrame.setVisible(true);	
 	}
 	
 	public void actionPerformed(ActionEvent e){

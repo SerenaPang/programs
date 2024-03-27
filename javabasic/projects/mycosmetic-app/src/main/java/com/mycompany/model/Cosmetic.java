@@ -1,7 +1,6 @@
 package com.mycompany.app;
 
 // TODO When JOptionDiaglog is open, used the WARNING OR INFO icons.
-// TODO Delete the .class and all generated files from github.
 
 /**
  * A cosmetic object class that has getters and setters

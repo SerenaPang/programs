@@ -26,7 +26,7 @@ public class FileProcessor{
 	/**
 	 * This method writes the user input into the text file
 	 * */
-	public void writeLine(String brand, String name, String category, String id) {
+	public void writeLine(String id, String name, String brand, String category) {
 		//if the file exsist, open it append it, if not ccreate a new one
 		try {
 			// TODO when the application is initialized passed the file name using -store /path/to/file
