@@ -6,7 +6,7 @@ package com.mycompany.app;
 public class CosmeticApp 
 {
     public static void main( String[] args )
-    {  	
+    { 
     	GridLayoutFrame ui = new GridLayoutFrame();
     	ui.createUi();
     }

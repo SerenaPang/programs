@@ -51,9 +51,14 @@ public class Cosmetic {
 		this.id  = id;
 	}
 	
+	/**
+	 * Use StringBuffer to concatenate the information of Cosmetic because StringBuffer is faster than String when performing simple concatenations
+	 * */
 	public String toString() {
 		// TODO Use StringBuffer instead.
 		// TODO Research why StringBuffer is preferred when strings are being  concatenated.
-		return this.brand + " " + this.name + " " + this.category + " " + this.id;
+		//return this.brand + " " + this.name + " " + this.category + " " + this.id;
+		String cosme = new StringBuffer().append("ID: ").append(id).append(" Name: ").append(name).append(" Brand: ").append(brand).append(" Category: ").append(category).toString();
+		return cosme;
 	}
 }

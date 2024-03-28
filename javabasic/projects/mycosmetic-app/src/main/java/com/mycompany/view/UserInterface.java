@@ -59,7 +59,6 @@ public class UserInterface extends JFrame implements ActionListener{
 		
 		UserInterface ui = new UserInterface();
 		//add listener for the buttons
-		// TODO Create Listener class for every button. It could be an anonymous class.
 		bSave.addActionListener(ui);
 		bSearch.addActionListener(ui);
 		
