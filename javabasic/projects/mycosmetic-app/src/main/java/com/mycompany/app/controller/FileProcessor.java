@@ -1,6 +1,7 @@
 package com.mycompany.app;
 
 import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,16 +22,27 @@ import java.util.HashMap;
  * */
 public class FileProcessor{
 	//create a map to store all the product, the key is the product id
-		Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
+	Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
 	
+	//create a file object
+	File file;	
+	//create a constructor that receive the file pass in the command line
+	FileProcessor(File file) {
+		this.file = file;
+	}
+		
 	/**
 	 * This method writes the user input into the text file
+	 * @param id id of the cosmetic product 
+	 * @param name name of the cosmetic product 
+	 * @param brand brand of the cosmetic product 
+	 * @param category category of the cosmetic product 
 	 * */
 	public void writeLine(String id, String name, String brand, String category) {
 		//if the file exsist, open it append it, if not ccreate a new one
 		try {
 			// TODO when the application is initialized passed the file name using -store /path/to/file
-			File file = new File("cosmetic.txt");
+			//File file = new File("cosmetic.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -55,21 +67,28 @@ public class FileProcessor{
 	public void readFile() {
 		try {
 			// TODO when the application is initialized passed the file name using -store /path/to/file
-			File file = new File("cosmetic.txt");
+			//File file = new File("cosmetic.txt");
 			Scanner scanner = new Scanner(file);
-		
+			System.out.println("reading file...");
 			while(scanner.hasNextLine()) {
 				//seperate the line with :, and create a cosmetic object
 				String line = scanner.nextLine();
 				String[] details = line.split(":");
-				int numId = Integer.parseInt(details[0]);
+				String id = details[0];
+				//System.out.println("String id: " + id);
+				//int numId = Integer.parseInt(details[0]);
+				int numId = Integer.parseInt(id);
+				
 				String name = details[1];
 				String brand = details[2];
 				String category = details[3];
 				
 				Cosmetic cosme = new Cosmetic(numId, name, brand, category);
+				//System.out.println("cosme: " + cosme.toString());
 				//put cosmetic object to the map
+				//System.out.println("put to map");
 				productMap.put(numId, cosme);
+				//print(productMap);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -81,6 +100,37 @@ public class FileProcessor{
 	 * */
 	public Map<Integer, Cosmetic> getMap(){
 		return productMap;
+	}
+	
+	/**
+	 * print map
+	 * */
+	public void print(Map<Integer, Cosmetic> productMap) {
+		for (Integer id : productMap.keySet()) {
+			int key = id.intValue();
+		    Cosmetic value = productMap.get(key);
+		    System.out.println(key + " " + value.toString());
+		}
+	}
+	
+	/**
+	 * find the cosmetic object that matches the user id and return it
+	 * @param id product id to search
+	 * @return cosmetic object that has the matching search id
+	 * */
+	public Cosmetic getSearchItem(int id) {
+		//fileReader.readFile();
+		readFile();
+		System.out.println("Finding id " + id + " in text file...");
+
+			//if the search id matches with the current id, return it
+			if (productMap.containsKey(id)) {
+				System.out.print("ID " + id + " in the text file: ");
+				System.out.println(productMap.get(id).toString());
+				return productMap.get(id);
+			}
+		System.out.println("There is no matching id " + id + " in the text file.");
+		return null;
 	}
 }
  

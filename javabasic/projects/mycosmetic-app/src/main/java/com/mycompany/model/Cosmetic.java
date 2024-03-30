@@ -55,7 +55,6 @@ public class Cosmetic {
 	 * Use StringBuffer to concatenate the information of Cosmetic because StringBuffer is faster than String when performing simple concatenations
 	 * */
 	public String toString() {
-		// TODO Use StringBuffer instead.
 		String cosme = new StringBuffer().append("ID: ").append(id).append(" Name: ").append(name).append(" Brand: ").append(brand).append(" Category: ").append(category).toString();
 		return cosme;
 	}

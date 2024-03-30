@@ -1,14 +1,21 @@
 package com.mycompany.app;
 
 import java.util.ArrayList;
+import java.io.File;
 import java.util.Map;
 
 /**
  * This class process the cosmetic information 
  * */
 public class InfoProcessor {
+	File file;
+	InfoProcessor (File file) {
+		this.file = file;
+	}
+	
 	//create a reader to read file
-	FileProcessor fileReader = new FileProcessor();
+	//FileProcessor fileReader = new FileProcessor();
+	FileProcessor fileReader = new FileProcessor(file);
 	//map of <Cosmetic> products, key:product id, value: cosmetic object that has the matching product id
 	Map<Integer, Cosmetic> productMap;
 	/**
@@ -17,7 +24,8 @@ public class InfoProcessor {
 	 * @return cosmetic object that has the matching search id
 	 * */
 	public Cosmetic getSearchItem(int id) {
-		fileReader.readFile();
+		//fileReader.readFile();
+		//fileReader.readFile();
 		productMap = fileReader.getMap();
 		System.out.println("Finding id " + id + " in text file...");
 

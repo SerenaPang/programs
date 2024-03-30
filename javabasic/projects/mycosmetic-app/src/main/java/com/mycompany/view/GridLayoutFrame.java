@@ -1,5 +1,6 @@
 package com.mycompany.app;
 import java.awt.BorderLayout;
+import java.io.File;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -15,7 +16,15 @@ import javax.swing.JLabel;
  * user interface
  * */
 public class GridLayoutFrame extends JFrame {
-	FileProcessor writer = new FileProcessor();
+	//FileProcessor writer = new FileProcessor();
+	
+	File file;
+	FileProcessor processor;
+//	GridLayoutFrame(File file){
+//		this.file = file;
+//	}
+	
+	//FileProcessor processor = new FileProcessor(file);
 	private JLabel display;
 	
 	private static final int FRAME_WIDTH = 300;
@@ -43,8 +52,10 @@ public class GridLayoutFrame extends JFrame {
 	static JTextField textSearch;
 	String searchId;
 	
-	public GridLayoutFrame()
+	public GridLayoutFrame(File file)
 	{
+		this.file = file;
+		processor = new FileProcessor(file);
 		display = new JLabel("Enter Cosmetic Information");
 		add(display, BorderLayout.NORTH);
 		createSaveButtonPanel();
@@ -154,7 +165,7 @@ public class GridLayoutFrame extends JFrame {
 			if (validateEmptyInput(brand) && validateEmptyInput(name) && validateEmptyInput(category) && validateNumInput(id)) {
 				//write the user input to the text file
 				System.out.println("Writing text file: ");
-		    	writer.writeLine(id, name, brand, category);
+				processor.writeLine(id, name, brand, category);
 		    	
 		    	lableBrand.setText("brand: ");
 				lableName.setText("name: ");
@@ -200,9 +211,10 @@ public class GridLayoutFrame extends JFrame {
 			//input validation
 			if (validateEmptyInput(searchId) && validateNumInput(searchId)) {	
 				lableSearch.setText("Searching for " + searchId);
-				InfoProcessor infoProcessor = new InfoProcessor();
+				//InfoProcessor infoProcessor = new InfoProcessor();
+				
 				int numSearchId = Integer.parseInt(searchId);
-		    	infoProcessor.getSearchItem(numSearchId);
+				processor.getSearchItem(numSearchId);
 				textSearch.setText("");	
 			} else {
 				labelValidationMesage.setText("you should enter a numeric value to search");
@@ -248,9 +260,10 @@ public class GridLayoutFrame extends JFrame {
 	 * create a cosmetic ui for the user
 	 * */
 	public void createUi() {
-		JFrame frame = new GridLayoutFrame();
+		JFrame frame = new GridLayoutFrame(file);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Cosmetic");
 		frame.setVisible(true);
+	//	processor.readFile();
 	}
 }
