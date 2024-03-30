@@ -41,7 +41,6 @@ public class FileProcessor{
 	public void writeLine(String id, String name, String brand, String category) {
 		//if the file exsist, open it append it, if not ccreate a new one
 		try {
-			// TODO when the application is initialized passed the file name using -store /path/to/file
 			//File file = new File("cosmetic.txt");
 			if (!file.exists()) {
 				file.createNewFile();
@@ -66,7 +65,6 @@ public class FileProcessor{
 	 * */
 	public void readFile() {
 		try {
-			// TODO when the application is initialized passed the file name using -store /path/to/file
 			//File file = new File("cosmetic.txt");
 			Scanner scanner = new Scanner(file);
 			System.out.println("reading file...");
@@ -84,11 +82,7 @@ public class FileProcessor{
 				String category = details[3];
 				
 				Cosmetic cosme = new Cosmetic(numId, name, brand, category);
-				//System.out.println("cosme: " + cosme.toString());
-				//put cosmetic object to the map
-				//System.out.println("put to map");
 				productMap.put(numId, cosme);
-				//print(productMap);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,7 +113,6 @@ public class FileProcessor{
 	 * @return cosmetic object that has the matching search id
 	 * */
 	public Cosmetic getSearchItem(int id) {
-		//fileReader.readFile();
 		readFile();
 		System.out.println("Finding id " + id + " in text file...");
 

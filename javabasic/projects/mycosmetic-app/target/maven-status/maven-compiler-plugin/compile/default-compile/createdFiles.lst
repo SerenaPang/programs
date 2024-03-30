@@ -1,7 +1,6 @@
+com/mycompany/app/GridLayoutFrame$SaveButtonListener.class
 com/mycompany/app/FileProcessor.class
-com/mycompany/app/InfoProcessor.class
+com/mycompany/app/GridLayoutFrame$SearchButtonListener.class
 com/mycompany/app/GridLayoutFrame.class
 com/mycompany/app/CosmeticApp.class
-com/mycompany/app/GridLayoutFrame$SaveButtonListener.class
-com/mycompany/app/GridLayoutFrame$SearchButtonListener.class
 com/mycompany/app/Cosmetic.class

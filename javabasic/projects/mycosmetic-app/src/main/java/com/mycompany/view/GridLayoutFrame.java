@@ -10,21 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * This frame contains a panel that display buttons for the cosmetic product 
  * user interface
  * */
 public class GridLayoutFrame extends JFrame {
-	//FileProcessor writer = new FileProcessor();
-	
 	File file;
 	FileProcessor processor;
-//	GridLayoutFrame(File file){
-//		this.file = file;
-//	}
 	
-	//FileProcessor processor = new FileProcessor(file);
 	private JLabel display;
 	
 	private static final int FRAME_WIDTH = 300;
@@ -178,7 +173,8 @@ public class GridLayoutFrame extends JFrame {
 						" category: " + textCategory.getText());
 				
 			} else {
-				labelValidationMesage.setText("You should enter a numeric value for product id");
+				//labelValidationMesage.setText("You should enter a numeric value for product id");
+				JOptionPane.showMessageDialog(null, "Check if you enter a numeric value for product id OR Info filed is empty");
 			}
 			    	
 	    	//set input boxes to blank for next input
@@ -217,7 +213,8 @@ public class GridLayoutFrame extends JFrame {
 				processor.getSearchItem(numSearchId);
 				textSearch.setText("");	
 			} else {
-				labelValidationMesage.setText("you should enter a numeric value to search");
+				//labelValidationMesage.setText("you should enter a numeric value to search");
+				JOptionPane.showMessageDialog(null, "You should enter a numeric value to search");
 				textSearch.setText("");	
 			}
 		}		
@@ -264,6 +261,5 @@ public class GridLayoutFrame extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Cosmetic");
 		frame.setVisible(true);
-	//	processor.readFile();
 	}
 }

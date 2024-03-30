@@ -1,7 +1,5 @@
 package com.mycompany.app;
 
-// TODO When JOptionDiaglog is open, used the WARNING OR INFO icons.
-
 /**
  * A cosmetic object class that has getters and setters
  * */
