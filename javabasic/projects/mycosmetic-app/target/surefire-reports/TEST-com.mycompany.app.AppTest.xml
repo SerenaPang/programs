@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.AppTest" time="0.025" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.AppTest" time="0.03" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="13"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/test-classes:/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/classes:/Users/serenapang/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/serenapang/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
+    <property name="java.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/test-classes:/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/classes:/Users/serenapang/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/serenapang/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/serenapang/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar:/Users/serenapang/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
@@ -12,10 +12,10 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter5034075112525954279.jar /Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire 2024-03-29T18-08-30_504-jvmRun1 surefire2170754383895097750tmp surefire_015944897265275611754tmp"/>
+    <property name="sun.java.command" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter9191240337855330641.jar /Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire 2024-04-03T22-11-29_323-jvmRun1 surefire1537343684504676519tmp surefire_013016503626892782356tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/test-classes:/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/classes:/Users/serenapang/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/serenapang/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/test-classes:/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/classes:/Users/serenapang/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/serenapang/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/serenapang/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar:/Users/serenapang/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/serenapang"/>
     <property name="user.language" value="en"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter5034075112525954279.jar"/>
+    <property name="surefire.real.class.path" value="/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/target/surefire/surefirebooter9191240337855330641.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="13.0.2+8"/>

@@ -2,6 +2,8 @@ package com.mycompany.app;
 
 /**
  * A cosmetic object class that has getters and setters
+ * CosmeID int, Brand varchar(255), 
+ * 
  * */
 public class Cosmetic {
 	private String brand;
