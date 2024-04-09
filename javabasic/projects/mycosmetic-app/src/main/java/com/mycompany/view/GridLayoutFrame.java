@@ -164,7 +164,9 @@ public class GridLayoutFrame extends JFrame {
 			if (validateEmptyInput(brand) && validateEmptyInput(name) && validateEmptyInput(category) && validateNumInput(id)) {
 				//write the user input to the text file
 				System.out.println("Writing text file: ");
-				processor.writeLine(id, name, brand, category);
+				Cosmetic cosmetic = new Cosmetic(Integer.parseInt(id), name, brand, category);
+				
+				processor.save(cosmetic);
 		    	
 		    	lableBrand.setText("brand: ");
 				lableName.setText("name: ");
@@ -214,7 +216,13 @@ public class GridLayoutFrame extends JFrame {
 				//InfoProcessor infoProcessor = new InfoProcessor();
 				
 				int numSearchId = Integer.parseInt(searchId);
-				processor.getSearchItem(numSearchId);
+				Cosmetic cosmetic = processor.findById(numSearchId);
+				if (cosmetic != null) {
+					System.out.println("Found " + cosmetic);
+				} else {
+					System.out.println("Not Found");
+				}
+				
 				textSearch.setText("");	
 			} else {
 				//labelValidationMesage.setText("you should enter a numeric value to search");
