@@ -58,5 +58,11 @@ java -classpath ./target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
     
     
     target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar
+    
+    with db flag:
+    
+    java -classpath ./target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
+    com.mycompany.app.CosmeticApp  \
+    ./src/main/java/com/mycompany/app/database.properties
 
 ```
