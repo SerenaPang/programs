@@ -13,16 +13,16 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.mycompany.dao.CosmeticDao;
 import com.mycompany.model.Cosmetic;
-import com.mycompany.dao.file.FileProcessor;
+
 
 /**
  * This frame contains a panel that display buttons for the cosmetic product 
  * user interface
  * */
 public class GridLayoutFrame extends JFrame {
-	File file;
-	FileProcessor processor;
+	CosmeticDao cosmeticDao;
 	
 	private JLabel display;
 	
@@ -51,10 +51,9 @@ public class GridLayoutFrame extends JFrame {
 	static JTextField textSearch;
 	String searchId;
 	
-	public GridLayoutFrame(File file)
+	public GridLayoutFrame(CosmeticDao cosmeticDao)
 	{
-		this.file = file;
-		processor = new FileProcessor(file);
+		this.cosmeticDao = cosmeticDao;
 		display = new JLabel("Enter Cosmetic Information");
 		add(display, BorderLayout.NORTH);
 		createSaveButtonPanel();
@@ -166,7 +165,7 @@ public class GridLayoutFrame extends JFrame {
 				System.out.println("Writing text file: ");
 				Cosmetic cosmetic = new Cosmetic(Integer.parseInt(id), name, brand, category);
 				
-				processor.save(cosmetic);
+				cosmeticDao.save(cosmetic);
 		    	
 		    	lableBrand.setText("brand: ");
 				lableName.setText("name: ");
@@ -216,7 +215,7 @@ public class GridLayoutFrame extends JFrame {
 				//InfoProcessor infoProcessor = new InfoProcessor();
 				
 				int numSearchId = Integer.parseInt(searchId);
-				Cosmetic cosmetic = processor.findById(numSearchId);
+				Cosmetic cosmetic = cosmeticDao.findById(numSearchId);
 				if (cosmetic != null) {
 					System.out.println("Found " + cosmetic);
 				} else {
@@ -269,9 +268,8 @@ public class GridLayoutFrame extends JFrame {
 	 * create a cosmetic ui for the user
 	 * */
 	public void createUi() {
-		JFrame frame = new GridLayoutFrame(file);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Cosmetic");
-		frame.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Cosmetic");
+		this.setVisible(true);
 	}
 }

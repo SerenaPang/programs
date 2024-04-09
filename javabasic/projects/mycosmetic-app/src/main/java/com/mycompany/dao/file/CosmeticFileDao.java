@@ -23,7 +23,7 @@ import com.mycompany.model.Cosmetic;
  * the user input into the file. The format of the file is
  * id:name:brand:category
  */
-public class FileProcessor implements CosmeticDao {
+public class CosmeticFileDao implements CosmeticDao {
 	// create a map to store all the product, the key is the product id
 	Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
 
@@ -31,7 +31,7 @@ public class FileProcessor implements CosmeticDao {
 	File file;
 
 	// create a constructor that receive the file pass in the command line
-	public FileProcessor(File file) {
+	public CosmeticFileDao(File file) {
 		this.file = file;
 	}
 

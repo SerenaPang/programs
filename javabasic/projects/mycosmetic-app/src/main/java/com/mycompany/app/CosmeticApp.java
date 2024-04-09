@@ -3,7 +3,8 @@ package com.mycompany.app;
 import java.io.File;
 import java.sql.Connection;
 
-import com.mycompany.dao.file.FileProcessor;
+import com.mycompany.dao.CosmeticDao;
+import com.mycompany.dao.file.CosmeticFileDao;
 import com.mycompany.model.Cosmetic;
 
 /**
@@ -30,16 +31,19 @@ public class CosmeticApp {
 			return;
 		}
 
+		CosmeticDao cosmeticDao = null;
 		String flag = args[0];
 
 		if ("-file".equals(flag)) {
 			System.out.println("Use text file");
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt");
-			GridLayoutFrame ui = new GridLayoutFrame(file);
-			ui.createUi();
+			cosmeticDao = new CosmeticFileDao(file);
 		} else {
 			System.out.println("Use database");
 		}
+
+		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao);
+		ui.createUi();
 	}
 }
