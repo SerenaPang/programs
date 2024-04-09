@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 
 import com.mycompany.dao.CosmeticDao;
+import com.mycompany.dao.jdbc.CosmeticJdbcDao;
 import com.mycompany.dao.file.CosmeticFileDao;
 import com.mycompany.model.Cosmetic;
 
@@ -41,6 +42,7 @@ public class CosmeticApp {
 			cosmeticDao = new CosmeticFileDao(file);
 		} else {
 			System.out.println("Use database");
+			cosmeticDao = new CosmeticJdbcDao();
 		}
 
 		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao);
