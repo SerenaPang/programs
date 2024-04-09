@@ -1,4 +1,5 @@
 package com.mycompany.app;
+
 import java.awt.BorderLayout;
 import java.io.File;
 import java.awt.Component;
@@ -11,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import com.mycompany.model.Cosmetic;
+import com.mycompany.dao.file.FileProcessor;
 
 /**
  * This frame contains a panel that display buttons for the cosmetic product 

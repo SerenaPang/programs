@@ -1,7 +1,8 @@
-package com.mycompany.app;
+package com.mycompany.dao.file;
+
+import com.mycompany.model.Cosmetic;
 
 import java.io.BufferedWriter;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class FileProcessor{
 	//create a file object
 	File file;	
 	//create a constructor that receive the file pass in the command line
-	FileProcessor(File file) {
+	public FileProcessor(File file) {
 		this.file = file;
 	}
 		

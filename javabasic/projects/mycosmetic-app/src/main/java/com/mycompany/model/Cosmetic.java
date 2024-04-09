@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package com.mycompany.model;
 
 /**
  * A cosmetic object class that has getters and setters

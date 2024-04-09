@@ -3,6 +3,9 @@ package com.mycompany.app;
 import java.io.File;
 import java.sql.Connection;
 
+import com.mycompany.dao.file.FileProcessor;
+import com.mycompany.model.Cosmetic;
+
 /**
  * The app to save and search for the cosmetic product information from a text
  * file run the application with this command if not using database: java -cp
