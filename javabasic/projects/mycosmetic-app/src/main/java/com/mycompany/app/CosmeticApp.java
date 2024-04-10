@@ -46,7 +46,7 @@ public class CosmeticApp {
 		} else {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = 
-					new JdbcDataSource("/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/src/main/java/com/mycompany/dao/jdbc/mysqldb.properties");
+					new JdbcDataSource("mysqldb.properties");
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
 		}
 

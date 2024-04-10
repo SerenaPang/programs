@@ -1,6 +1,7 @@
 package com.mycompany.dao.jdbc;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,13 +23,15 @@ public class JdbcDataSource {
 	/**
 	 * Initialize the data source
 	 * 
-	 * @param fileName the name of the property file that contains the database
-	 *                 driver, URL, username, and password
+	 * @param propertiesFile the name of the property file that contains the database
+	 *                 driver, URL, username, and password.
+	 *
+	 *  Note: propertiesFile has to be in the same directory that {@code JdbcDataSource}
 	 */
-	private void init(String fileName) throws IOException, ClassNotFoundException {
+	private void init(String propertiesFile) throws IOException, ClassNotFoundException {
 		Properties props = new Properties();
-		FileInputStream in = new FileInputStream(fileName);
-		props.load(in);
+		InputStream stream = JdbcDataSource.class.getResourceAsStream(propertiesFile);
+		props.load(stream);
 
 		String driver = props.getProperty("jdbc.driver");
 		url = props.getProperty("jdbc.url");
