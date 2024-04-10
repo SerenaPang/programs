@@ -1,10 +1,13 @@
 package com.mycompany.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import com.mycompany.dao.CosmeticDao;
 import com.mycompany.dao.jdbc.CosmeticJdbcDao;
+import com.mycompany.dao.jdbc.JdbcDataSource;
 import com.mycompany.dao.file.CosmeticFileDao;
 import com.mycompany.model.Cosmetic;
 
@@ -21,7 +24,7 @@ import com.mycompany.model.Cosmetic;
  * database - search the result in the database for the user - elaborate read me
  */
 public class CosmeticApp {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
 		// if flag is true, we use the database to store info
 		for (String s : args) {
 			System.out.println("Parameter " + s);
@@ -42,7 +45,9 @@ public class CosmeticApp {
 			cosmeticDao = new CosmeticFileDao(file);
 		} else {
 			System.out.println("Use database");
-			cosmeticDao = new CosmeticJdbcDao();
+			JdbcDataSource jdbcDataSource = 
+					new JdbcDataSource("/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/src/main/java/com/mycompany/dao/jdbc/mysqldb.properties");
+			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
 		}
 
 		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao);

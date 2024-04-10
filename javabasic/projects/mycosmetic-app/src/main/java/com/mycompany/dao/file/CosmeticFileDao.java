@@ -34,7 +34,7 @@ public class CosmeticFileDao implements CosmeticDao {
 	public CosmeticFileDao(File file) {
 		this.file = file;
 	}
-
+	
 	/**
 	 * This method writes the user input into the text file
 	 * 

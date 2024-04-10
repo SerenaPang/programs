@@ -11,6 +11,10 @@ public class Cosmetic {
 	private String category;
 	private int id;
 	
+	public Cosmetic() {
+		
+	}
+	
 	//Store entries in this order id:name:brand:category
 	public Cosmetic(int id, String name, String brand, String category) {
 		this.brand = brand;

@@ -10,3 +10,4 @@ CREATE TABLE cosmetics(
 
 
 INSERT INTO Cosmetics VALUES(1,'Chanel','Grey','Perfume')
+INSERT INTO Cosmetics(id, brand, name, category) VALUES(2,'Chanel','Grey','Perfume');

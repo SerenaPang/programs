@@ -1,8 +1,12 @@
 package com.mycompany.app;
+
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import com.mycompany.dao.jdbc.JdbcDataSource;
 
 /**
  * Get connected to the database
@@ -16,10 +20,9 @@ public class TestCosmeticDb {
 //					+ "    ./src/main/java/com/mycompany/app/database.properties");
 			return;
 		}
-		
-		SimpleDataSource.init(args[0]);
-		
-		try(Connection conn = SimpleDataSource.getConnection()){
+
+		JdbcDataSource dataSource = new JdbcDataSource(args[0]);
+		try(Connection conn = dataSource.getConnection()){
 			
 			System.out.println("Connected " + conn.getCatalog());
 		} catch(Exception ex) {
