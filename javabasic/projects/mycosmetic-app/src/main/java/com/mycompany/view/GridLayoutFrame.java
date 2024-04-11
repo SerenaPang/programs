@@ -46,10 +46,13 @@ public class GridLayoutFrame extends JFrame {
 	final int idMIN = 0;
 	final int idMAX = 1000;
 	
-	//crete labels and buttons for searching the information
+	//crete label and textfiled for searching the information
 	static JLabel lableSearch;
 	static JTextField textSearch;
 	String searchId;
+	
+	//crete label for copying the information from the text file to the database
+	static JLabel lableCopy;
 	
 	public GridLayoutFrame(CosmeticDao cosmeticDao)
 	{
@@ -68,7 +71,8 @@ public class GridLayoutFrame extends JFrame {
 	 * */
 	private void createSaveButtonPanel() {
 		JPanel contextPanel = new JPanel();
-		contextPanel.setLayout(new GridLayout(7, 2));
+		//contextPanel.setLayout(new GridLayout(7, 2));
+		contextPanel.setLayout(new GridLayout(8, 2));
 		add(contextPanel);
 		
 		lableBrand = new JLabel("Brand: ");
@@ -109,6 +113,11 @@ public class GridLayoutFrame extends JFrame {
 		contextPanel.add(lableSearch);
 		contextPanel.add(textSearch);
 		contextPanel.add(makeSearchButton("SEARCH"));
+		
+		//add copy label and button to the panel
+		lableCopy = new JLabel("Push COPY to copy info from File to DB");
+		contextPanel.add(lableCopy);
+		contextPanel.add(makeCopyButton("COPY"));
 	}
 	
 	/**
@@ -136,6 +145,37 @@ public class GridLayoutFrame extends JFrame {
 	}
 	
 	/**
+	 * makes a button representing the copy button that copies everything in the text file to the database
+	 * @param button the copy button of the ui
+	 * @return the button
+	 * */
+	private JButton makeCopyButton(String copy) {
+		JButton button = new JButton(copy);
+		ActionListener listener = new CopyButtonListener(copy);
+		button.addActionListener(listener);
+		return button;
+	}
+	
+	/**
+	 * create a listener for copy button, and copies everything in the text file to the database
+	 * */
+	class CopyButtonListener implements ActionListener
+	{
+		private String copyButton;
+		/**
+		 * constructs a listener whose actionPerformed method adds the info to the display
+		 * */
+		public CopyButtonListener(String anOperation) {
+			copyButton = anOperation;
+		}
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			//display.setText(display.getText() + copyButton);
+			
+		}
+	}
+	
+	/**
 	 * create a listener for save button, and save all the information input from the user
 	 * to the text file in the wanted format
 	 * */
@@ -144,7 +184,7 @@ public class GridLayoutFrame extends JFrame {
 		private String saveButton;
 		/**
 		 * constructs a listener whose actionPerformed method adds the info to the display
-		 * @param aDigit the digit to add
+		 * @param anOperation the operation to add
 		 * */
 		public SaveButtonListener(String anOperation)
 		{

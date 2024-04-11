@@ -1,7 +1,9 @@
 package com.mycompany.dao.jdbc;
 
 import java.util.List;
-
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,18 +48,18 @@ public class CosmeticJdbcDao implements CosmeticDao {
 
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM cosmetics WHERE id= " + id);
+			ResultSet rs = stmt.executeQuery("SELECT id, brand, name, category FROM cosmetics WHERE id =" + id);
 			if (rs.next()) {
 				Cosmetic cosmetic = new Cosmetic();
 				cosmetic.setId(rs.getInt("id"));
 				cosmetic.setName(rs.getString("name"));
 				cosmetic.setBrand(rs.getString("brand"));
 				cosmetic.setCategory(rs.getString("category"));
+				return cosmetic;
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-
 		return null;
 	}
 
@@ -66,18 +68,59 @@ public class CosmeticJdbcDao implements CosmeticDao {
 
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM cosmetics");
-			if (rs.next()) {
+			ResultSet rs = stmt.executeQuery("SELECT id, brand, name, category from Cosmetics");
+			List<Cosmetic> cosmetics = new ArrayList<>();
+			while (rs.next()) {
 				Cosmetic cosmetic = new Cosmetic();
 				cosmetic.setId(rs.getInt("id"));
 				cosmetic.setName(rs.getString("name"));
 				cosmetic.setBrand(rs.getString("brand"));
 				cosmetic.setCategory(rs.getString("category"));
+				cosmetics.add(cosmetic);
+			}
+			return cosmetics;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public boolean updateCosmetic(Cosmetic cosmetic) {
+		System.out.println("jdbc update Cosmetic");
+
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection
+					.prepareStatement("UPDATE Cosmetics SET brand=?, name=?, category=? WHERE id=?");
+			ps.setString(1, cosmetic.getBrand());
+			ps.setString(2, cosmetic.getName());
+			ps.setString(3, cosmetic.getCategory());
+			ps.setInt(4, cosmetic.getId());
+			int i = ps.executeUpdate();
+
+			if (i == 1) {
+				return true;
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		return false;
+	}
 
-		return null;
+	public boolean deleteCosmetic(int id) {
+		System.out.println("jdbc delete Cosmetic");
+		
+		try {
+			Connection connection = dataSource.getConnection();
+			Statement stmt = connection.createStatement();
+			int i = stmt.executeUpdate("DELETE FROM Cosmetic WHERE id=" + id);
+
+			if (i == 1) {
+				return true;
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return false;
 	}
 }
