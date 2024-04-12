@@ -112,6 +112,9 @@ public class CosmeticFileDao implements CosmeticDao {
 		return null;
 	}
 
+	/**
+	 * Returns all cosmetic objects in the text file
+	 * */
 	public List<Cosmetic> findAll() {
 		List<Cosmetic> cosmetics = new ArrayList<>();
 
@@ -138,8 +141,30 @@ public class CosmeticFileDao implements CosmeticDao {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return cosmetics;
 	}
 
+	
+	public boolean updateCosmetic(Cosmetic cosmetic) {
+		System.out.println("update cosmetics");
+		int idToBeUpdated = cosmetic.getId();
+		//find the cosmetic in the file and update it
+		Cosmetic cosmeTobeUpdated = findById(idToBeUpdated);
+		if (deleteCosmetic(idToBeUpdated)) {
+			save(cosmetic);
+			return true;
+		}	
+		return false;
+	}
+	
+	public boolean deleteCosmetic(int id) {
+		System.out.println("delete cosmetics");
+		//int idToBeDeleted = cosmetic.getId();
+		//find the cosmetic in the file and update it
+		Cosmetic cosmeTobeDeleted = findById(id);
+		
+		
+		
+		return false;
+	}	
 }

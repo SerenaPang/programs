@@ -43,6 +43,10 @@ public class CosmeticApp {
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt");
 			cosmeticDao = new CosmeticFileDao(file);
+			//Cosmetic cosme = new Cosmetic(9, "bb", "cc","aa");
+			//cosmeticDao.updateCosmetic(cosme);
+			//cosmeticDao.deleteCosmetic(cosme.getId());
+			
 		} else {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = 
@@ -50,7 +54,7 @@ public class CosmeticApp {
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
 		}
 
-		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao);
+		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
 		ui.createUi();
 	}
 }

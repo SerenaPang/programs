@@ -90,11 +90,13 @@ public class CosmeticJdbcDao implements CosmeticDao {
 
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement ps = connection
-					.prepareStatement("UPDATE Cosmetics SET brand=?, name=?, category=? WHERE id=?");
-			ps.setString(1, cosmetic.getBrand());
-			ps.setString(2, cosmetic.getName());
-			ps.setString(3, cosmetic.getCategory());
-			ps.setInt(4, cosmetic.getId());
+					.prepareStatement("UPDATE Cosmetics SET id=?, brand=?, name=?, category=? WHERE id=?");
+			ps.setInt(1, cosmetic.getId());
+			ps.setString(2, cosmetic.getBrand());
+			ps.setString(3, cosmetic.getName());
+			ps.setString(4, cosmetic.getCategory());
+			ps.setInt(5, cosmetic.getId());
+			
 			int i = ps.executeUpdate();
 
 			if (i == 1) {
