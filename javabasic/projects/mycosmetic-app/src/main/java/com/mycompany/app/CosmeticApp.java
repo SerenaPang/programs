@@ -43,8 +43,9 @@ public class CosmeticApp {
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt");
 			cosmeticDao = new CosmeticFileDao(file);
-			//Cosmetic cosme = new Cosmetic(9, "bb", "cc","aa");
-			//cosmeticDao.updateCosmetic(cosme);
+			Cosmetic cosme = new Cosmetic(4, "bb", "cc","aa");
+	//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
+			cosmeticDao.updateCosmetic(cosme);
 			//cosmeticDao.deleteCosmetic(cosme.getId());
 			
 		} else {
@@ -53,8 +54,7 @@ public class CosmeticApp {
 					new JdbcDataSource("mysqldb.properties");
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
 		}
-
-		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
-		ui.createUi();
+//		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
+//		ui.createUi();
 	}
 }

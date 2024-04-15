@@ -1,10 +1,4 @@
-1:seasalt sage:jo malon:perfume
-2:coco:chanel:perfume
-3:envy:Nars:Blush
-4:miracle:dior:perfume
-5:nightgale:vs:perfume
-6:black swan:lancome:eyelashes
-34:cat:silver:cato
-56:tucy:dianat:rinqui
-90:tucy:test:lkjklj
-12:lkjlkj:drumpy:supy
+1:Seasalt Sage:Jo Malon:Perfume
+2:Miracle:Chanel:Perfume
+3:coco:chanel:perfume
+4:bb:cc:aa

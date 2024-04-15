@@ -284,7 +284,7 @@ public class GridLayoutFrame extends JFrame {
 				// Otherwise copy everything from the text file to database
 				// read all the content in the text file and extrate fields from each line
 				try {
-					// creatre a cosmetic object and pass it save method to save to the database
+					// create a cosmetic object and pass it save method to save to the database
 					lableCopy.setText("Copying to database...");
 					List<Cosmetic> cosmetics = cosmeticDao.findAll();
 					JdbcDataSource jdbcDataSource = new JdbcDataSource("mysqldb.properties");

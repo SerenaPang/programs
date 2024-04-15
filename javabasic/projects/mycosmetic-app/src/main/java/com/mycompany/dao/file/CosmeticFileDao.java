@@ -34,7 +34,7 @@ public class CosmeticFileDao implements CosmeticDao {
 	public CosmeticFileDao(File file) {
 		this.file = file;
 	}
-	
+
 	/**
 	 * This method writes the user input into the text file
 	 * 
@@ -114,7 +114,7 @@ public class CosmeticFileDao implements CosmeticDao {
 
 	/**
 	 * Returns all cosmetic objects in the text file
-	 * */
+	 */
 	public List<Cosmetic> findAll() {
 		List<Cosmetic> cosmetics = new ArrayList<>();
 
@@ -144,27 +144,71 @@ public class CosmeticFileDao implements CosmeticDao {
 		return cosmetics;
 	}
 
-	
+	/***
+	 * remove the cosme element from the map, add the new cosme object, delete the
+	 * old file, create a new file with the same name, populate all elements to new
+	 * file with the passed in updated one
+	 * 
+	 * @param cosmetic the cosmetic object with the same id but different info to be
+	 *                 updated
+	 */
 	public boolean updateCosmetic(Cosmetic cosmetic) {
 		System.out.println("update cosmetics");
 		int idToBeUpdated = cosmetic.getId();
-		//find the cosmetic in the file and update it
-		Cosmetic cosmeTobeUpdated = findById(idToBeUpdated);
-		if (deleteCosmetic(idToBeUpdated)) {
-			save(cosmetic);
-			return true;
-		}	
+		// make sure map is populated with all cosmetic product in file
+		readFile();
+
+		// remove the old cosmetic, add the new one to map
+		if (productMap.containsKey(idToBeUpdated)) {
+			productMap.remove(idToBeUpdated);
+			productMap.put(idToBeUpdated, cosmetic);
+
+			// delete the old file and populate all cosmetic product to the new file
+			boolean result = file.delete();
+			if (result) {
+				System.out.println("Delete successful");
+			}
+
+			try {
+
+				if (!file.exists()) {
+					file = new File("cosmetic.txt");
+				}
+				System.out.println("new file: ");
+				System.out.println(file.getName());
+				System.out.println(file.getAbsolutePath());
+				FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter pw = new PrintWriter(bw);
+
+				// add each cosmetic object to the new file
+				for (Map.Entry<Integer, Cosmetic> cosme : productMap.entrySet()) {
+					 Cosmetic currentCosmetic = cosme.getValue();
+						pw.println(currentCosmetic.getId() + ":" + currentCosmetic.getName() + ":" + currentCosmetic.getBrand() + ":"
+						+ currentCosmetic.getCategory());			
+				}
+				pw.close();
+				System.out.println("Data successfully updated in file");
+				return true;
+			} catch (IOException ioe) {
+				System.out.println("Exception occur opening file:");
+				ioe.printStackTrace();
+			}
+		} else {
+			System.out.println("Product id " + idToBeUpdated + " is not in file.");
+			return false;
+		}
+		System.out.println("Unable to update id " + idToBeUpdated);
 		return false;
 	}
-	
+
+	/***
+	 * 
+	 * */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("delete cosmetics");
-		//int idToBeDeleted = cosmetic.getId();
-		//find the cosmetic in the file and update it
-		Cosmetic cosmeTobeDeleted = findById(id);
-		
-		
-		
+		productMap.remove(id);
+
 		return false;
-	}	
+	}
 }
