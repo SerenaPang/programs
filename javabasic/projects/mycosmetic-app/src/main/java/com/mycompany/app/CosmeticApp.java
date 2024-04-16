@@ -56,7 +56,8 @@ public class CosmeticApp {
 			//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
 			//		Cosmetic cosme = new Cosmetic(12, "bb", "cc","aa");
 			//		cosmeticDao.updateCosmetic(cosme);
-			cosmeticDao.deleteCosmetic(90);
+			//cosmeticDao.deleteCosmetic(90);
+			cosmeticDao.findById(4);
 		}
 //		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
 //		ui.createUi();

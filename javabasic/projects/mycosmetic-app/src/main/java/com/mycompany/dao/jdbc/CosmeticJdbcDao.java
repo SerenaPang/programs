@@ -15,6 +15,10 @@ import com.mycompany.dao.jdbc.JdbcDataSource;
 import com.mycompany.dao.CosmeticDao;
 import com.mycompany.model.Cosmetic;
 
+/**
+ * This class connects to the database and enables the save, update, find,
+ * delete opereation for the database
+ */
 public class CosmeticJdbcDao implements CosmeticDao {
 	private JdbcDataSource dataSource;
 
@@ -22,6 +26,11 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		this.dataSource = dataSource;
 	}
 
+	/**
+	 * Save the cosmetic information to the database
+	 * 
+	 * @param cosmetic the cosmetic object to be saved in database
+	 */
 	public void save(Cosmetic cosmetic) {
 		System.out.println("jdbc save");
 
@@ -43,20 +52,40 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		}
 	}
 
+	/**
+	 * Returns the cosmetic information from the database
+	 * 
+	 * @param id the cosmetic object with coresbonding id to be searched in database
+	 * @return Cosmetic object with specified id
+	 */
 	public Cosmetic findById(Integer id) {
 		System.out.println("jdbc findbyid");
 
 		try (Connection connection = dataSource.getConnection()) {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, brand, name, category FROM cosmetics WHERE id =" + id);
-			if (rs.next()) {
-				Cosmetic cosmetic = new Cosmetic();
-				cosmetic.setId(rs.getInt("id"));
-				cosmetic.setName(rs.getString("name"));
-				cosmetic.setBrand(rs.getString("brand"));
-				cosmetic.setCategory(rs.getString("category"));
-				return cosmetic;
+//			Statement stmt = connection.createStatement();
+//			ResultSet rs = stmt.executeQuery("SELECT id, brand, name, category FROM cosmetics WHERE id =" + id);
+//			if (rs.next()) {
+//				Cosmetic cosmetic = new Cosmetic();
+//				cosmetic.setId(rs.getInt("id"));
+//				cosmetic.setName(rs.getString("name"));
+//				cosmetic.setBrand(rs.getString("brand"));
+//				cosmetic.setCategory(rs.getString("category"));
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT id, brand, name, category FROM cosmetics WHERE id =?");
+
+			ps.setInt(1, id);
+			Cosmetic cosmetic = new Cosmetic();
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					cosmetic.setId(rs.getInt("id"));
+					cosmetic.setName(rs.getString("name"));
+					cosmetic.setBrand(rs.getString("brand"));
+					cosmetic.setCategory(rs.getString("category"));
+				}
 			}
+			System.out.println(
+					"id: " + cosmetic.getId() + "name: " + cosmetic.getName() + " brand: " + cosmetic.getBrand());
+			return cosmetic;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -64,8 +93,10 @@ public class CosmeticJdbcDao implements CosmeticDao {
 	}
 
 	/**
+	 * Returns all the cosmetic information from the database
 	 * 
-	 * */
+	 * @return List of Cosmetic objects
+	 */
 	public List<Cosmetic> findAll() {
 		System.out.println("jdbc find all");
 
@@ -90,8 +121,9 @@ public class CosmeticJdbcDao implements CosmeticDao {
 
 	/***
 	 * This methods update the cosmetic object info store in the database
+	 * 
 	 * @param cosmetic the cosmetic object to be updated in the database
-	 * */
+	 */
 	public boolean updateCosmetic(Cosmetic cosmetic) {
 		System.out.println("jdbc update Cosmetic");
 
@@ -103,7 +135,7 @@ public class CosmeticJdbcDao implements CosmeticDao {
 			ps.setString(3, cosmetic.getName());
 			ps.setString(4, cosmetic.getCategory());
 			ps.setInt(5, cosmetic.getId());
-			
+
 			int i = ps.executeUpdate();
 
 			if (i == 1) {
@@ -117,16 +149,17 @@ public class CosmeticJdbcDao implements CosmeticDao {
 
 	/***
 	 * This method deletes the cosmetic object in file
-	 * @param id the cosmetic object with corresbonding id to be deleted in the database
-	 * */
+	 * 
+	 * @param id the cosmetic object with corresbonding id to be deleted in the
+	 *           database
+	 */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("jdbc delete Cosmetic");
-		
-		try (Connection connection = dataSource.getConnection()){
-			PreparedStatement ps = connection
-					.prepareStatement("DELETE FROM Cosmetics WHERE id= ?");
+
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM Cosmetics WHERE id= ?");
 			ps.setInt(1, id);
-			
+
 			int i = ps.executeUpdate();
 
 			if (i == 1) {
