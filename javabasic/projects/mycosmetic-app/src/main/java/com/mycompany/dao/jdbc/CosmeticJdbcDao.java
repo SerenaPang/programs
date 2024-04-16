@@ -63,6 +63,9 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		return null;
 	}
 
+	/**
+	 * 
+	 * */
 	public List<Cosmetic> findAll() {
 		System.out.println("jdbc find all");
 
@@ -85,6 +88,10 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		return null;
 	}
 
+	/***
+	 * This methods update the cosmetic object info store in the database
+	 * @param cosmetic the cosmetic object to be updated in the database
+	 * */
 	public boolean updateCosmetic(Cosmetic cosmetic) {
 		System.out.println("jdbc update Cosmetic");
 
@@ -108,18 +115,23 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		return false;
 	}
 
+	/***
+	 * This method deletes the cosmetic object in file
+	 * @param id the cosmetic object with corresbonding id to be deleted in the database
+	 * */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("jdbc delete Cosmetic");
 		
-		try {
-			Connection connection = dataSource.getConnection();
-			Statement stmt = connection.createStatement();
-			int i = stmt.executeUpdate("DELETE FROM Cosmetic WHERE id=" + id);
+		try (Connection connection = dataSource.getConnection()){
+			PreparedStatement ps = connection
+					.prepareStatement("DELETE FROM Cosmetics WHERE id= ?");
+			ps.setInt(1, id);
+			
+			int i = ps.executeUpdate();
 
 			if (i == 1) {
 				return true;
 			}
-
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}

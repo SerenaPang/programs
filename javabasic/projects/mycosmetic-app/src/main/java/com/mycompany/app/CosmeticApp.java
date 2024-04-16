@@ -46,13 +46,17 @@ public class CosmeticApp {
 	//		Cosmetic cosme = new Cosmetic(4, "bb", "cc","aa");
 	//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
 	//		cosmeticDao.updateCosmetic(cosme);
-			cosmeticDao.deleteCosmetic(4);
+	//		cosmeticDao.deleteCosmetic(4);
 			
 		} else {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = 
 					new JdbcDataSource("mysqldb.properties");
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
+			//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
+			//		Cosmetic cosme = new Cosmetic(12, "bb", "cc","aa");
+			//		cosmeticDao.updateCosmetic(cosme);
+			cosmeticDao.deleteCosmetic(90);
 		}
 //		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
 //		ui.createUi();

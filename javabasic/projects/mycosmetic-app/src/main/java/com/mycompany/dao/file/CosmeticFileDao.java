@@ -197,9 +197,11 @@ public class CosmeticFileDao implements CosmeticDao {
 	}
 
 	/***
-	 * This method delete the corresbonding product id's cosmetic object from the file
+	 * This method delete the corresbonding product id's cosmetic object from the
+	 * file
+	 * 
 	 * @param id the id of the cosmetic product to be deleted
-	 * */
+	 */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("delete cosmetics");
 		Integer newIntId = Integer.valueOf(id);
@@ -209,7 +211,8 @@ public class CosmeticFileDao implements CosmeticDao {
 		if (productMap.containsKey(newIntId)) {
 			Cosmetic cosme = productMap.get(newIntId);
 			productMap.remove(newIntId, cosme);
-			// delete the original file replace it with the new file and paste all cosmetic product to the new file except the deleted one
+			// delete the original file replace it with the new file and paste all cosmetic
+			// product to the new file except the deleted one
 			file.delete();
 
 			try {
@@ -219,7 +222,7 @@ public class CosmeticFileDao implements CosmeticDao {
 				FileWriter fw = new FileWriter(file, true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter pw = new PrintWriter(bw);
-				//write all cosmetic objects to the new file
+				// write all cosmetic objects to the new file
 				for (Map.Entry<Integer, Cosmetic> cosmetic : productMap.entrySet()) {
 					Cosmetic currentCosmetic = cosmetic.getValue();
 					pw.println(currentCosmetic.getId() + ":" + currentCosmetic.getName() + ":"
