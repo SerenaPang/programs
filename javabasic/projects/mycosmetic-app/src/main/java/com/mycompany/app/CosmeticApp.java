@@ -43,10 +43,10 @@ public class CosmeticApp {
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt");
 			cosmeticDao = new CosmeticFileDao(file);
-			Cosmetic cosme = new Cosmetic(4, "bb", "cc","aa");
+	//		Cosmetic cosme = new Cosmetic(4, "bb", "cc","aa");
 	//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
-			cosmeticDao.updateCosmetic(cosme);
-			//cosmeticDao.deleteCosmetic(cosme.getId());
+	//		cosmeticDao.updateCosmetic(cosme);
+			cosmeticDao.deleteCosmetic(4);
 			
 		} else {
 			System.out.println("Use database");

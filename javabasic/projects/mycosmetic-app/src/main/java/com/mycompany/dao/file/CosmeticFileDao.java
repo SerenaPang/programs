@@ -164,28 +164,22 @@ public class CosmeticFileDao implements CosmeticDao {
 			productMap.put(idToBeUpdated, cosmetic);
 
 			// delete the old file and populate all cosmetic product to the new file
-			boolean result = file.delete();
-			if (result) {
-				System.out.println("Delete successful");
-			}
+			file.delete();
 
 			try {
 
 				if (!file.exists()) {
 					file = new File("cosmetic.txt");
 				}
-				System.out.println("new file: ");
-				System.out.println(file.getName());
-				System.out.println(file.getAbsolutePath());
 				FileWriter fw = new FileWriter(file, true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter pw = new PrintWriter(bw);
 
 				// add each cosmetic object to the new file
 				for (Map.Entry<Integer, Cosmetic> cosme : productMap.entrySet()) {
-					 Cosmetic currentCosmetic = cosme.getValue();
-						pw.println(currentCosmetic.getId() + ":" + currentCosmetic.getName() + ":" + currentCosmetic.getBrand() + ":"
-						+ currentCosmetic.getCategory());			
+					Cosmetic currentCosmetic = cosme.getValue();
+					pw.println(currentCosmetic.getId() + ":" + currentCosmetic.getName() + ":"
+							+ currentCosmetic.getBrand() + ":" + currentCosmetic.getCategory());
 				}
 				pw.close();
 				System.out.println("Data successfully updated in file");
@@ -203,12 +197,45 @@ public class CosmeticFileDao implements CosmeticDao {
 	}
 
 	/***
-	 * 
+	 * This method delete the corresbonding product id's cosmetic object from the file
+	 * @param id the id of the cosmetic product to be deleted
 	 * */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("delete cosmetics");
-		productMap.remove(id);
+		Integer newIntId = Integer.valueOf(id);
+		// copy all cosmetic product in file to the map
+		readFile();
+		// check if the cosmetic object is in the map, if yes delete it
+		if (productMap.containsKey(newIntId)) {
+			Cosmetic cosme = productMap.get(newIntId);
+			productMap.remove(newIntId, cosme);
+			// delete the original file replace it with the new file and paste all cosmetic product to the new file except the deleted one
+			file.delete();
 
+			try {
+				if (!file.exists()) {
+					file = new File("cosmetic.txt");
+				}
+				FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter pw = new PrintWriter(bw);
+				//write all cosmetic objects to the new file
+				for (Map.Entry<Integer, Cosmetic> cosmetic : productMap.entrySet()) {
+					Cosmetic currentCosmetic = cosmetic.getValue();
+					pw.println(currentCosmetic.getId() + ":" + currentCosmetic.getName() + ":"
+							+ currentCosmetic.getBrand() + ":" + currentCosmetic.getCategory());
+				}
+				pw.close();
+				System.out.println("Data successfully deleted in file");
+				return true;
+			} catch (IOException ioe) {
+				System.out.println("Exception occur opening file:");
+				ioe.printStackTrace();
+			}
+		} else {
+			System.out.println("Product id " + id + " is not in file.");
+			return false;
+		}
 		return false;
 	}
 }
