@@ -151,6 +151,26 @@ Commit changes
 
 ```
 git commit
+```
+#Enter to vim mode, write the commit message
+
+insert the message
+
+```
+i
+```
+Exit the vim mode and save changes in file
+
+```
+esc
+
+:wq
+
+```
+
+push the changes to github
+
+```
 git push origin master:main
 git log --oneline
 git show
