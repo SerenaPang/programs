@@ -62,14 +62,6 @@ public class CosmeticJdbcDao implements CosmeticDao {
 		System.out.println("jdbc findbyid");
 
 		try (Connection connection = dataSource.getConnection()) {
-//			Statement stmt = connection.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT id, brand, name, category FROM cosmetics WHERE id =" + id);
-//			if (rs.next()) {
-//				Cosmetic cosmetic = new Cosmetic();
-//				cosmetic.setId(rs.getInt("id"));
-//				cosmetic.setName(rs.getString("name"));
-//				cosmetic.setBrand(rs.getString("brand"));
-//				cosmetic.setCategory(rs.getString("category"));
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT id, brand, name, category FROM cosmetics WHERE id =?");
 
@@ -84,7 +76,7 @@ public class CosmeticJdbcDao implements CosmeticDao {
 				}
 			}
 			System.out.println(
-					"id: " + cosmetic.getId() + "name: " + cosmetic.getName() + " brand: " + cosmetic.getBrand());
+					"id: " + cosmetic.getId() + " name: " + cosmetic.getName() + " brand: " + cosmetic.getBrand() + " category: " + cosmetic.getCategory());
 			return cosmetic;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
