@@ -4,25 +4,26 @@
 mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=mycosmetic-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
 ```
 
-#Build the Maven project
+Build the Maven project
+
 ```
 java -cp target/mycosmetic-app-1.0-SNAPSHOT.jar com.mycompany.app.CosmeticApp
 
 ```
 
-#To Compile the project 
+To Compile the project 
 
 run at pom.xml level
 
 ```
 mvn compile
 ```
-#Making a JAR file:
+Making a JAR file:
 
 ```
 mvn package  
 ```
-#To run the java class
+To run the java class
 
 ```
 java -cp target/mycosmetic-app-1.0-SNAPSHOT.jar com.mycompany.app.CosmeticApp
@@ -43,7 +44,7 @@ java -cp target/mycosmetic-app-1.0-SNAPSHOT.jar com.mycompany.app.TestCosmeticDB
 
 In pom.xml file, add dependencies for mysql, and add build in pom.xml file so that we can build the project with dependencies
 
-#Run to install dependencies
+Run to install dependencies
 
 ```
 mvn clean
@@ -51,7 +52,7 @@ mvn clean
 mvn install
 ```
 
-#Run to see the different dependencies with running with different jar
+Run to see the different dependencies with running with different jar
 
 ```
 jar -tf target/mycosmetic-app-1.0-SNAPSHOT.jar
@@ -59,14 +60,14 @@ jar -tf target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 jar -tf target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar | grep properties
 ```
 
-#Build the project with dependency:
+Build the project with dependency:
 
 ```
 mvn package assembly:single
 
 ```
 
-#Compile and run the classes with dependency: 
+Compile and run the classes with dependency: 
 
 ```    
     java -classpath ./target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
@@ -143,7 +144,7 @@ git status
 
 git diff --cached
 
- git add src/main/java
+git add src/main/java
 
 ````
 
@@ -152,7 +153,7 @@ Commit changes
 ```
 git commit
 ```
-#Enter to vim mode, write the commit message
+Enter to vim mode, write the commit message
 
 insert the message
 
@@ -168,23 +169,18 @@ esc
 
 ```
 
+or
+
+```
+git commit -m "update read me"
+```
+
 push the changes to github
 
 ```
 git push origin master:main
 git log --oneline
 git show
-clear
-git show --oneline
-git commit --amend
-git push -f  origin master:main
 ```
-
-
-
-
-
-
-
 
 

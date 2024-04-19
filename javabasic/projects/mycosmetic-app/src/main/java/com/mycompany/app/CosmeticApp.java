@@ -12,16 +12,10 @@ import com.mycompany.dao.file.CosmeticFileDao;
 import com.mycompany.model.Cosmetic;
 
 /**
- * The app to save and search for the cosmetic product information from a text
- * file run the application with this command if not using database: java -cp
- * target/mycosmetic-app-1.0-SNAPSHOT.jar com.mycompany.app.CosmeticApp
- * /Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt
- * 
- * run with database
- * 
- * 
- * - delete the target jar file in github - save the entries from the user to
- * database - search the result in the database for the user - elaborate read me
+ * The app to save and search for the cosmetic product information from a textfile / database
+ * run the application with this command if not using database: 
+ java -classpath ./target/mycosmetic-app-1.0-SNAPSHOT-jar-with-dependencies.jar \
+    com.mycompany.app.CosmeticApp -db  or  -file
  */
 public class CosmeticApp {
 	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
@@ -54,12 +48,12 @@ public class CosmeticApp {
 					new JdbcDataSource("mysqldb.properties");
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
 			//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
-			//		Cosmetic cosme = new Cosmetic(12, "bb", "cc","aa");
-			//		cosmeticDao.updateCosmetic(cosme);
+//					Cosmetic cosme = new Cosmetic(1, "aa", "cc","aa");
+//					cosmeticDao.updateCosmetic(cosme);
 			//cosmeticDao.deleteCosmetic(90);
-			cosmeticDao.findById(4);
+			//cosmeticDao.findById(4);
 		}
-//		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
-//		ui.createUi();
+		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
+		ui.createUi();
 	}
 }

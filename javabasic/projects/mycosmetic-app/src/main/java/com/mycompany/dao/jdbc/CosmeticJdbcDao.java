@@ -131,6 +131,8 @@ public class CosmeticJdbcDao implements CosmeticDao {
 			int i = ps.executeUpdate();
 
 			if (i == 1) {
+				
+				System.out.println("i : " + i +  "jdbc updated!");
 				return true;
 			}
 		} catch (SQLException ex) {
