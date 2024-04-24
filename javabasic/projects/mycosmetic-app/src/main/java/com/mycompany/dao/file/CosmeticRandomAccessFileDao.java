@@ -1,6 +1,7 @@
 package com.mycompany.dao.file;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
@@ -62,22 +63,35 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	}
 	
 	public Cosmetic findById(Integer id) {
+		System.out.println("Finding id " + id + " in text file...");
+		
 		return null;
 	}
 
 	public List<Cosmetic> findAll(){
+		System.out.println("reading file...");
+		try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				System.out.println(line);
+			}
+			System.out.println();
+		} catch (FileNotFoundException fnfe) {
+		} catch (IOException ioe) {
+			System.err.println(ioe);
+		}
 		return null;
 	}
 	
 	public boolean updateCosmetic(Cosmetic cosmetic){
+		System.out.println("update cosmetics");
+		
 		return false;
 	}
 	
 	public boolean deleteCosmetic(int id){
+		System.out.println("delete cosmetics");
+		
 		return false;
-	}
-	
-	
-	
-	
+	}	
 }
