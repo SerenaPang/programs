@@ -11,17 +11,17 @@ public class RandomAccessFileExamples {
 	 * @param file the file to read
 	 * */
 	public void read(File file) {
-		try (RandomAccessFile reader = new RandomAccessFile(file, "r")){
-	        String line;
-	        while ( (line = reader.readLine()) != null ) {
-	            System.out.println(line);
-	        }
+		try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				System.out.println(line);
+			}
 
-	        System.out.println();
-	    } catch (FileNotFoundException fnfe) {
-	    } catch (IOException ioe) {
-	        System.err.println(ioe);
-	    }
+			System.out.println();
+		} catch (FileNotFoundException fnfe) {
+		} catch (IOException ioe) {
+			System.err.println(ioe);
+		}
 	}
 	
 	/**

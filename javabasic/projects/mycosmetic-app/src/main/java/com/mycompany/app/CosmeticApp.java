@@ -51,7 +51,8 @@ public class CosmeticApp {
 			Cosmetic cosme = new Cosmetic(4, "Flora", "Chloe","Perfume");
 			//System.out.println(cosme.toString());
 			//cosmeticDao.save(cosme);
-			cosmeticDao.findAll();
+			//cosmeticDao.findAll();
+			cosmeticDao.findById(4);
 		} else {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = 

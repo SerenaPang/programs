@@ -17,18 +17,19 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 
 	// create a file object
 	File file;
+
 	// create a constructor that receive the file pass in the command line
 	public CosmeticRandomAccessFileDao(File file) {
 		this.file = file;
 	}
-	
-	
-	
+
 	/**
-	 *  This method writes the user input into the text  at the end of the text file using RandomAccessFile
+	 * This method writes the user input into the text at the end of the text file
+	 * using RandomAccessFile
+	 * 
 	 * @param filePath the file to write
-	 * @param line content to write into the file
-	 * */
+	 * @param line     content to write into the file
+	 */
 //	public void save(String line) {
 //		System.out.println("appending " + line);
 //		
@@ -45,30 +46,45 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		String name = cosmetic.getName();
 		String brand = cosmetic.getBrand();
 		String category = cosmetic.getCategory();
-		
-		String line = new StringBuffer().append(id).append(":").append(name).append(":").append(brand).append(":").append(category).toString();
+
+		String line = new StringBuffer().append(id).append(":").append(name).append(":").append(brand).append(":")
+				.append(category).toString();
 		try {
-		RandomAccessFile raFile = new RandomAccessFile(file.getAbsolutePath(), "rw");
-		raFile.seek(raFile.length());
-		System.out.println("current pointer = "+raFile.getFilePointer());
-		raFile.write(line.getBytes());
-		raFile.close();	
-		System.out.println("Data successfully appended at the end of file");
+			RandomAccessFile raFile = new RandomAccessFile(file.getAbsolutePath(), "rw");
+			raFile.seek(raFile.length());
+			System.out.println("current pointer = " + raFile.getFilePointer());
+			raFile.write(line.getBytes());
+			raFile.close();
+			System.out.println("Data successfully appended at the end of file");
 
 		} catch (IOException ioe) {
 			System.out.println("Exception occur opening file:");
 			ioe.printStackTrace();
 		}
-	//	System.out.println(line);
+		// System.out.println(line);
 	}
-	
+
 	public Cosmetic findById(Integer id) {
 		System.out.println("Finding id " + id + " in text file...");
-		
+		try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
+			String line;
+			while ((line = reader.readLine()) != null) {				
+				String[] lineList = line.split(":");
+				int currentId = Integer.parseInt(lineList[0]);
+				if (id == currentId) {
+					Cosmetic cosme = new Cosmetic(currentId, lineList[1],lineList[2],lineList[3]);
+					System.out.println(cosme.toString());
+					return cosme;
+				}
+			}		
+		} catch (FileNotFoundException fnfe) {
+		} catch (IOException ioe) {
+			System.err.println(ioe);
+		}
 		return null;
 	}
 
-	public List<Cosmetic> findAll(){
+	public List<Cosmetic> findAll() {
 		System.out.println("reading file...");
 		try (RandomAccessFile reader = new RandomAccessFile(file, "r")) {
 			String line;
@@ -82,16 +98,16 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		}
 		return null;
 	}
-	
-	public boolean updateCosmetic(Cosmetic cosmetic){
+
+	public boolean updateCosmetic(Cosmetic cosmetic) {
 		System.out.println("update cosmetics");
-		
+
 		return false;
 	}
-	
-	public boolean deleteCosmetic(int id){
+
+	public boolean deleteCosmetic(int id) {
 		System.out.println("delete cosmetics");
-		
+
 		return false;
-	}	
+	}
 }
