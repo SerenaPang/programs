@@ -63,7 +63,7 @@ public class CosmeticFileDao implements CosmeticDao {
 			System.out.println("Exception occur opening file:");
 			ioe.printStackTrace();
 		}
-	}
+	}	
 
 	/**
 	 * read file context and populate map of cosmetics The key is the id of the

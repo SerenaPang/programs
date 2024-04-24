@@ -9,6 +9,7 @@ import com.mycompany.dao.CosmeticDao;
 import com.mycompany.dao.jdbc.CosmeticJdbcDao;
 import com.mycompany.dao.jdbc.JdbcDataSource;
 import com.mycompany.dao.file.CosmeticFileDao;
+import com.mycompany.dao.file.CosmeticRandomAccessFileDao;
 import com.mycompany.model.Cosmetic;
 
 /**
@@ -36,12 +37,21 @@ public class CosmeticApp {
 			System.out.println("Use text file");
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/cosmetic.txt");
-			cosmeticDao = new CosmeticFileDao(file);
-	//		Cosmetic cosme = new Cosmetic(4, "bb", "cc","aa");
+	//		cosmeticDao = new CosmeticFileDao(file);
+
 	//		Cosmetic cosme = new Cosmetic(3, "coco", "chanel","perfume");
 	//		cosmeticDao.updateCosmetic(cosme);
 	//		cosmeticDao.deleteCosmetic(4);
-			
+			//String filePath = file.getAbsolutePath();
+			//System.out.println(filePath);
+			cosmeticDao = new CosmeticRandomAccessFileDao(file);
+			//String line = new String("4:Flora:Chloe:Perfume");
+			//String line = new String("hi");
+			//System.out.println(line);
+			Cosmetic cosme = new Cosmetic(4, "Flora", "Chloe","Perfume");
+			//System.out.println(cosme.toString());
+			cosmeticDao.save(cosme);
+		
 		} else {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = 
@@ -53,7 +63,7 @@ public class CosmeticApp {
 			//cosmeticDao.deleteCosmetic(90);
 			//cosmeticDao.findById(4);
 		}
-		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
-		ui.createUi();
+//		GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
+//		ui.createUi();
 	}
 }

@@ -56,7 +56,6 @@ public class RandomAccessFileExamples {
 	 * To write at the end of the text file using RandomAccessFile
 	 * @param filePath the file to write
 	 * @param data content you want to write into the file
-	 * @param seek the index where you put the data
 	 * */
 	public void appendData(String filePath, String data) throws IOException {
 		RandomAccessFile raFile = new RandomAccessFile(filePath, "rw");
