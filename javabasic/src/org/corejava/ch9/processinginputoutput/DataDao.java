@@ -9,26 +9,25 @@ import java.util.List;
 public class DataDao {
 	private List<Data> listOfData = new ArrayList<>();
 	private String pathFile;
-	
+
 	public DataDao(String pathFile) {
 		this.pathFile = pathFile;
 	}
-	
-	
+
 	/**
-	 * store the data in the text file 
+	 * store the data in the text file
 	 */
 	public void save(Data data) {
 		// create a new RandomAccessFile with filename test "c:/test.txt"
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			System.out.println("Initial file size: " + randomFile.length() + " bytes");
-			
+
 			// Set the pointer till the end.
 			randomFile.seek(randomFile.length());
 
-            randomFile.writeInt(data.getId());
-	        randomFile.writeLong(data.getZip());
-	        randomFile.writeInt(data.getNum());
+			randomFile.writeInt(data.getId());
+			randomFile.writeLong(data.getZip());
+			randomFile.writeInt(data.getNum());
 
 			System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
@@ -38,15 +37,60 @@ public class DataDao {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to access " + pathFile);
 		}
-	   }
-		
+	}
 
 	/**
 	 * find all the data in the text file read each line, output to each field, form
 	 * a data object add the object to list
 	 */
 	public List<Data> readAll() {
+		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
+			System.out.println("Initial file size: " + randomFile.length() + " bytes");
+
+			long fileSize = randomFile.length();
+			System.out.println("start reading file");
+
+			int pointer = 0;
+
+			// when it's the end of the file stop, pointer >= size of file
+			// set the pointer +16 every time read a line, move the pointer by 4, 8, and 4, update pointer position for every iteration
+			// to get the data, create the data object and add to list
+			while (pointer < fileSize) {
+				randomFile.seek(pointer);
+				int id = randomFile.readInt();
+				pointer = pointer + 4;
+				randomFile.seek(pointer);
+				long zip = randomFile.readLong();
+				pointer = pointer + 8;
+				randomFile.seek(pointer);
+				int num = randomFile.readInt();
+				pointer = pointer + 4;
+				System.out.println("id: " + id + " zip: " + zip + " num: " + num);
+				Data data = new Data(id, zip, num);
+				listOfData.add(data);
+			}
+
+			System.out.println("done reading file");
+			printList(listOfData);
+			// System.out.println("Final file size: " + randomFile.length() + " bytes");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + pathFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + pathFile);
+		}
 		return listOfData;
+	}
+
+	/**
+	 * print the list of data object
+	 */
+	private void printList( List<Data> listOfData) {
+		for (Data d : listOfData) {
+			System.out.println(d.toString());
+		}
+
 	}
 
 	/**
@@ -66,7 +110,7 @@ public class DataDao {
 	}
 
 	public static void main(String args[]) {
-		Data d1 = new Data(19, 24, 23);
+		Data d1 = new Data(1, 2, 3);
 //		Data d2 = new Data(2, 94102, 111);
 //		Data d3 = new Data(3, 94103, 222);
 //		Data d4 = new Data(4, 94104, 333);
@@ -80,9 +124,9 @@ public class DataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
-		datadao.save(d1);
-		
-		System.out.println("Finish saving");
+		// datadao.save(d1);
+		datadao.readAll();
+		// System.out.println("Finish saving");
 		// datadao.save(d2);
 
 	}
