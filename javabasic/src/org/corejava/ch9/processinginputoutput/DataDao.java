@@ -69,7 +69,6 @@ public class DataDao {
 				Data data = new Data(id, zip, num);
 				listOfData.add(data);
 			}
-
 			System.out.println("done reading file");
 			printList(listOfData);
 			// System.out.println("Final file size: " + randomFile.length() + " bytes");
@@ -90,7 +89,46 @@ public class DataDao {
 		for (Data d : listOfData) {
 			System.out.println(d.toString());
 		}
+	}
+	
+	/**
+	 * find a data object with specified id
+	 * */
+	public Data findById(int dataId) {
+		Data data = null;
+		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
+			long fileSize = randomFile.length();
+			System.out.println("start reading file");
 
+			int pointer = 0;
+			
+			// when it's the end of the file stop, pointer >= size of file
+			// set the pointer +16 every time read a line, move the pointer by 4, 8, and 4, update pointer position for every iteration
+			// to get the data, create the data object and add to list
+			while (pointer < fileSize) {
+				randomFile.seek(pointer);
+				int currentId = randomFile.readInt();
+				pointer = pointer + 4;
+				randomFile.seek(pointer);
+				long zip = randomFile.readLong();
+				pointer = pointer + 8;
+				randomFile.seek(pointer);
+				int num = randomFile.readInt();
+				pointer = pointer + 4;
+				if (currentId == dataId) {
+					data = new Data(currentId, zip, num);
+					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num);		
+					return data;
+				}	
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + pathFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + pathFile);
+		}
+		return data;
 	}
 
 	/**
@@ -125,9 +163,9 @@ public class DataDao {
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
 		// datadao.save(d1);
-		datadao.readAll();
+		//datadao.readAll();
 		// System.out.println("Finish saving");
 		// datadao.save(d2);
-
+		datadao.findById(18);
 	}
 }
