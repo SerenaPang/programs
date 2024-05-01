@@ -51,7 +51,8 @@ public class DataDao {
 			System.out.println("start reading file");
 			int end = 0;
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time so we know when reached the end of the file, when read the pointer walk by itself by data byte size 4, 8, and 4
+			// set the pointer +16 every time so we know when reached the end of the file,
+			// when read the pointer walk by itself by data byte size 4, 8, and 4
 			// to get the data, create the data object and add to list
 			while (end < fileSize) {
 				int id = randomFile.readInt();
@@ -131,21 +132,14 @@ public class DataDao {
 			System.out.println("start reading file");
 			// where the current byte location is
 			int pointer = 0;
-
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a line, move the pointer by 4, 8, and 4,
-			// update pointer position for every iteration
+			// set the pointer +16 every time read a data entry
 			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
-				randomFile.seek(pointer);
 				int currentId = randomFile.readInt();
-				pointer = pointer + 4;
-				randomFile.seek(pointer);
 				long zip = randomFile.readLong();
-				pointer = pointer + 8;
-				randomFile.seek(pointer);
 				int num = randomFile.readInt();
-				pointer = pointer + 4;
+				pointer = pointer + 16;
 				// found the matching id, move the pointer to each location, write the new info
 				if (currentId == dataId) {
 					System.out.println("found id " + dataId);
@@ -271,7 +265,7 @@ public class DataDao {
 	}
 
 	public static void main(String args[]) {
-		Data d1 = new Data(0, 23547768, 300);
+		Data d1 = new Data(0, 000, 000000111);
 		Data d2 = new Data(2, 94102, 111);
 		Data d3 = new Data(3, 94103, 222);
 		Data d4 = new Data(4, 94104, 333);
@@ -296,10 +290,10 @@ public class DataDao {
 		// datadao.readAll();
 		// System.out.println("Finish saving");
 
-		 datadao.findById(0);
-		// datadao.update(d5);
+		// datadao.findById(0);
+		datadao.update(d1);
 //		datadao.delete(d1);
 //		System.out.println("After: ");
-//		datadao.readAll();
+		datadao.readAll();
 	}
 }
