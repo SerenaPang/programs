@@ -24,7 +24,8 @@ public class DataDao {
 
 			// Set the pointer till the end.
 			randomFile.seek(randomFile.length());
-
+			// we don't have to move the pointer as when writing the content, the pointer
+			// moves by the byte size of the data
 			randomFile.writeInt(data.getId());
 			randomFile.writeLong(data.getZip());
 			randomFile.writeInt(data.getNum());
@@ -46,32 +47,23 @@ public class DataDao {
 	public List<Data> readAll() {
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			System.out.println("Initial file size: " + randomFile.length() + " bytes");
-
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
-
-			int pointer = 0;
-
+			int end = 0;
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a line, move the pointer by 4, 8, and 4,
-			// update pointer position for every iteration
+			// set the pointer +16 every time read a line, the pointer by 4, 8, and 4,
 			// to get the data, create the data object and add to list
-			while (pointer < fileSize) {
-				randomFile.seek(pointer);
+			while (end < fileSize) {
 				int id = randomFile.readInt();
-				pointer = pointer + 4;
-				randomFile.seek(pointer);
 				long zip = randomFile.readLong();
-				pointer = pointer + 8;
-				randomFile.seek(pointer);
 				int num = randomFile.readInt();
-				pointer = pointer + 4;
+				end = end + 16;
 				System.out.println("id: " + id + "    zip: " + zip + "    num: " + num);
 				Data data = new Data(id, zip, num);
 				listOfData.add(data);
 			}
 			System.out.println("done reading file");
-			//printList(listOfData);
+			// printList(listOfData);
 			// System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -212,7 +204,7 @@ public class DataDao {
 				pointer = pointer + 8;
 				randomFile.seek(pointer);
 				int num = randomFile.readInt();
-				//at this moment pointer stands at the location of the start of the next entry
+				// at this moment pointer stands at the location of the start of the next entry
 				pointer = pointer + 4;
 				// found the matching id, move the pointer to each location, write the new info
 				if (currentId == dataId) {
@@ -225,15 +217,17 @@ public class DataDao {
 						randomFile.writeInt(0);
 						randomFile.writeLong(0);
 						randomFile.writeInt(0);
-					} else // case 1 
+					} else // case 1
 					{
-						//records the position of the start of the next data, tracks if we reach the end of the file
+						// records the position of the start of the next data, tracks if we reach the
+						// end of the file
 						int end = pointer;
-						//location we want to start to overwrite the data entry 
+						// location we want to start to overwrite the data entry
 						int expectedLocation = pointer - 16;
-						//iterations of copying the next one to the current position, move the end pointer to the next data entry
+						// iterations of copying the next one to the current position, move the end
+						// pointer to the next data entry
 						while (end < fileSize) {
-							//read the next data entry
+							// read the next data entry
 							int nxtId = randomFile.readInt();
 							pointer = pointer + 4;
 							randomFile.seek(pointer);
@@ -241,13 +235,15 @@ public class DataDao {
 							pointer = pointer + 8;
 							randomFile.seek(pointer);
 							int nxtNum = randomFile.readInt();
-							//at this moment the pointer stands at the location of the start of the current's next next data entry
+							// at this moment the pointer stands at the location of the start of the
+							// current's next next data entry
 							pointer = pointer + 4;
-							//System.out.println("pointer: " + pointer);
-							//move the next data entry info to the current data info location
+							// System.out.println("pointer: " + pointer);
+							// move the next data entry info to the current data info location
 							randomFile.seek(expectedLocation);
-							//reset the pointer to the start position of the replaced data entry position and start writing
-						//	pointer = expectedLocation;
+							// reset the pointer to the start position of the replaced data entry position
+							// and start writing
+							// pointer = expectedLocation;
 							randomFile.writeInt(nxtId);
 							expectedLocation = expectedLocation + 4;
 							randomFile.seek(expectedLocation);
@@ -255,10 +251,10 @@ public class DataDao {
 							expectedLocation = expectedLocation + 8;
 							randomFile.seek(expectedLocation);
 							randomFile.writeInt(nxtNum);
-							
-							//move the tracker to the next data entry position
+
+							// move the tracker to the next data entry position
 							end = end + 16;
-						}				
+						}
 					}
 					// move pointer backward to update num
 //					pointer = pointer - 4;
@@ -271,7 +267,7 @@ public class DataDao {
 //					break;
 				}
 			}
-			//readAll();
+			// readAll();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to open the file " + pathFile);
@@ -283,9 +279,9 @@ public class DataDao {
 
 	public static void main(String args[]) {
 		Data d1 = new Data(0, 23547768, 300);
-//		Data d2 = new Data(2, 94102, 111);
-//		Data d3 = new Data(3, 94103, 222);
-//		Data d4 = new Data(4, 94104, 333);
+		Data d2 = new Data(2, 94102, 111);
+		Data d3 = new Data(3, 94103, 222);
+		Data d4 = new Data(4, 94104, 333);
 		Data d5 = new Data(5, 94105555, 5555);
 //		Data d6 = new Data(6, 94106, 555);
 //		Data d7 = new Data(7, 94107, 666);
@@ -296,15 +292,21 @@ public class DataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
-		// datadao.save(d5);
-		System.out.println("Before: ");
-		 datadao.readAll();
+//		datadao.save(d1);
+//		datadao.save(d2);
+//		datadao.save(d3);
+//		datadao.save(d4);
+//		datadao.save(d5);
+//		datadao.save(d10);
+
+		// System.out.println("Before: ");
+		//datadao.readAll();
 		// System.out.println("Finish saving");
-		// datadao.save(d2);
+		
 		// datadao.findById(18);
 		// datadao.update(d5);
-		datadao.delete(d1);
-		System.out.println("After: ");
-		datadao.readAll();
+//		datadao.delete(d1);
+//		System.out.println("After: ");
+//		datadao.readAll();
 	}
 }
