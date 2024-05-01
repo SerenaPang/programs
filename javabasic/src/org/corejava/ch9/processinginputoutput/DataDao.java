@@ -51,7 +51,7 @@ public class DataDao {
 			System.out.println("start reading file");
 			int end = 0;
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a line, the pointer by 4, 8, and 4,
+			// set the pointer +16 every time so we know when reached the end of the file, when read the pointer walk by itself by data byte size 4, 8, and 4
 			// to get the data, create the data object and add to list
 			while (end < fileSize) {
 				int id = randomFile.readInt();
@@ -92,23 +92,16 @@ public class DataDao {
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
-
 			int pointer = 0;
-
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a line, move the pointer by 4, 8, and 4,
-			// update pointer position for every iteration
+			// set the pointer +16 every time, when read the cursor move by 4, 8, and 4
+			// update pointer position for every iteration to know when reach the end
 			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
-				randomFile.seek(pointer);
 				int currentId = randomFile.readInt();
-				pointer = pointer + 4;
-				randomFile.seek(pointer);
 				long zip = randomFile.readLong();
-				pointer = pointer + 8;
-				randomFile.seek(pointer);
 				int num = randomFile.readInt();
-				pointer = pointer + 4;
+				pointer = pointer + 16;
 				if (currentId == dataId) {
 					data = new Data(currentId, zip, num);
 					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num);
@@ -300,10 +293,10 @@ public class DataDao {
 //		datadao.save(d10);
 
 		// System.out.println("Before: ");
-		//datadao.readAll();
+		// datadao.readAll();
 		// System.out.println("Finish saving");
-		
-		// datadao.findById(18);
+
+		 datadao.findById(0);
 		// datadao.update(d5);
 //		datadao.delete(d1);
 //		System.out.println("After: ");
