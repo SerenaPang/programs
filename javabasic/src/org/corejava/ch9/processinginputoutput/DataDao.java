@@ -68,6 +68,7 @@ public class DataDao {
 					byteArr[i] = strArray[i];
 					// System.out.print(strArray[i] + " ");
 				}
+				// use X to fill out all blank spaces
 				for (int j = strArray.length; j < byteArr.length; j++) {
 					byteArr[j] = 'X';
 					// System.out.print(strArray[i] + " ");
@@ -145,13 +146,34 @@ public class DataDao {
 			int end = 0;
 
 			while (end < fileSize) {
+				// sum 16 bytes of data
 				int id = randomFile.readInt();
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
-				// char name = randomFile.readChar();
-				end = end + 16;
-				System.out.println("id: " + id + "    zip: " + zip + "    num: " + num);
-				Data data = new Data(id, zip, num);
+
+				List<Character> listOfChars = new ArrayList<>();
+				// add 40 bytes of chars
+				for (int i = 0; i < 20; i++) {
+					char character = randomFile.readChar();
+					// trim the characters
+					if (character != 'X') {
+						listOfChars.add(character);
+					}
+					// System.out.println(i + " " + byteArr[i] + " ");
+				}
+				// convert the list of characters to string
+				StringBuilder sb = new StringBuilder();
+				// Appends characters one by one
+				for (Character ch : listOfChars) {
+					sb.append(ch);
+				}
+				// convert in string
+				String name = sb.toString();
+
+				end = end + 56;
+				System.out.println("id: " + id + " zip: " + zip + " num: " + num + " name: " + name);
+				// Data data = new Data(id, zip, num);
+				Data data = new Data(id, zip, num, name);
 				listOfData.add(data);
 			}
 			System.out.println("done reading file");
@@ -333,7 +355,7 @@ public class DataDao {
 		Data d3 = new Data(3, 94103, 222);
 		Data d4 = new Data(4, 94104, 333);
 
-		Data d5 = new Data(5, 94105555, 5555, "Silver ");
+		Data d5 = new Data(5, 94105555, 5555, "Silver");
 		Data d6 = new Data(6, 94106, 555, "Diana");
 		Data d7 = new Data(7, 94107, 666, "Tiramisu");
 		Data d8 = new Data(8, 94108, 777, "Tres Leches");
@@ -348,7 +370,7 @@ public class DataDao {
 //		datadao.save(d3);
 //		datadao.save(d4);
 
-		datadao.add(d5);
+//		datadao.add(d5);
 //		datadao.add(d6);
 //		datadao.add(d7);
 //		datadao.add(d8);
@@ -364,6 +386,6 @@ public class DataDao {
 //		datadao.delete(d2);
 //		System.out.println("After: ");
 
-		// datadao.readAll();
+		datadao.findAll();
 	}
 }
