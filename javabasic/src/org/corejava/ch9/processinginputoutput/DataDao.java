@@ -63,7 +63,7 @@ public class DataDao {
 			char[] strArray = name.toCharArray();
 			char[] byteArr = new char[20];
 			if (strArray.length <= byteArr.length) {
-				// string length <= set array length
+				//case 1: string length <= set array length
 				for (int i = 0; i < strArray.length; i++) {
 					byteArr[i] = strArray[i];
 					// System.out.print(strArray[i] + " ");
@@ -73,7 +73,7 @@ public class DataDao {
 					byteArr[j] = 'X';
 					// System.out.print(strArray[i] + " ");
 				}
-			} else { // string length > set array length
+			} else { //case 2: string length > set array length
 				for (int i = 0; i < byteArr.length; i++) {
 					byteArr[i] = strArray[i];
 				}
@@ -150,23 +150,7 @@ public class DataDao {
 				int id = randomFile.readInt();
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
-
-//				List<Character> listOfChars = new ArrayList<>();
-//				// add 40 bytes of chars
-//				for (int i = 0; i < 20; i++) {
-//					char character = randomFile.readChar();
-//					// trim the characters
-//					if (character != 'X') {
-//						listOfChars.add(character);
-//					}
-//					// System.out.println(i + " " + byteArr[i] + " ");
-//				}
-//				// convert the list of characters to string
-//				StringBuilder sb = new StringBuilder();
-//				// Appends characters one by one
-//				for (Character ch : listOfChars) {
-//					sb.append(ch);
-//				}
+				//read string
 				StringBuilder sb = new StringBuilder();
 				char character = randomFile.readChar();
 				
@@ -226,6 +210,50 @@ public class DataDao {
 				if (currentId == dataId) {
 					data = new Data(currentId, zip, num);
 					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num);
+					return data;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + pathFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + pathFile);
+		}
+		return data;
+	}
+	
+	/**
+	 * search a data object with specified id with data type string
+	 */
+	public Data searchById(int dataId) {
+		Data data = null;
+		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
+			long fileSize = randomFile.length();
+			System.out.println("start reading file");
+			int pointer = 0;
+			// when it's the end of the file stop, pointer >= size of file
+			// set the pointer +16 every time, when read the cursor move by 4, 8, and 4
+			// update pointer position for every iteration to know when reach the end
+			// to get the data, create the data object and add to list
+			while (pointer < fileSize) {
+				int currentId = randomFile.readInt();
+				long zip = randomFile.readLong();
+				int num = randomFile.readInt();			
+				//read string
+				StringBuilder sb = new StringBuilder();
+				char character = randomFile.readChar();				
+				while (character != 'X') {				
+					sb.append(character);
+					character = randomFile.readChar();
+				}						
+				// convert to string
+				String name = sb.toString();
+				pointer = pointer + 56;
+							
+				if (currentId == dataId) {
+					data = new Data(currentId, zip, num, name);
+					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num + " name: " + name);
 					return data;
 				}
 			}
@@ -393,6 +421,7 @@ public class DataDao {
 //		datadao.delete(d2);
 //		System.out.println("After: ");
 
-		datadao.findAll();
+		//datadao.findAll();
+		datadao.searchById(5);
 	}
 }
