@@ -246,13 +246,18 @@ public class DataDao {
 				int num = randomFile.readInt();
 				// read string
 				StringBuilder sb = new StringBuilder();
-				char character = randomFile.readChar();
-				while (character != 'X') {
+				int strLen = 0;
+				for (int i = 0; i < 20; i++) {
+					char character = randomFile.readChar();
+					if (character != 'X') {
+						strLen++;
+					}
 					sb.append(character);
-					character = randomFile.readChar();
-				}
+				}			
+
 				// convert to string
-				String name = sb.toString();
+				String wholeStr = sb.toString();
+				String name = wholeStr.substring(0, strLen);
 				pointer = pointer + 56;
 
 				if (currentId == dataId) {
@@ -565,8 +570,8 @@ public class DataDao {
 //		datadao.delete(d2);
 //		System.out.println("After: ");
 
-		datadao.findAll();
-		// datadao.searchById(5);
+//		datadao.findAll();
+		 datadao.searchById(9);
 		// datadao.updateData(d5);
 	}
 }
