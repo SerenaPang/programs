@@ -151,14 +151,18 @@ public class DataDao {
 				int num = randomFile.readInt();
 				// read string
 				StringBuilder sb = new StringBuilder();
-				char character = randomFile.readChar();
-
-				while (character != 'X') {
+				int strLen = 0;
+				for (int i = 0; i < 20; i++) {
+					char character = randomFile.readChar();
+					if (character != 'X') {
+						strLen++;
+					}
 					sb.append(character);
-					character = randomFile.readChar();
-				}
+				}			
+
 				// convert to string
-				String name = sb.toString();
+				String wholeStr = sb.toString();
+				String name = wholeStr.substring(0, strLen);
 
 				end = end + 56;
 				System.out.println("id: " + id + " zip: " + zip + " num: " + num + " name: " + name);
@@ -232,7 +236,8 @@ public class DataDao {
 			System.out.println("start reading file");
 			int pointer = 0;
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +56 every time, when read the cursor move by 4, 8, and 4, and 40 bytes of string
+			// set the pointer +56 every time, when read the cursor move by 4, 8, and 4, and
+			// 40 bytes of string
 			// update pointer position for every iteration to know when reach the end
 			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
@@ -310,10 +315,11 @@ public class DataDao {
 			throw new RuntimeException("Unable to access " + pathFile);
 		}
 	}
-	
+
 	/**
-	 * update specific data entry in the text file read the first filed in each line with data type String
-	 * to find the matching id replace the line with the new one
+	 * update specific data entry in the text file read the first filed in each line
+	 * with data type String to find the matching id replace the line with the new
+	 * one
 	 */
 	public void updateData(Data data) {
 		// new data entry id to be updated
@@ -329,7 +335,7 @@ public class DataDao {
 			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
 				int currentId = randomFile.readInt();
-				
+
 				pointer = pointer + 52;
 				// found the matching id, move the pointer to each location, write the new info
 				if (currentId == dataId) {
@@ -338,9 +344,9 @@ public class DataDao {
 					pointer = pointer - 52;
 					randomFile.writeInt(data.getNum());
 					randomFile.writeLong(data.getZip());
-					
+
 					String name = data.getName();
-				
+
 					// fill the byte array with the right length and content
 					char[] strArray = name.toCharArray();
 					char[] byteArr = new char[20];
@@ -364,7 +370,7 @@ public class DataDao {
 					for (int i = 0; i < byteArr.length; i++) {
 						randomFile.writeChar(byteArr[i]);
 						// System.out.println(i + " " + byteArr[i] + " ");
-					}				
+					}
 					break;
 				}
 			}
@@ -387,6 +393,78 @@ public class DataDao {
 	 * case 2: at the end of the file overwrite all the data to 0
 	 */
 	public void delete(Data data) {
+		// data entry id to be deleted
+		int dataId = data.getId();
+		long dataZip = data.getZip();
+		int dataNum = data.getNum();
+
+		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
+			long fileSize = randomFile.length();
+			System.out.println("start reading file");
+			// where the current byte location is
+			int pointer = 0;
+			int end = 0;
+			int expectedLocation = 0;
+			while (pointer < fileSize) {
+				int currentId = randomFile.readInt();
+				long zip = randomFile.readLong();
+				int num = randomFile.readInt();
+				// at this moment pointer stands at the location of the start of the next entry
+				pointer = pointer + 16;
+				end = end + 16;
+				// found the matching id, move the pointer to each location, write the new info
+				if (currentId == dataId && dataZip == zip && dataNum == num) {
+					System.out.println("found Data " + dataId);
+					expectedLocation = pointer - 16;
+					break;
+				}
+			}
+			// now we know expectedLocation is where the current data entry to be deleted
+			// case 2
+			if (expectedLocation + 16 == fileSize) {
+				randomFile.seek(expectedLocation);
+				randomFile.writeInt(0);
+				randomFile.writeLong(0);
+				randomFile.writeInt(0);
+			} else // case 1
+			{
+				System.out.println("...");
+				while (end < fileSize) {
+					// update the pointer for each copy iteration so we don't copy the same thing we
+					// just did
+					randomFile.seek(pointer);
+					// read the next data entry
+					int nxtId = randomFile.readInt();
+					long nxtZip = randomFile.readLong();
+					int nxtNum = randomFile.readInt();
+					pointer = pointer + 16;
+
+					randomFile.seek(expectedLocation);
+					randomFile.writeInt(nxtId);
+					randomFile.writeLong(nxtZip);
+					randomFile.writeInt(nxtNum);
+					// move the tracker to the next data entry position
+					end = end + 16;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + pathFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + pathFile);
+		}
+	}
+
+	/**
+	 * delete the data entry in the text file with String data type
+	 * 
+	 * case 1: at the beginning and the middle of the file iterations of moving the
+	 * current next one to the current position
+	 * 
+	 * case 2: at the end of the file overwrite all the data to 0
+	 */
+	public void deleteData(Data data) {
 		// data entry id to be deleted
 		int dataId = data.getId();
 		long dataZip = data.getZip();
@@ -487,8 +565,8 @@ public class DataDao {
 //		datadao.delete(d2);
 //		System.out.println("After: ");
 
-		// datadao.findAll();
-		//datadao.searchById(5);
-		datadao.updateData(d5);
+		datadao.findAll();
+		// datadao.searchById(5);
+		// datadao.updateData(d5);
 	}
 }
