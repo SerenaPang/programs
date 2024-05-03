@@ -158,7 +158,7 @@ public class DataDao {
 						strLen++;
 					}
 					sb.append(character);
-				}			
+				}
 
 				// convert to string
 				String wholeStr = sb.toString();
@@ -253,7 +253,7 @@ public class DataDao {
 						strLen++;
 					}
 					sb.append(character);
-				}			
+				}
 
 				// convert to string
 				String wholeStr = sb.toString();
@@ -336,17 +336,19 @@ public class DataDao {
 			// where the current byte location is
 			int pointer = 0;
 			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a data entry
+			// set the pointer +56 every time, when read the cursor move by 4, 8, and 4, and
+			// 40 bytes of string
+			// update pointer position for every iteration to know when reach the end
 			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
 				int currentId = randomFile.readInt();
-
-				pointer = pointer + 52;
-				// found the matching id, move the pointer to each location, write the new info
+				pointer = pointer + 56;
+				randomFile.seek(pointer);
 				if (currentId == dataId) {
 					System.out.println("found id " + dataId);
 					// move pointer backward to update num
 					pointer = pointer - 52;
+					randomFile.seek(pointer);
 					randomFile.writeInt(data.getNum());
 					randomFile.writeLong(data.getZip());
 
@@ -355,17 +357,20 @@ public class DataDao {
 					// fill the byte array with the right length and content
 					char[] strArray = name.toCharArray();
 					char[] byteArr = new char[20];
+
+					// use X to fill out all blank spaces
+					for (int j = 0; j < byteArr.length; j++) {
+						byteArr[j] = 'X';
+						// System.out.print(strArray[i] + " ");
+					}
+					// update the new string
 					if (strArray.length <= byteArr.length) {
 						// case 1: string length <= set array length
 						for (int i = 0; i < strArray.length; i++) {
 							byteArr[i] = strArray[i];
 							// System.out.print(strArray[i] + " ");
 						}
-						// use X to fill out all blank spaces
-						for (int j = strArray.length; j < byteArr.length; j++) {
-							byteArr[j] = 'X';
-							// System.out.print(strArray[i] + " ");
-						}
+
 					} else { // case 2: string length > set array length
 						for (int i = 0; i < byteArr.length; i++) {
 							byteArr[i] = strArray[i];
@@ -377,9 +382,11 @@ public class DataDao {
 						// System.out.println(i + " " + byteArr[i] + " ");
 					}
 					break;
+				} else {
+					System.out.println(dataId + " NOT FOUND");
 				}
 			}
-			findAll();
+			// findAll();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to open the file " + pathFile);
@@ -540,11 +547,11 @@ public class DataDao {
 		Data d4 = new Data(4, 94104, 333);
 
 		Data d5 = new Data(5, 94105555, 5555, "BabyCat");
-		Data d6 = new Data(6, 94106, 555, "Diana");
+		Data d6 = new Data(6, 94106, 555, "Dianaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		Data d7 = new Data(7, 94107, 666, "Tiramisu");
 		Data d8 = new Data(8, 94108, 777, "Tres Leches");
 		Data d9 = new Data(9, 94109, 888, "Coconut cream");
-		Data d10 = new Data(10, 2, 3, "Dark Chocalate");
+		Data d10 = new Data(10, 2, 3, "Dark C");
 
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
@@ -570,8 +577,9 @@ public class DataDao {
 //		datadao.delete(d2);
 //		System.out.println("After: ");
 
-//		datadao.findAll();
-		 datadao.searchById(9);
-		// datadao.updateData(d5);
+		// datadao.findAll();
+		// datadao.searchById(10);
+		datadao.updateData(d6);
+		datadao.findAll();
 	}
 }
