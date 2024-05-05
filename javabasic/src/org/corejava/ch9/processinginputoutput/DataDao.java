@@ -103,26 +103,17 @@ public class DataDao {
 	 */
 	public List<Data> readAll() {
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			System.out.println("Initial file size: " + randomFile.length() + " bytes");
 			long fileSize = randomFile.length();
-			System.out.println("start reading file");
-			int end = 0;
+			int currIndex = 0;
 			// when it's the end of the file stop, pointer >= size of file
 			// set the pointer +16 every time so we know when reached the end of the file,
 			// when read the pointer walk by itself by data byte size 4, 8, and 4
 			// to get the data, create the data object and add to list
-			while (end < fileSize) {
-				int id = randomFile.readInt();
-				long zip = randomFile.readLong();
-				int num = randomFile.readInt();
-				end = end + 16;
-				System.out.println("id: " + id + "    zip: " + zip + "    num: " + num);
-				Data data = new Data(id, zip, num);
+			while (currIndex < fileSize) {
+				currIndex = currIndex + 16;
+				Data data = new Data(randomFile.readInt(), randomFile.readLong(), randomFile.readInt());
 				listOfData.add(data);
 			}
-			System.out.println("done reading file");
-			// printList(listOfData);
-			// System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to open the file " + pathFile);
@@ -708,10 +699,10 @@ public class DataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
-//		datadao.save(d1);
-//		datadao.save(d2);
-//		datadao.save(d3);
-//		datadao.save(d4);
+		datadao.save(d1);
+		datadao.save(d2);
+		datadao.save(d3);
+		datadao.save(d4);
 //
 //		datadao.add(d5);
 //		datadao.add(d6);
@@ -720,10 +711,13 @@ public class DataDao {
 //		datadao.add(d9);
 //		datadao.add(d10);
 
-		// System.out.println("Before: ");
-		// datadao.readAll();
-		// System.out.println("Finish saving");
-		// datadao.findById(0);
+		List<Data> all = datadao.readAll();
+		for (Data data : all) {
+			System.out.println(data);
+		}
+
+//		Data res = datadao.findById(3);
+//		System.out.println(res);
 //		datadao.update(d1);
 //		datadao.readAll();
 //		datadao.delete(d2);
@@ -738,7 +732,7 @@ public class DataDao {
 //		System.out.println(pos + 6 + " name: " + name);
 		// datadao.updateData(d6);
 
-		datadao.deleteData(d10);
-		 datadao.findAll();
+		//datadao.deleteData(d10);
+		// datadao.findAll();
 	}
 }
