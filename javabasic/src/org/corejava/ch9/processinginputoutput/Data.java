@@ -5,12 +5,6 @@ public class Data {
 	private long zip;// 8 bytes
 	private int num;// 4 bytes
 	String name;//4 bytes
-
-	public Data(int id, long zip, int num) {
-		this.id = id;
-		this.zip = zip;
-		this.num = num;
-	}
 	
 	public Data(int id, long zip, int num, String name) {
 		this.id = id;

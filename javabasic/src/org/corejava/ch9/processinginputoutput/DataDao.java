@@ -10,40 +10,27 @@ public class DataDao {
 	private List<Data> listOfData = new ArrayList<>();
 	private String pathFile;
 
+	private static final int CHAR_SIZE_IN_BYTES = 2;
+	private static final int ID_FIELD_SIZE_IN_BYTES = 4;
+	private static final int ZIP_FIELD_SIZE_IN_BYTES = 8;
+	private static final int NUM_FIELD_SIZE_IN_BYTES = 4;
+	private static final int NAME_FIELD_SIZE_IN_BYTES = 20 * 2; // Every character is 2 bytes.
+	private static final int NAME_FIELD_SIZE_IN_CHARS = 20; // Every character is 2 bytes.
+
+	/*
+	 * The record size for the data record {@code Data}.
+	 */
+	private static final int DATA_RECORD_SIZE_IN_BYTES = ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES
+			+ NUM_FIELD_SIZE_IN_BYTES + NAME_FIELD_SIZE_IN_BYTES;
+
 	public DataDao(String pathFile) {
 		this.pathFile = pathFile;
 	}
 
 	/**
-	 * store the data in the text file
+	 * Store the data with String in the text file
 	 */
 	public void save(Data data) {
-		// create a new RandomAccessFile with filename test "c:/test.txt"
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			System.out.println("Initial file size: " + randomFile.length() + " bytes");
-
-			// Set the pointer till the end.
-			randomFile.seek(randomFile.length());
-			// we don't have to move the pointer as when writing the content, the pointer
-			// moves by the byte size of the data
-			randomFile.writeInt(data.getId());
-			randomFile.writeLong(data.getZip());
-			randomFile.writeInt(data.getNum());
-
-			System.out.println("Final file size: " + randomFile.length() + " bytes");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
-		}
-	}
-
-	/**
-	 * store the data with String in the text file
-	 */
-	public void add(Data data) {
 		// create a new RandomAccessFile with filename test "c:/test.txt"
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			System.out.println("Initial file size: " + randomFile.length() + " bytes");
@@ -59,34 +46,21 @@ public class DataDao {
 			// store the string in byte array, write it to file, put the unfilled bytes to 0
 			String name = data.getName();
 			// fill the byte array with the right length and content
-			char[] strArray = name.toCharArray();
-			char[] byteArr = new char[20];
-			if (strArray.length <= byteArr.length) {
-				// case 1: string length <= set array length
-				for (int i = 0; i < strArray.length; i++) {
-					byteArr[i] = strArray[i];
-					// System.out.print(strArray[i] + " ");
-				}
-				// use X to fill out all blank spaces
-				for (int j = strArray.length; j < byteArr.length; j++) {
-					byteArr[j] = 'X';
-					// System.out.print(strArray[i] + " ");
-				}
-			} else { // case 2: string length > set array length
-				for (int i = 0; i < byteArr.length; i++) {
-					byteArr[i] = strArray[i];
-				}
-			}
-//			read array content
-//			for (int i = 0; i < byteArr.length; i++) {
-//				System.out.println(i + " " + byteArr[i] + " ");
-//			}
+			char[] nameArray = name.toCharArray();
+			int totalBytes = nameArray.length * CHAR_SIZE_IN_BYTES;
 
-			// write each character to the file
-			for (int i = 0; i < byteArr.length; i++) {
-				randomFile.writeChar(byteArr[i]);
-				// System.out.println(i + " " + byteArr[i] + " ");
+			int bytesToSave = totalBytes <= NAME_FIELD_SIZE_IN_BYTES ? totalBytes : NAME_FIELD_SIZE_IN_BYTES;
+			int charsToSave = bytesToSave / CHAR_SIZE_IN_BYTES;
+
+			int index = 0;
+			for (index = 0; index < charsToSave; index++) {
+				randomFile.writeChar(nameArray[index]);
 			}
+
+			for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
+				randomFile.writeChar(0 /* NULL in ASCII */);
+			}
+
 			System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -95,33 +69,6 @@ public class DataDao {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to access " + pathFile);
 		}
-	}
-
-	/**
-	 * find all the data in the text file read each line, output to each field, form
-	 * a data object add the object to list
-	 */
-	public List<Data> readAll() {
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			long fileSize = randomFile.length();
-			int currIndex = 0;
-			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time so we know when reached the end of the file,
-			// when read the pointer walk by itself by data byte size 4, 8, and 4
-			// to get the data, create the data object and add to list
-			while (currIndex < fileSize) {
-				currIndex = currIndex + 16;
-				Data data = new Data(randomFile.readInt(), randomFile.readLong(), randomFile.readInt());
-				listOfData.add(data);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
-		}
-		return listOfData;
 	}
 
 	/**
@@ -143,9 +90,9 @@ public class DataDao {
 				// read string
 				StringBuilder sb = new StringBuilder();
 				int strLen = 0;
-				for (int i = 0; i < 20; i++) {
+				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
 					char character = randomFile.readChar();
-					if (character != 'X') {
+					if (character != 0) {
 						strLen++;
 					}
 					sb.append(character);
@@ -184,43 +131,9 @@ public class DataDao {
 	}
 
 	/**
-	 * find a data object with specified id
-	 */
-	public Data findById(int dataId) {
-		Data data = null;
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			long fileSize = randomFile.length();
-			System.out.println("start reading file");
-			int pointer = 0;
-			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time, when read the cursor move by 4, 8, and 4
-			// update pointer position for every iteration to know when reach the end
-			// to get the data, create the data object and add to list
-			while (pointer < fileSize) {
-				int currentId = randomFile.readInt();
-				long zip = randomFile.readLong();
-				int num = randomFile.readInt();
-				pointer = pointer + 16;
-				if (currentId == dataId) {
-					data = new Data(currentId, zip, num);
-					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num);
-					return data;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
-		}
-		return data;
-	}
-
-	/**
 	 * search a data object with specified id with data type string
 	 */
-	public Data searchById(int dataId) {
+	public Data findById(int dataId) {
 		Data data = null;
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			long fileSize = randomFile.length();
@@ -302,7 +215,7 @@ public class DataDao {
 					break;
 				}
 			}
-			readAll();
+			// readAll();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to open the file " + pathFile);
@@ -495,9 +408,9 @@ public class DataDao {
 			{
 				System.out.println("...");
 				pointer = expectedLocation;
-				while (end + 56  < fileSize) {
+				while (end + 56 < fileSize) {
 					randomFile.seek(expectedLocation + 56);
-					
+
 					// read the next data entry of the current data entry to be deleted
 					int nxtId = randomFile.readInt();
 					long nxtZip = randomFile.readLong();
@@ -518,7 +431,8 @@ public class DataDao {
 					// convert to string
 					String wholeStr = sb.toString();
 					nxtName = wholeStr.substring(0, strLen);
-				//	System.out.println(" id : " + nxtId + " zip : " + nxtZip + " num: " + nxtNum + " name: " + nxtName);
+					// System.out.println(" id : " + nxtId + " zip : " + nxtZip + " num: " + nxtNum
+					// + " name: " + nxtName);
 
 					// overwrite the data
 					randomFile.seek(expectedLocation);
@@ -552,7 +466,7 @@ public class DataDao {
 					for (int i = 0; i < byteArr.length; i++) {
 						randomFile.writeChar(byteArr[i]);
 					}
-					
+
 					expectedLocation = expectedLocation + 56;
 					end = end + 56;
 				}
@@ -684,13 +598,13 @@ public class DataDao {
 	}
 
 	public static void main(String args[]) {
-		Data d1 = new Data(1, 000, 000000111);
-		Data d2 = new Data(2, 94102, 111);
-		Data d3 = new Data(3, 94103, 222);
-		Data d4 = new Data(4, 94104, 333);
+		Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
+		Data d2 = new Data(2, 94102, 111, "BabyCat 2");
+		Data d3 = new Data(3, 94103, 222, "BabyCat 3");
+		Data d4 = new Data(4, 94104, 333, "BabyCat 4");
 
 		Data d5 = new Data(5, 94105555, 5555, "BabyCat");
-		Data d6 = new Data(6, 94106, 555, "Dianaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		Data d6 = new Data(6, 94106, 555, "12345678901234567890ABCDEF");
 		Data d7 = new Data(7, 94107, 666, "Tiramisu");
 		Data d8 = new Data(8, 94108, 777, "Tres Leches");
 		Data d9 = new Data(9, 94109, 888, "Coconut cream");
@@ -703,15 +617,15 @@ public class DataDao {
 		datadao.save(d2);
 		datadao.save(d3);
 		datadao.save(d4);
-//
-//		datadao.add(d5);
-//		datadao.add(d6);
-//		datadao.add(d7);
-//		datadao.add(d8);
-//		datadao.add(d9);
-//		datadao.add(d10);
 
-		List<Data> all = datadao.readAll();
+		datadao.save(d5);
+		datadao.save(d6);
+		datadao.save(d7);
+		datadao.save(d8);
+		datadao.save(d9);
+		datadao.save(d10);
+
+		List<Data> all = datadao.findAll();
 		for (Data data : all) {
 			System.out.println(data);
 		}
@@ -732,7 +646,7 @@ public class DataDao {
 //		System.out.println(pos + 6 + " name: " + name);
 		// datadao.updateData(d6);
 
-		//datadao.deleteData(d10);
+		// datadao.deleteData(d10);
 		// datadao.findAll();
 	}
 }
