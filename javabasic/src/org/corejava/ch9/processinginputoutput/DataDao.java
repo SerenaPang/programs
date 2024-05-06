@@ -94,8 +94,8 @@ public class DataDao {
 					char character = randomFile.readChar();
 					if (character != 0) {
 						strLen++;
+						sb.append(character);
 					}
-					sb.append(character);
 				}
 
 				// convert to string
@@ -103,7 +103,8 @@ public class DataDao {
 				String name = wholeStr.substring(0, strLen);
 
 				end = end + 56;
-				System.out.println("id: " + id + " zip: " + zip + " num: " + num + " name: " + name);
+				// System.out.println("id: " + id + " zip: " + zip + " num: " + num + " name: "
+				// + name);
 				// Data data = new Data(id, zip, num);
 				Data data = new Data(id, zip, num, name);
 				listOfData.add(data);
