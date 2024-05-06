@@ -77,11 +77,9 @@ public class DataDao {
 	 */
 	public List<Data> findAll() {
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			System.out.println("Initial file size: " + randomFile.length() + " bytes");
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
 			int end = 0;
-
 			while (end < fileSize) {
 				// sum 16 bytes of data
 				int id = randomFile.readInt();
@@ -97,21 +95,16 @@ public class DataDao {
 						sb.append(character);
 					}
 				}
-
 				// convert to string
 				String wholeStr = sb.toString();
 				String name = wholeStr.substring(0, strLen);
 
-				end = end + 56;
-				// System.out.println("id: " + id + " zip: " + zip + " num: " + num + " name: "
-				// + name);
-				// Data data = new Data(id, zip, num);
+				// TODO: use constants for FIELDS
+				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES + NAME_FIELD_SIZE_IN_BYTES;
 				Data data = new Data(id, zip, num, name);
 				listOfData.add(data);
 			}
 			System.out.println("done reading file");
-			// printList(listOfData);
-			// System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to open the file " + pathFile);
@@ -134,6 +127,7 @@ public class DataDao {
 	/**
 	 * search a data object with specified id with data type string
 	 */
+	// TODO: Use constants for fields.
 	public Data findById(int dataId) {
 		Data data = null;
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
@@ -181,51 +175,8 @@ public class DataDao {
 		return data;
 	}
 
-	/**
-	 * update specific data entry in the text file read the first filed in each line
-	 * to find the matching id replace the line with the new one
-	 */
-	public void update(Data data) {
-		// new data entry id to be updated
-		int dataId = data.getId();
-
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			long fileSize = randomFile.length();
-			System.out.println("start reading file");
-			// where the current byte location is
-			int pointer = 0;
-			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +16 every time read a data entry
-			// to get the data, create the data object and add to list
-			while (pointer < fileSize) {
-				int currentId = randomFile.readInt();
-				long zip = randomFile.readLong();
-				int num = randomFile.readInt();
-				pointer = pointer + 16;
-				// found the matching id, move the pointer to each location, write the new info
-				if (currentId == dataId) {
-					System.out.println("found id " + dataId);
-					// move pointer backward to update num
-					pointer = pointer - 4;
-					randomFile.seek(pointer);
-					randomFile.writeInt(data.getNum());
-					// move pointer backward to /update zip
-					pointer = pointer - 8;
-					randomFile.seek(pointer);
-					randomFile.writeLong(data.getZip());
-					break;
-				}
-			}
-			// readAll();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
-		}
-	}
-
+	// TODO: Consolidate update() and update() data.
+	// TODO: Use constants for fields.
 	/**
 	 * update specific data entry in the text file read the first filed in each line
 	 * with data type String to find the matching id replace the line with the new
@@ -309,6 +260,7 @@ public class DataDao {
 	 * 
 	 * case 2: at the end of the file overwrite all the data to 0
 	 */
+	// TODO: Use constants for fields
 	public void delete(Data data) {
 		// data entry id to be deleted
 		int dataId = data.getId();
