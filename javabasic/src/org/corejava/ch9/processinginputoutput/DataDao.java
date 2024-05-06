@@ -99,8 +99,8 @@ public class DataDao {
 				String wholeStr = sb.toString();
 				String name = wholeStr.substring(0, strLen);
 
-				// TODO: use constants for FIELDS
-				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES + NAME_FIELD_SIZE_IN_BYTES;
+				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
+						+ NAME_FIELD_SIZE_IN_BYTES;
 				Data data = new Data(id, zip, num, name);
 				listOfData.add(data);
 			}
@@ -127,7 +127,6 @@ public class DataDao {
 	/**
 	 * search a data object with specified id with data type string
 	 */
-	// TODO: Use constants for fields.
 	public Data findById(int dataId) {
 		Data data = null;
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
@@ -146,22 +145,20 @@ public class DataDao {
 				// read string
 				StringBuilder sb = new StringBuilder();
 				int strLen = 0;
-				for (int i = 0; i < 20; i++) {
+				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
 					char character = randomFile.readChar();
-					if (character != 'X') {
+					if (character != 0) {
 						strLen++;
 					}
 					sb.append(character);
 				}
-
 				// convert to string
 				String wholeStr = sb.toString();
 				String name = wholeStr.substring(0, strLen);
-				pointer = pointer + 56;
-
+				pointer = pointer + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
+						+ NAME_FIELD_SIZE_IN_BYTES;
 				if (currentId == dataId) {
 					data = new Data(currentId, zip, num, name);
-					System.out.println("id: " + currentId + " zip: " + zip + " num: " + num + " name: " + name);
 					return data;
 				}
 			}
@@ -566,23 +563,24 @@ public class DataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
-		datadao.save(d1);
-		datadao.save(d2);
-		datadao.save(d3);
-		datadao.save(d4);
-
-		datadao.save(d5);
-		datadao.save(d6);
-		datadao.save(d7);
-		datadao.save(d8);
-		datadao.save(d9);
-		datadao.save(d10);
+//		datadao.save(d1);
+//		datadao.save(d2);
+//		datadao.save(d3);
+//		datadao.save(d4);
+//
+//		datadao.save(d5);
+//		datadao.save(d6);
+//		datadao.save(d7);
+//		datadao.save(d8);
+//		datadao.save(d9);
+//		datadao.save(d10);
 
 		List<Data> all = datadao.findAll();
-		for (Data data : all) {
-			System.out.println(data);
-		}
-
+		datadao.printList(all);
+		Data targetD = datadao.findById(9);
+		System.out.println(targetD.toString());
+		
+		
 //		Data res = datadao.findById(3);
 //		System.out.println(res);
 //		datadao.update(d1);
