@@ -47,7 +47,7 @@ public class Data {
 
 	@Override
 	public String toString() {
-		 return "Data [id=" + id + ", zip=" + zip + " num=" + num + "]" + " name=" + name + "]";
+		 return "Data [id= " + id + ", zip= " + zip + ", num= " + num + "]" + ", name= " + name + "]";
 		//return "Data [id=" + id + ", zip=" + zip + ", num=" + num + "]";
 	}
 }

@@ -67,8 +67,7 @@ public class DataDao {
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
 				String name = readString(randomFile);
-				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
-						+ NAME_FIELD_SIZE_IN_BYTES;
+				end = end + DATA_RECORD_SIZE_IN_BYTES;
 				Data data = new Data(id, zip, num, name);
 				listOfData.add(data);
 			}
@@ -106,8 +105,7 @@ public class DataDao {
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
 				String name = readString(randomFile);
-				pointer = pointer + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
-						+ NAME_FIELD_SIZE_IN_BYTES;
+				pointer = pointer + DATA_RECORD_SIZE_IN_BYTES;
 				if (currentId == dataId) {
 					data = new Data(currentId, zip, num, name);
 					return data;
@@ -123,8 +121,6 @@ public class DataDao {
 		return data;
 	}
 
-	// TODO: Consolidate update() and update() data.
-	// TODO: Use constants for fields.
 	/**
 	 * update specific data entry in the text file read the first filed in each line
 	 * with data type String to find the matching id replace the line with the new
@@ -140,8 +136,8 @@ public class DataDao {
 			// where the current byte location is
 			int pointer = 0;
 			while (pointer < fileSize) {
-				int currentId = randomFile.readInt();			
-				pointer = pointer + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES + NAME_FIELD_SIZE_IN_BYTES;
+				int currentId = randomFile.readInt();
+				pointer = pointer + DATA_RECORD_SIZE_IN_BYTES;
 				randomFile.seek(pointer);
 				if (currentId == dataId) {
 					System.out.println("found id " + dataId);
@@ -250,93 +246,75 @@ public class DataDao {
 	 */
 	public void deleteData(Data data) {
 		// data entry id to be deleted
-		int dataId = data.getId();
-		long dataZip = data.getZip();
-		int dataNum = data.getNum();
-
+		int targetDataId = data.getId();
 		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
 			long fileSize = randomFile.length();
-			System.out.println("start reading file");
-			// where the current byte location is
-			int pointer = 0;
-			int end = 0;
-			// position of the data to be deleted
-			int expectedLocation = findDataPosition(dataId);
-			// now we know expectedLocation is where the current data entry to be deleted
-			// case 2 where data to be deleted is at the end of the file
-			if (expectedLocation + 56 == fileSize) {
-				randomFile.seek(expectedLocation);
+
+			int currentIndex = 0;
+			int targetIndexPosition = 0;
+			// find target id position
+			while (currentIndex + DATA_RECORD_SIZE_IN_BYTES < fileSize) {
+				randomFile.seek(currentIndex);
+				int currentId = randomFile.readInt();
+				System.out.println("current Id: " + currentId);
+				// walker = walker + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES +
+				// NAME_FIELD_SIZE_IN_BYTES;
+				if (currentId == targetDataId) {
+					targetIndexPosition = currentIndex;
+					System.out.println(
+							"found the target id: " + currentId + " starts at position " + targetIndexPosition);
+					break;
+				}
+				currentIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+			}
+			// case 1 : the last data entry is the one to be deleted OR
+			// case 2: the beginning or middle data entry to be deleted
+
+			if (currentIndex + DATA_RECORD_SIZE_IN_BYTES == fileSize) {
+				randomFile.seek(currentIndex);
 				randomFile.writeInt(0);
 				randomFile.writeLong(0);
 				randomFile.writeInt(0);
-				for (int i = 0; i < 20; i++) {
-					randomFile.writeChar(' ');
-				}
-			} else // case 1, data is at the beginning or the middle of the file
-			{
-				System.out.println("...");
-				pointer = expectedLocation;
-				while (end + 56 < fileSize) {
-					randomFile.seek(expectedLocation + 56);
-
-					// read the next data entry of the current data entry to be deleted
+				writeString("0", randomFile);
+			} else {
+				// overwrite the current entry with the next entry
+				// int nxtIdIndex = currentIndex;
+				int nxtEntryIndex = currentIndex;
+				int expectedIndexPosition = currentIndex;
+				while (currentIndex < fileSize) {
+//					int curId = randomFile.readInt();
+//					long curZip = randomFile.readLong();
+//					int curNum = randomFile.readInt();
+//					String curName = readString(randomFile);
+					// System.out.println("cur id: " + curId + " cur zip: " + curZip + " cur name: "
+					// + curName);
+					// read the current's next entry so we have content to overwrite the current one
+					nxtEntryIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+					randomFile.seek(nxtEntryIndex);
 					int nxtId = randomFile.readInt();
 					long nxtZip = randomFile.readLong();
 					int nxtNum = randomFile.readInt();
-					pointer = pointer + 16;
-					String nxtName;
-					// read string
-					StringBuilder sb = new StringBuilder();
-					int strLen = 0;
-					for (int i = 0; i < 20; i++) {
-						char character = randomFile.readChar();
-						if (character != 'X') {
-							strLen++;
-						}
-						sb.append(character);
-					}
-					pointer = pointer + 40;
-					// convert to string
-					String wholeStr = sb.toString();
-					nxtName = wholeStr.substring(0, strLen);
-					// System.out.println(" id : " + nxtId + " zip : " + nxtZip + " num: " + nxtNum
-					// + " name: " + nxtName);
+					// might only walk util num index, so has to + string bytes
+					String nxtName = readString(randomFile);
+					int expectLoc = currentIndex;
+					currentIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
 
-					// overwrite the data
-					randomFile.seek(expectedLocation);
+					// System.out.println("nxt id: " + nxtId + " nxt zip: " + nxtZip + "nxt num : "
+					// + nxtNum + " nxt name: " + nxtName);
+
+					// overwrite the current data
+					randomFile.seek(expectLoc);
 					randomFile.writeInt(nxtId);
 					randomFile.writeLong(nxtZip);
 					randomFile.writeInt(nxtNum);
+					// might only walk til num index, so has to + string bytes
+					writeString(nxtName, randomFile);
 
-					char[] strArray = nxtName.toCharArray();
-					char[] byteArr = new char[20];
-
-					// use X to fill out all blank spaces
-					for (int j = 0; j < byteArr.length; j++) {
-						byteArr[j] = 'X';
-						// System.out.print(strArray[i] + " ");
-					}
-					// update the new string
-					if (strArray.length <= byteArr.length) {
-						// case 1: string length <= set array length
-						for (int i = 0; i < strArray.length; i++) {
-							byteArr[i] = strArray[i];
-							// System.out.print(strArray[i] + " ");
-						}
-
-					} else { // case 2: string length > set array length
-						for (int i = 0; i < byteArr.length; i++) {
-							byteArr[i] = strArray[i];
-						}
-					}
-
-					// write each character to the file
-					for (int i = 0; i < byteArr.length; i++) {
-						randomFile.writeChar(byteArr[i]);
-					}
-
-					expectedLocation = expectedLocation + 56;
-					end = end + 56;
+					// System.out.println("next id: " + nxtId + " starts at position " +
+					// nxtIdIndex);
+					currentIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+					
+					// expectedIndexPosition = expectedIndexPosition + DATA_RECORD_SIZE_IN_BYTES;
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -346,40 +324,6 @@ public class DataDao {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to access " + pathFile);
 		}
-	}
-
-	/***
-	 * Find the data entry by id, return the starting position of the data entry
-	 * 
-	 * @param id the data id to be found
-	 * @return the starting position of the data entry
-	 */
-	private int findDataPosition(int id) {
-		int position = -1;
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			long fileSize = randomFile.length();
-			System.out.println("start reading file");
-			int pointer = 0;
-
-			while (pointer < fileSize) {
-				int currentId = randomFile.readInt();
-				System.out.println("current Id: " + currentId);
-				pointer = pointer + 56;
-				randomFile.seek(pointer);
-				if (currentId == id) {
-					position = pointer - 56;
-					System.out.println("id: " + currentId + " at position " + position);
-					return position;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
-		}
-		return position;
 	}
 
 	/**
@@ -435,20 +379,16 @@ public class DataDao {
 			try {
 				randomFile.writeChar(nameArray[index]);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 		for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
 			try {
 				randomFile.writeChar(0 /* NULL in ASCII */);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public static void main(String args[]) {
@@ -467,43 +407,30 @@ public class DataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myrandomdata.txt";
 		DataDao datadao = new DataDao(path);
+
 //		datadao.save(d1);
 //		datadao.save(d2);
 //		datadao.save(d3);
 //		datadao.save(d4);
-
-//		datadao.save(d5);
+//		datadao.save(d5);		
 //		datadao.save(d6);
 //		datadao.save(d7);
 //		datadao.save(d8);
 //		datadao.save(d9);
 //		datadao.save(d10);
 
-		
 //		datadao.printList(all);
-		//Data targetD = datadao.findById(7);
-		//System.out.println(targetD.toString());
+		// Data targetD = datadao.findById(7);
+		// System.out.println(targetD.toString());
+//		datadao.updateData(d6);
+//
 
-		datadao.updateData(d6);
-		List<Data> all = datadao.findAll();
-		datadao.printList(all);
-//		Data res = datadao.findById(3);
-//		System.out.println(res);
-//		datadao.update(d1);
-//		datadao.readAll();
-//		datadao.delete(d2);
-//		System.out.println("After: ");
+//		List<Data> all = datadao.findAll();
+//		datadao.printList(all);
 
-		// datadao.findAll();
-		// datadao.searchById(10);
-//		int pos = datadao.findDataPosition(6);
+		datadao.deleteData(d4);
+		List<Data> after = datadao.findAll();
+		datadao.printList(after);
 
-//		datadao.writeString("HIIII", pos + 16, 20);
-//		String name = datadao.readString(pos + 16);
-//		System.out.println(pos + 6 + " name: " + name);
-		
-
-		// datadao.deleteData(d10);
-		// datadao.findAll();
 	}
 }
