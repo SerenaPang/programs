@@ -82,29 +82,12 @@ public class DataDao {
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
 			int end = 0;
-		//	int currentIndex = 0;
 			while (end < fileSize) {
-				// sum 16 bytes of data
 				int id = randomFile.readInt();
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
 				// read string
-//				StringBuilder sb = new StringBuilder();
-//				int strLen = 0;
-//				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
-//					char character = randomFile.readChar();
-//					if (character != 0) {
-//						strLen++;
-//						sb.append(character);
-//					}
-//				}
-//				// convert to string
-//				String wholeStr = sb.toString();
-//				String name = wholeStr.substring(0, strLen);
-//				currentIndex = currentIndex + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES
-//						+ NUM_FIELD_SIZE_IN_BYTES;
 				String name = readString(randomFile);
-//				currentIndex = currentIndex + NAME_FIELD_SIZE_IN_BYTES;
 				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
 						+ NAME_FIELD_SIZE_IN_BYTES;
 				Data data = new Data(id, zip, num, name);
@@ -139,28 +122,11 @@ public class DataDao {
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
 			int pointer = 0;
-			// when it's the end of the file stop, pointer >= size of file
-			// set the pointer +56 every time, when read the cursor move by 4, 8, and 4, and
-			// 40 bytes of string
-			// update pointer position for every iteration to know when reach the end
-			// to get the data, create the data object and add to list
 			while (pointer < fileSize) {
 				int currentId = randomFile.readInt();
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
-				// read string
-				StringBuilder sb = new StringBuilder();
-				int strLen = 0;
-				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
-					char character = randomFile.readChar();
-					if (character != 0) {
-						strLen++;
-					}
-					sb.append(character);
-				}
-				// convert to string
-				String wholeStr = sb.toString();
-				String name = wholeStr.substring(0, strLen);
+				String name = readString(randomFile);
 				pointer = pointer + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
 						+ NAME_FIELD_SIZE_IN_BYTES;
 				if (currentId == dataId) {
@@ -568,9 +534,9 @@ public class DataDao {
 //		datadao.save(d10);
 
 		List<Data> all = datadao.findAll();
-		datadao.printList(all);
-//		Data targetD = datadao.findById(9);
-//		System.out.println(targetD.toString());
+//		datadao.printList(all);
+		Data targetD = datadao.findById(7);
+		System.out.println(targetD.toString());
 
 //		Data res = datadao.findById(3);
 //		System.out.println(res);
