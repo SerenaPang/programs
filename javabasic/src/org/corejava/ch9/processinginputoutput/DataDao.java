@@ -46,20 +46,22 @@ public class DataDao {
 			// store the string in byte array, write it to file, put the unfilled bytes to 0
 			String name = data.getName();
 			// fill the byte array with the right length and content
-			char[] nameArray = name.toCharArray();
-			int totalBytes = nameArray.length * CHAR_SIZE_IN_BYTES;
+//			char[] nameArray = name.toCharArray();
+//			int totalBytes = nameArray.length * CHAR_SIZE_IN_BYTES;
+//
+//			int bytesToSave = totalBytes <= NAME_FIELD_SIZE_IN_BYTES ? totalBytes : NAME_FIELD_SIZE_IN_BYTES;
+//			int charsToSave = bytesToSave / CHAR_SIZE_IN_BYTES;
+//
+//			int index = 0;
+//			for (index = 0; index < charsToSave; index++) {
+//				randomFile.writeChar(nameArray[index]);
+//			}
+//
+//			for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
+//				randomFile.writeChar(0 /* NULL in ASCII */);
+//			}
 
-			int bytesToSave = totalBytes <= NAME_FIELD_SIZE_IN_BYTES ? totalBytes : NAME_FIELD_SIZE_IN_BYTES;
-			int charsToSave = bytesToSave / CHAR_SIZE_IN_BYTES;
-
-			int index = 0;
-			for (index = 0; index < charsToSave; index++) {
-				randomFile.writeChar(nameArray[index]);
-			}
-
-			for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
-				randomFile.writeChar(0 /* NULL in ASCII */);
-			}
+			writeString(name, randomFile);
 
 			System.out.println("Final file size: " + randomFile.length() + " bytes");
 		} catch (FileNotFoundException e) {
@@ -80,25 +82,29 @@ public class DataDao {
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
 			int end = 0;
+		//	int currentIndex = 0;
 			while (end < fileSize) {
 				// sum 16 bytes of data
 				int id = randomFile.readInt();
 				long zip = randomFile.readLong();
 				int num = randomFile.readInt();
 				// read string
-				StringBuilder sb = new StringBuilder();
-				int strLen = 0;
-				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
-					char character = randomFile.readChar();
-					if (character != 0) {
-						strLen++;
-						sb.append(character);
-					}
-				}
-				// convert to string
-				String wholeStr = sb.toString();
-				String name = wholeStr.substring(0, strLen);
-
+//				StringBuilder sb = new StringBuilder();
+//				int strLen = 0;
+//				for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
+//					char character = randomFile.readChar();
+//					if (character != 0) {
+//						strLen++;
+//						sb.append(character);
+//					}
+//				}
+//				// convert to string
+//				String wholeStr = sb.toString();
+//				String name = wholeStr.substring(0, strLen);
+//				currentIndex = currentIndex + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES
+//						+ NUM_FIELD_SIZE_IN_BYTES;
+				String name = readString(randomFile);
+//				currentIndex = currentIndex + NAME_FIELD_SIZE_IN_BYTES;
 				end = end + ID_FIELD_SIZE_IN_BYTES + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES
 						+ NAME_FIELD_SIZE_IN_BYTES;
 				Data data = new Data(id, zip, num, name);
@@ -213,7 +219,7 @@ public class DataDao {
 
 					// use X to fill out all blank spaces
 					for (int j = 0; j < byteArr.length; j++) {
-						byteArr[j] = 'X';
+						byteArr[j] = 0;
 						// System.out.print(strArray[i] + " ");
 					}
 					// update the new string
@@ -470,31 +476,29 @@ public class DataDao {
 	 * @param startPoint where to start to read characters in file
 	 * @return the String starting from the pass in position in file
 	 */
-	private String readString(int startPoint) {
-		String result;
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			randomFile.seek(startPoint);
+	private String readString(RandomAccessFile randomFile) {
+		String name = null;
+		// read string
+		StringBuilder sb = new StringBuilder();
+		try {
 			// read string
-			StringBuilder sb = new StringBuilder();
 			int strLen = 0;
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < NAME_FIELD_SIZE_IN_CHARS; i++) {
 				char character = randomFile.readChar();
-				if (character != 'X') {
+				if (character != 0) {
 					strLen++;
+					sb.append(character);
 				}
-				sb.append(character);
 			}
 			// convert to string
 			String wholeStr = sb.toString();
-			result = wholeStr.substring(0, strLen);
-			return result;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
+			name = wholeStr.substring(0, strLen);
+			return name;
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
 		}
+		return name;
 	}
 
 	/**
@@ -506,45 +510,33 @@ public class DataDao {
 	 *                         for the String
 	 * @return the written string's ending position in file
 	 */
-	private int writeString(String aString, int startingPosition, int expectedLength) {
-		int endingPosition = startingPosition + expectedLength;
-		// fill the byte array with the right length and content
-		char[] strArray = aString.toCharArray();
-		char[] byteArr = new char[expectedLength];
+	private void writeString(String aString, RandomAccessFile randomFile) {
 
-		// use X to fill out all blank spaces
-		for (int j = 0; j < byteArr.length; j++) {
-			byteArr[j] = 'X';
-			// System.out.print(strArray[i] + " ");
-		}
-		// update the new string
-		if (strArray.length <= byteArr.length) {
-			// case 1: string length <= set array length
-			for (int i = 0; i < strArray.length; i++) {
-				byteArr[i] = strArray[i];
-				// System.out.print(strArray[i] + " ");
-			}
+		char[] nameArray = aString.toCharArray();
+		int totalBytes = nameArray.length * CHAR_SIZE_IN_BYTES;
 
-		} else { // case 2: string length > set array length
-			for (int i = 0; i < byteArr.length; i++) {
-				byteArr[i] = strArray[i];
+		int bytesToSave = totalBytes <= NAME_FIELD_SIZE_IN_BYTES ? totalBytes : NAME_FIELD_SIZE_IN_BYTES;
+		int charsToSave = bytesToSave / CHAR_SIZE_IN_BYTES;
+
+		int index = 0;
+		for (index = 0; index < charsToSave; index++) {
+			try {
+				randomFile.writeChar(nameArray[index]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		try (RandomAccessFile randomFile = new RandomAccessFile(pathFile, "rw")) {
-			randomFile.seek(startingPosition);
-			// write each character to the file
-			for (int i = 0; i < byteArr.length; i++) {
-				randomFile.writeChar(byteArr[i]);
-				// System.out.println(i + " " + byteArr[i] + " ");
+
+		for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
+			try {
+				randomFile.writeChar(0 /* NULL in ASCII */);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to open the file " + pathFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Unable to access " + pathFile);
 		}
-		return endingPosition;
+
 	}
 
 	public static void main(String args[]) {
@@ -567,7 +559,7 @@ public class DataDao {
 //		datadao.save(d2);
 //		datadao.save(d3);
 //		datadao.save(d4);
-//
+
 //		datadao.save(d5);
 //		datadao.save(d6);
 //		datadao.save(d7);
@@ -577,10 +569,9 @@ public class DataDao {
 
 		List<Data> all = datadao.findAll();
 		datadao.printList(all);
-		Data targetD = datadao.findById(9);
-		System.out.println(targetD.toString());
-		
-		
+//		Data targetD = datadao.findById(9);
+//		System.out.println(targetD.toString());
+
 //		Data res = datadao.findById(3);
 //		System.out.println(res);
 //		datadao.update(d1);
