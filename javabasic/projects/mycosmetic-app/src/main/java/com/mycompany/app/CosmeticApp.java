@@ -48,7 +48,7 @@ public class CosmeticApp {
 			// String filePath = file.getAbsolutePath();
 			// System.out.println(filePath);
 
-		} else if("-rafile".equals(flag)) { // rafile stands for random access file
+		} else if ("-rafile".equals(flag)) { // rafile stands for random access file
 			File file = new File(
 					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/randomcosmetic.txt");
 			cosmeticDao = new CosmeticRandomAccessFileDao(file);
@@ -75,15 +75,15 @@ public class CosmeticApp {
 //			 cosmeticDao.save(d8);
 //			 cosmeticDao.save(d9);
 //			 cosmeticDao.save(d10);
-			 
-			 List<Cosmetic> listOfCosmetic = cosmeticDao.findAll();
-			 for (Cosmetic c : listOfCosmetic) {
-					System.out.println(c.toString());
-			 }
-			 
-			// cosmeticDao.findById(4);
-		}
-		 else if  ("-db".equals(flag)){
+
+			List<Cosmetic> listOfCosmetic = cosmeticDao.findAll();
+			for (Cosmetic c : listOfCosmetic) {
+				System.out.println(c.toString());
+			}
+
+			Cosmetic c4 = cosmeticDao.findById(4);
+			System.out.println(c4.toString());
+		} else if ("-db".equals(flag)) {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = new JdbcDataSource("mysqldb.properties");
 			cosmeticDao = new CosmeticJdbcDao(jdbcDataSource);
@@ -92,10 +92,9 @@ public class CosmeticApp {
 //					cosmeticDao.updateCosmetic(cosme);
 			// cosmeticDao.deleteCosmetic(90);
 			// cosmeticDao.findById(4);
+		} else {
+			// serilization
 		}
-			 else {
-				 //serilization
-			 }			 
 //				GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
 //				ui.createUi(); 
 	}

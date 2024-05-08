@@ -16,10 +16,8 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	// create a map to store all the product, the key is the product id
 	Map<Integer, Cosmetic> productMap = new HashMap<Integer, Cosmetic>();
 	private List<Cosmetic> listOfCosmetic = new ArrayList<>();
-
 	// create a file object
 	File file;
-//	String pathFile;
 
 	private static final int CHAR_SIZE_IN_BYTES = 2;
 	private static final int ID_FIELD_SIZE_IN_BYTES = 4;
@@ -35,10 +33,6 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	public CosmeticRandomAccessFileDao(File file) {
 		this.file = file;
 	}
-
-//	public CosmeticRandomAccessFileDao(String pathFile) {
-//		this.pathFile = pathFile;
-//	}
 
 	/**
 	 * This method writes the user input into the text at the end of the text file
@@ -65,21 +59,52 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		}
 	}
 
+	/**
+	 * Search a Cosmetic object with specified id
+	 * 
+	 * @param id the id of the cosmetic object to search
+	 */
 	public Cosmetic findById(Integer id) {
-		System.out.println("Finding id " + id + " in text file...");
-		return null;
+		Cosmetic cosmetic = null;
+		try (RandomAccessFile randomFile = new RandomAccessFile(file, "rw")) {
+			long fileSize = randomFile.length();
+			int curIndex = 0;
+			while (curIndex < fileSize) {
+				int currentId = randomFile.readInt();
+				String name = readString(randomFile);
+				String brand = readString(randomFile);
+				String category = readString(randomFile);
+				curIndex = curIndex + DATA_RECORD_SIZE_IN_BYTES;
+				if (currentId == id) {
+					cosmetic = new Cosmetic(id, name, brand, category);
+					return cosmetic;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + file);
+		}
+		return cosmetic;
 	}
 
+	/**
+	 * Find all the data in the text file, output to the object to list
+	 * 
+	 * @return List<Cosmetic> list of Cosmetic in the file
+	 */
 	public List<Cosmetic> findAll() {
 		try (RandomAccessFile randomFile = new RandomAccessFile(file, "rw")) {
 			long fileSize = randomFile.length();
 			System.out.println("start reading file");
 			int end = 0;
 			while (end < fileSize) {
-				int id = randomFile.readInt();			
+				int id = randomFile.readInt();
 				String name = readString(randomFile);
 				String brand = readString(randomFile);
-				String category = readString(randomFile);			
+				String category = readString(randomFile);
 				Cosmetic cosmetic = new Cosmetic(id, name, brand, category);
 				listOfCosmetic.add(cosmetic);
 				end = end + DATA_RECORD_SIZE_IN_BYTES;
@@ -95,14 +120,24 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		return listOfCosmetic;
 	}
 
+	/**
+	 * update specific data entry in the text file
+	 * 
+	 * @param cosmetic a cosmetic object to be updated
+	 */
 	public boolean updateCosmetic(Cosmetic cosmetic) {
 		System.out.println("update cosmetics");
 
 		return false;
 	}
 
+	/**
+	 * delete specific data entry in the text file
+	 * 
+	 * @param cosmetic a cosmetic object to be deleted
+	 */
 	public boolean deleteCosmetic(int id) {
-		System.out.println("delete cosmetics");
+		System.out.println("delete cosmetic");
 
 		return false;
 	}
@@ -139,7 +174,7 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 			}
 		}
 	}
-	
+
 	/**
 	 * Read a string from the text file
 	 * 
@@ -168,7 +203,7 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		}
 		return name;
 	}
-	
+
 	/**
 	 * print the list of Cosmetic object
 	 */
