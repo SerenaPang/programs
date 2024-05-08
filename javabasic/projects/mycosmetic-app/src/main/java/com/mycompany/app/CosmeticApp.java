@@ -80,9 +80,19 @@ public class CosmeticApp {
 			for (Cosmetic c : listOfCosmetic) {
 				System.out.println(c.toString());
 			}
+			
+			Cosmetic dd6 = new Cosmetic(6, "cpdd", "ddddd", "dd6");
+			System.out.println("update d6");
+			cosmeticDao.updateCosmetic(dd6);
+			
+			listOfCosmetic = cosmeticDao.findAll();
+			for (Cosmetic c : listOfCosmetic) {
+				System.out.println(c.toString());
+			}
+			
+//			Cosmetic c4 = cosmeticDao.findById(4);
+//			System.out.println(c4.toString());
 
-			Cosmetic c4 = cosmeticDao.findById(4);
-			System.out.println(c4.toString());
 		} else if ("-db".equals(flag)) {
 			System.out.println("Use database");
 			JdbcDataSource jdbcDataSource = new JdbcDataSource("mysqldb.properties");

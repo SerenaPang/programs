@@ -126,9 +126,40 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	 * @param cosmetic a cosmetic object to be updated
 	 */
 	public boolean updateCosmetic(Cosmetic cosmetic) {
-		System.out.println("update cosmetics");
-
-		return false;
+		boolean updated = false;
+		// new data entry id to be updated
+		int cosmeticId = cosmetic.getId();
+		try (RandomAccessFile randomFile = new RandomAccessFile(file, "rw")) {
+			long fileSize = randomFile.length();
+			// where the current byte location is
+			int curIndex = 0;
+			while (curIndex < fileSize) {
+				int currentId = randomFile.readInt();
+				curIndex = curIndex + DATA_RECORD_SIZE_IN_BYTES;
+				randomFile.seek(curIndex);
+				if (currentId == cosmeticId) {
+					System.out.println("found id " + cosmeticId);
+					// move curIndex backward to update name, brand and category
+					curIndex = curIndex - (STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES);
+					randomFile.seek(curIndex);
+					writeString(cosmetic.getName(), randomFile);
+					writeString(cosmetic.getBrand(), randomFile);
+					writeString(cosmetic.getCategory(), randomFile);
+					updated = true;
+					return updated;
+				//	break;
+				} else {
+					System.out.println(cosmeticId + " NOT FOUND");
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + file);
+		}
+		return updated;
 	}
 
 	/**
