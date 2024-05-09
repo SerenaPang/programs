@@ -1,6 +1,5 @@
 package org.corejava.ch9.processinginputoutput;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -212,7 +211,7 @@ public class DataDao {
 					nxt = nxt + DATA_RECORD_SIZE_IN_BYTES;
 					// System.out.println("nxt id: " + nxtId + " nxt zip: " + nxtZip + "nxt num : "
 					// + nxtNum + " nxt name: " + nxtName);
-					
+
 					// overwrite the current data
 					randomFile.seek(currentIndex);
 					randomFile.writeInt(nxtId);

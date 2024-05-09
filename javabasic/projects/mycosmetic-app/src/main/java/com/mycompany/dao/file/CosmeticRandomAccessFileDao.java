@@ -140,14 +140,14 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 				if (currentId == cosmeticId) {
 					System.out.println("found id " + cosmeticId);
 					// move curIndex backward to update name, brand and category
-					curIndex = curIndex - (STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES);
+					curIndex = curIndex
+							- (STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES + STRING_FIELD_SIZE_IN_BYTES);
 					randomFile.seek(curIndex);
 					writeString(cosmetic.getName(), randomFile);
 					writeString(cosmetic.getBrand(), randomFile);
 					writeString(cosmetic.getCategory(), randomFile);
 					updated = true;
 					return updated;
-				//	break;
 				} else {
 					System.out.println(cosmeticId + " NOT FOUND");
 				}

@@ -2,11 +2,11 @@ package org.corejava.ch9.processinginputoutput;
 
 import java.io.Serializable;
 
-public class Employee implements Serializable{
-	
+public class Employee implements Serializable {
+
 	private String name;
 	private double salary;
-	
+
 	public Employee(String name, int salary) {
 		this.name = name;
 		this.salary = salary;
