@@ -1,6 +1,5 @@
 package org.corejava.ch9.processinginputoutput;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,11 +9,17 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class SerializationDataDao {
 	private List<Data> listOfData = new ArrayList<>();
-	private String pathFile;
+	private HashSet<Data> setsOfData = new HashSet<>();
+//	private String pathFile;
+	Path filePath;
+	String pathFile;
+	// = Path.of(pathFile);
 
 	private static final int CHAR_SIZE_IN_BYTES = 2;
 	private static final int ID_FIELD_SIZE_IN_BYTES = 4;
@@ -23,8 +28,13 @@ public class SerializationDataDao {
 	private static final int NAME_FIELD_SIZE_IN_BYTES = 20 * 2; // Every character is 2 bytes.
 	private static final int NAME_FIELD_SIZE_IN_CHARS = 20; // Every character is 2 bytes.
 
-	public SerializationDataDao(String pathFile) {
-		this.pathFile = pathFile;
+//	public SerializationDataDao(String pathFile) {
+//		this.pathFile = pathFile;
+//	}
+//	
+	public SerializationDataDao(Path filePath) {
+		this.filePath = filePath;
+		pathFile = filePath.toString();
 	}
 
 	/**
@@ -36,38 +46,16 @@ public class SerializationDataDao {
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(pathFile);
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			
-			FileInputStream fileInputStream = new FileInputStream(pathFile);
-			long fileLength = fileInputStream.available();
-
-			System.out.println("Initial file size: " + fileLength +  " bytes");
+			// listOfData.add(data);
+			setsOfData.add(data);
+			System.out.println("adding " + data.toString());
+			// printList();
 			// serialization of the data object (write to the file)
-			 objectOutputStream.writeObject(data);
-//			objectOutputStream.writeInt(data.getId());
-//			objectOutputStream.writeLong(data.getZip());
-//			objectOutputStream.writeInt(data.getNum());
-//			String name = data.getName();
-//
-//			char[] nameArray = name.toCharArray();
-//			int totalBytes = nameArray.length * CHAR_SIZE_IN_BYTES;
-//
-//			int bytesToSave = totalBytes <= NAME_FIELD_SIZE_IN_BYTES ? totalBytes : NAME_FIELD_SIZE_IN_BYTES;
-//			int charsToSave = bytesToSave / CHAR_SIZE_IN_BYTES;
-//
-//			int index = 0;
-//			for (index = 0; index < charsToSave; index++) {
-//
-//				objectOutputStream.writeChar(nameArray[index]);
-//			}
-//			for (int i = NAME_FIELD_SIZE_IN_CHARS - charsToSave; i > 0; i--) {
-//
-//				objectOutputStream.writeChar(0 /* NULL in ASCII */);
-//			}
-			 System.out.println("Final file size: " + fileLength + " bytes");
-			// serialization of the data object (write to the list)
-			// objectOutputStream.writeObject(listOfData);
+			// objectOutputStream.writeObject(data);
+			 write(filePath, setsOfData);
 
 			// System.out.println(data.getId() + " Object has been serialized");
+			//printSet();
 			objectOutputStream.close();
 			fileOutputStream.close();
 
@@ -87,16 +75,16 @@ public class SerializationDataDao {
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(pathFile);
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			
+
 			FileInputStream fileInputStream = new FileInputStream(pathFile);
 			long fileLength = fileInputStream.available();
 
-			System.out.println("Initial file size: " + fileLength +  " bytes");
+			System.out.println("Initial file size: " + fileLength + " bytes");
 			// serialization of the data object (write to the file)
 			for (Data d : dataList) {
-				 objectOutputStream.writeObject(d);
+				objectOutputStream.writeObject(d);
 			}
-			
+
 			System.out.println("Final file size: " + fileLength + " bytes");
 
 			objectOutputStream.close();
@@ -108,20 +96,27 @@ public class SerializationDataDao {
 			System.out.println("IOException is caught");
 		}
 	}
-	
-	public void write(Path path) {
+
+	public void write(Path path, HashSet<Data> dataSet) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path));
-			Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
-			Data d2 = new Data(2, 94102, 111, "BabyCat 2");
-			out.writeObject(d1);
-			out.writeObject(d2);
-
+//			Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
+//			Data d2 = new Data(2, 94102, 111, "BabyCat 2");
+//			out.writeObject(d1);
+//			out.writeObject(d2);
+			Iterator itr = setsOfData.iterator();
+			while (itr.hasNext()) {
+				Data d = (Data) itr.next();
+				//System.out.println(itr.next());
+				System.out.println(d.toString());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+
 	/**
 	 * Reading the object from a file
 	 * 
@@ -142,7 +137,7 @@ public class SerializationDataDao {
 //
 //			// listOfData.add(data);
 //			System.out.println(data.toString());
-			
+
 			Data data2 = (Data) objectInputStream.readObject();
 			System.out.println(data1.toString());
 			System.out.println(data2.toString());
@@ -186,6 +181,22 @@ public class SerializationDataDao {
 	}
 
 	/**
+	 * print the set of data object
+	 */
+	public void printSet() {
+		System.out.println("Printing Set");
+		// creates Iterator object.
+		Iterator itr = setsOfData.iterator();
+		// check element is present or not. if not loop will
+		// break.
+		while (itr.hasNext()) {
+			Data d = (Data) itr.next();
+			//System.out.println(itr.next());
+			System.out.println(d.toString());
+		}
+	}
+
+	/**
 	 * 
 	 * */
 	public boolean updateData(Data data) {
@@ -210,21 +221,25 @@ public class SerializationDataDao {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myserializationdata.txt";
 		List<Data> listOfData = new ArrayList<>();
-		
+
 		Path filePath = Path.of(path);
-		SerializationDataDao serializationDataDao = new SerializationDataDao(path);
+		// SerializationDataDao serializationDataDao = new SerializationDataDao(path);
+		SerializationDataDao serializationDataDao = new SerializationDataDao(filePath);
+		// serializationDataDao.write(filePath);
+
+		Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
+		Data d2 = new Data(2, 94102, 111, "BabyCat 2");
+		Data d3 = new Data(3, 94103, 222, "BabyCat 3");
+		Data d4 = new Data(4, 94104, 333, "BabyCat 4");
+
+		serializationDataDao.save(d1);
+		serializationDataDao.save(d2);
+		serializationDataDao.save(d3);
+		serializationDataDao.save(d4);
+
+//		HashSet<Data> setsOfData = new HashSet<>();
+//		serializationDataDao.printSet();
 		
-		serializationDataDao.write(filePath);
-//
-//		Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
-//		Data d2 = new Data(2, 94102, 111, "BabyCat 2");
-//		Data d3 = new Data(3, 94103, 222, "BabyCat 3");
-//		Data d4 = new Data(4, 94104, 333, "BabyCat 4");
-//
-//		serializationDataDao.save(d1);
-//		serializationDataDao.save(d2);
-//		serializationDataDao.save(d3);
-//		serializationDataDao.save(d4);
 		
 //		listOfData.add(d1);
 //		listOfData.add(d2);
