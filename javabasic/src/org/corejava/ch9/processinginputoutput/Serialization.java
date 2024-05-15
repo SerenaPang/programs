@@ -1,20 +1,17 @@
 package org.corejava.ch9.processinginputoutput;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Turning an object into a bunch of bytes that can be stored on disk, and
- * reconstitude the object from those bytes
+ * Turning an object into a bunch of bytes that can be stored on disk, and re
+ * constitude the object from those bytes
  */
 public class Serialization {
 	private Path path;
@@ -94,12 +91,12 @@ public class Serialization {
 			ObjectInputStream in = new ObjectInputStream(Files.newInputStream(path));
 			ArrayList<Employee> employees;
 			employees = (ArrayList<Employee>) in.readObject();
-			//find the target object		
+			// find the target object
 			for (Employee em : employees) {
 				if (em.getId() == employee.getId()) {
 					// System.out.println("found: " + em.toString());
 					employees.remove(em);
-					//add the new element to the list for update
+					// add the new element to the list for update
 					employees.add(employee);
 					// delete the old file
 					file.delete();
@@ -171,7 +168,7 @@ public class Serialization {
 		Path filePath = Paths.get(
 				"/Users/serenapang/Development/JavaBasics/javabasic/src/org/corejava/ch9/processinginputoutput/employee.txt");
 		Serialization serialization = new Serialization(filePath);
-		//test add
+		// test add
 		Employee paul = new Employee(1, "Paul", 10000);
 		Employee peter = new Employee(2, "Peter", 18000);
 		ArrayList<Employee> employees = new ArrayList<>();
@@ -183,29 +180,29 @@ public class Serialization {
 		employees.add(new Employee(6, "Watermelon", 9000));
 
 		serialization.write(employees);
-		//test read all
+		// test read all
 		ArrayList<Employee> empls = serialization.read();
 
 		for (Employee em : empls) {
 			System.out.println(em);
 		}
-		//test findById
+		// test findById
 		Employee target = serialization.findById(1);
 		System.out.println(target.toString());
 
-		//test delete
+		// test delete
 		serialization.deleteData(3);
 		ArrayList<Employee> emplsDeleted = serialization.read();
 		for (Employee em : emplsDeleted) {
 			System.out.println(em);
 		}
-		
-		//test update
+
+		// test update
 		Employee bbCat = new Employee(6, "bbCat", 9000);
 		serialization.updateData(bbCat);
 		ArrayList<Employee> emplsUpdated = serialization.read();
 		for (Employee em : emplsUpdated) {
 			System.out.println(em);
-		}		
+		}
 	}
 }

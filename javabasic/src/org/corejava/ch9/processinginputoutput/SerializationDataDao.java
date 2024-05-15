@@ -1,254 +1,195 @@
 package org.corejava.ch9.processinginputoutput;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 
 public class SerializationDataDao {
-	private List<Data> listOfData = new ArrayList<>();
-	private HashSet<Data> setsOfData = new HashSet<>();
-//	private String pathFile;
-	Path filePath;
-	String pathFile;
-	// = Path.of(pathFile);
-
-	private static final int CHAR_SIZE_IN_BYTES = 2;
-	private static final int ID_FIELD_SIZE_IN_BYTES = 4;
-	private static final int ZIP_FIELD_SIZE_IN_BYTES = 8;
-	private static final int NUM_FIELD_SIZE_IN_BYTES = 4;
-	private static final int NAME_FIELD_SIZE_IN_BYTES = 20 * 2; // Every character is 2 bytes.
-	private static final int NAME_FIELD_SIZE_IN_CHARS = 20; // Every character is 2 bytes.
-
-//	public SerializationDataDao(String pathFile) {
-//		this.pathFile = pathFile;
-//	}
-//	
-	public SerializationDataDao(Path filePath) {
-		this.filePath = filePath;
-		pathFile = filePath.toString();
+	Path path;
+	public SerializationDataDao(Path path) {
+		this.path = path;
 	}
-
 	/**
-	 * Saving of object in a file
+	 * To serialize a list of objects
 	 * 
-	 * @param data object to be serialized
+	 * @throws IOException
 	 */
-	public void save(Data data) {
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(pathFile);
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			// listOfData.add(data);
-			setsOfData.add(data);
-			System.out.println("adding " + data.toString());
-			// printList();
-			// serialization of the data object (write to the file)
-			// objectOutputStream.writeObject(data);
-			 write(filePath, setsOfData);
+	public void write(ArrayList<Data> dataList) {
 
-			// System.out.println(data.getId() + " Object has been serialized");
-			//printSet();
-			objectOutputStream.close();
-			fileOutputStream.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException ex) {
-			System.out.println("IOException is caught");
-		}
-	}
-
-	/**
-	 * Saving of object in a file
-	 * 
-	 * @param data object to be serialized
-	 */
-	public void save(List<Data> dataList) {
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(pathFile);
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-
-			FileInputStream fileInputStream = new FileInputStream(pathFile);
-			long fileLength = fileInputStream.available();
-
-			System.out.println("Initial file size: " + fileLength + " bytes");
-			// serialization of the data object (write to the file)
-			for (Data d : dataList) {
-				objectOutputStream.writeObject(d);
-			}
-
-			System.out.println("Final file size: " + fileLength + " bytes");
-
-			objectOutputStream.close();
-			fileOutputStream.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException ex) {
-			System.out.println("IOException is caught");
-		}
-	}
-
-	public void write(Path path, HashSet<Data> dataSet) {
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path));
-//			Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
-//			Data d2 = new Data(2, 94102, 111, "BabyCat 2");
-//			out.writeObject(d1);
-//			out.writeObject(d2);
-			Iterator itr = setsOfData.iterator();
-			while (itr.hasNext()) {
-				Data d = (Data) itr.next();
-				//System.out.println(itr.next());
-				System.out.println(d.toString());
-			}
+		try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path))) {
+			out.writeObject(dataList);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
 
 	/**
-	 * Reading the object from a file
+	 * To read list of object from the serialized file
 	 * 
-	 * @return List<Data> list of data object
+	 * @throws IOException
 	 */
-	public List<Data> findAll() {
+	public ArrayList<Data> read() throws IOException {
+		ObjectInputStream in = new ObjectInputStream(Files.newInputStream(path));
 		try {
-			FileInputStream fileInputStream = new FileInputStream(pathFile);
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			long fileLength = fileInputStream.available();
-			System.out.println("file len: " + fileLength);
-//			//deserialization of object
-			Data data1 = (Data) objectInputStream.readObject();
-//			listOfData.add(data);
-
-			// deserialization of object
-//			Data data = (Data) objectInputStream.readObject();
-//
-//			// listOfData.add(data);
-//			System.out.println(data.toString());
-
-			Data data2 = (Data) objectInputStream.readObject();
-			System.out.println(data1.toString());
-			System.out.println(data2.toString());
-			objectInputStream.close();
-			fileInputStream.close();
-			System.out.println("Object has been deserialized");
-		} catch (IOException ex) {
-			System.out.println("IOException is caught");
+			ArrayList<Data> dataList = (ArrayList<Data>) in.readObject();
+			return dataList;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
-
-		catch (ClassNotFoundException ex) {
-			System.out.println("ClassNotFoundException" + " is caught");
-		}
-		return listOfData;
+		return null;
 	}
 
 	/**
+	 * Find the target element in file by target's id
 	 * 
-	 * */
-	public Data findById(Integer id) {
+	 * reading all the object list from the file,if the element id matches target
+	 * id, return that element as result
+	 */
+	public Data findById(int id) {
 		Data data = null;
-
+		try {
+			ObjectInputStream in = new ObjectInputStream(Files.newInputStream(path));
+			ArrayList<Data> dataList;
+			dataList = (ArrayList<Data>) in.readObject();
+			for (Data dataEntry : dataList) {
+				if (dataEntry.getId() == id) {
+					// System.out.println(data.toString());
+					data = dataEntry;
+					return data;
+				}
+			}
+			System.out.println("Data not found");
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
 		return data;
 	}
 
 	/**
-	 * print data object
-	 */
-	public void printdata(Data data) {
-		System.out.println(data.toString());
-	}
-
-	/**
-	 * print the list of data object
-	 */
-	public void printList() {
-		System.out.println("Printing list");
-		for (Data d : listOfData) {
-			System.out.println(d.toString());
-		}
-	}
-
-	/**
-	 * print the set of data object
-	 */
-	public void printSet() {
-		System.out.println("Printing Set");
-		// creates Iterator object.
-		Iterator itr = setsOfData.iterator();
-		// check element is present or not. if not loop will
-		// break.
-		while (itr.hasNext()) {
-			Data d = (Data) itr.next();
-			//System.out.println(itr.next());
-			System.out.println(d.toString());
-		}
-	}
-
-	/**
+	 * Update the object by reading all the object list from the file, delete the
+	 * original element, add the new element, delete the old file, create a new
+	 * file, then write the new list to the file
 	 * 
-	 * */
-	public boolean updateData(Data data) {
+	 */
+	public boolean updateData(Data newDataEntry) {
 		boolean updated = false;
-
-		// value of static variable changed
-		data.setId(0);
-
+		File file = path.toFile();
+		// find the target object and delete from the list
+		try {
+			ObjectInputStream in = new ObjectInputStream(Files.newInputStream(path));
+			ArrayList<Data> dataList = (ArrayList<Data>) in.readObject();
+			//find the target object		
+			for (Data aDataEntry : dataList) {
+				if (aDataEntry.getId() == newDataEntry.getId()) {
+					// System.out.println("found: " + em.toString());
+					dataList.remove(aDataEntry);
+					//add the new element to the list for update
+					dataList.add(newDataEntry);
+					// delete the old file
+					file.delete();
+					if (!file.exists()) {
+						file = new File("myserializationdata.txt");
+					}
+					// populate all employee product with the updated object to the new file
+					path = file.toPath();
+					try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path))) {
+						out.writeObject(dataList);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					updated = true;
+					return updated;
+				}
+				System.out.println("Data not found");
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
 		return updated;
 	}
 
 	/**
-	 * 
-	 * */
+	 * Delete the target object with the specific id reading all the object list
+	 * from the file, delete the original element, delete the old file, create a new
+	 * file, then write the new list to the file
+	 */
 	public boolean deleteData(int id) {
 		boolean deleted = false;
-
+		File file = path.toFile();
+		// find the target object and delete from the list
+		try {
+			ObjectInputStream in = new ObjectInputStream(Files.newInputStream(path));
+			ArrayList<Data> dataList = (ArrayList<Data>) in.readObject();
+			// delete the target object
+			for (Data aDataEntry : dataList) {
+				if (aDataEntry.getId() == id) {
+					// System.out.println("found: " + em.toString());
+					dataList.remove(aDataEntry);
+					// delete the old file
+					file.delete();
+					if (!file.exists()) {
+						file = new File("myserializationdata.txt");
+					}
+					// populate all employee product to the new file
+					path = file.toPath();
+					try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(path))) {
+						out.writeObject(dataList);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					deleted = true;
+					return deleted;
+				}
+			}
+			System.out.println("Data not found");
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
 		return deleted;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String path = "/Users/serenapang/Development/JavaBasics/javabasic/"
 				+ "src/org/corejava/ch9/processinginputoutput/myserializationdata.txt";
-		List<Data> listOfData = new ArrayList<>();
-
 		Path filePath = Path.of(path);
-		// SerializationDataDao serializationDataDao = new SerializationDataDao(path);
 		SerializationDataDao serializationDataDao = new SerializationDataDao(filePath);
-		// serializationDataDao.write(filePath);
-
+	
 		Data d1 = new Data(1, 000, 000000111, "BabyCat 1");
 		Data d2 = new Data(2, 94102, 111, "BabyCat 2");
 		Data d3 = new Data(3, 94103, 222, "BabyCat 3");
 		Data d4 = new Data(4, 94104, 333, "BabyCat 4");
-
-		serializationDataDao.save(d1);
-		serializationDataDao.save(d2);
-		serializationDataDao.save(d3);
-		serializationDataDao.save(d4);
-
-//		HashSet<Data> setsOfData = new HashSet<>();
-//		serializationDataDao.printSet();
-		
-		
-//		listOfData.add(d1);
-//		listOfData.add(d2);
-//		listOfData.add(d3);
-//		listOfData.add(d4);
-//		
-//		serializationDataDao.save(listOfData);
-//		List<Data> after = serializationDataDao.findAll();
-		// serializationDataDao.printList();
-		// serializationDataDao.findAll();
+		ArrayList<Data> dataList = new ArrayList<>();
+		//test write
+		dataList.add(d1);
+		dataList.add(d2);
+		dataList.add(d3);
+		dataList.add(d4);		
+		serializationDataDao.write(dataList);	
+		//test read
+		ArrayList<Data> dataListReadAll = serializationDataDao.read();
+		for (Data aData : dataListReadAll) {
+			System.out.println(aData.toString());
+		}
+		//test find by id		
+		Data target = serializationDataDao.findById(1);
+		System.out.println("find by id: " + target.toString());
+		//test delete
+		serializationDataDao.deleteData(1);
+		ArrayList<Data> dataListDelete = serializationDataDao.read();
+		for (Data aData : dataListDelete) {
+			System.out.println(aData.toString());
+		}
+		//test update
+		Data dd4 = new Data(4, 1, 222, "Tucy");
+		serializationDataDao.updateData(dd4);
+		ArrayList<Data> dataListUpdate = serializationDataDao.read();
+		for (Data aData : dataListUpdate) {
+			System.out.println(aData.toString());
+		}
 	}
 }
