@@ -6,12 +6,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.mycompany.dao.CosmeticDao;
 import com.mycompany.dao.jdbc.CosmeticJdbcDao;
 import com.mycompany.dao.jdbc.JdbcDataSource;
 import com.mycompany.dao.file.CosmeticFileDao;
 import com.mycompany.dao.file.CosmeticRandomAccessFileDao;
+import com.mycompany.dao.file.CosmeticSerializationDao;
 import com.mycompany.model.Cosmetic;
 
 /**
@@ -102,8 +102,49 @@ public class CosmeticApp {
 //					cosmeticDao.updateCosmetic(cosme);
 			// cosmeticDao.deleteCosmetic(90);
 			// cosmeticDao.findById(4);
-		} else {
+		} else if ("-serafile".equals(flag)){
 			// serilization
+			File file = new File(
+					"/Users/serenapang/Development/JavaBasics/javabasic/projects/mycosmetic-app/serialiazationcosmetic.txt");
+			cosmeticDao = new CosmeticSerializationDao(file);
+			System.out.println("Using Cosmetic Serialization File");
+			ArrayList<Cosmetic> cosmeList = new ArrayList<>();
+			Cosmetic d1 = new Cosmetic(1, "aa", "aaaa", "BabyCat 1");
+			Cosmetic d2 = new Cosmetic(2, "bb", "bbbbb", "BabyCat 2");
+			Cosmetic d3 = new Cosmetic(3, "cc", "ccccc", "BabyCat 3");
+			Cosmetic d4 = new Cosmetic(4, "dd", "ddddd", "BabyCat 4");	
+			
+//			cosmeticDao.save(d1);
+//			cosmeticDao.save(d2);
+//			cosmeticDao.save(d3);
+//			cosmeticDao.save(d4);
+			
+			//test read
+			List<Cosmetic> cosmeListReadAll = cosmeticDao.findAll();
+			for (Cosmetic aCosmetic : cosmeListReadAll) {
+				System.out.println(aCosmetic.toString());
+			}
+			//test find by id		
+//			Cosmetic target = cosmeticDao.findById(1);
+//			System.out.println("find by id: " + target.toString());
+			//test delete
+//			System.out.println("delete " + 2);
+//			cosmeticDao.deleteCosmetic(2);
+//			List<Cosmetic> cosmeListDelete = cosmeticDao.findAll();
+//			for (Cosmetic aCosmetic : cosmeListDelete) {
+//				System.out.println(aCosmetic.toString());
+//			}
+//			//test update
+			Cosmetic dd4 = new Cosmetic(4, "cpdd", "ddddd", "dd4");
+			cosmeticDao.updateCosmetic(dd4);
+			List<Cosmetic> cosmeListUpdate = cosmeticDao.findAll();
+			for (Cosmetic aCosmetic : cosmeListUpdate) {
+				System.out.println(aCosmetic.toString());
+			}
+			
+		}else {
+			// other
+			
 		}
 //				GridLayoutFrame ui = new GridLayoutFrame(cosmeticDao, flag);
 //				ui.createUi(); 

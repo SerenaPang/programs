@@ -1,11 +1,13 @@
 package com.mycompany.model;
 
+import java.io.Serializable;
+
 /**
  * A cosmetic object class that has getters and setters
  * CosmeID int, Brand varchar(255), 
  * 
  * */
-public class Cosmetic {
+public class Cosmetic implements Serializable {
 	private String brand;
 	private String name;
 	private String category;
