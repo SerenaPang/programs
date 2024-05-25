@@ -54,17 +54,17 @@ public class CosmeticApp {
 			cosmeticDao = new CosmeticRandomAccessFileDao(file);
 
 			System.out.println("Using random access file");
-			Cosmetic d1 = new Cosmetic(1, "aa", "aaaa", "BabyCat 1");
-			Cosmetic d2 = new Cosmetic(2, "bb", "bbbbb", "BabyCat 2");
-			Cosmetic d3 = new Cosmetic(3, "cc", "ccccc", "BabyCat 3");
-			Cosmetic d4 = new Cosmetic(4, "dd", "ddddd", "BabyCat 4");
-
-			Cosmetic d5 = new Cosmetic(5, "ee", "eee", "BabyCat");
-			Cosmetic d6 = new Cosmetic(6, "ff", "ffff", "Hello Good night");
-			Cosmetic d7 = new Cosmetic(7, "gg", "ggg", "Tiramisu");
-			Cosmetic d8 = new Cosmetic(8, "hh", "hhhh", "Tres Leches");
-			Cosmetic d9 = new Cosmetic(9, "ii", "iii", "Coconut cream");
-			Cosmetic d10 = new Cosmetic(10, "jjjj", "jjjj", "Dark C");
+//			Cosmetic d1 = new Cosmetic(1, "aa", "aaaa", "BabyCat 1");
+//			Cosmetic d2 = new Cosmetic(2, "bb", "bbbbb", "BabyCat 2");
+//			Cosmetic d3 = new Cosmetic(3, "cc", "ccccc", "BabyCat 3");
+//			Cosmetic d4 = new Cosmetic(4, "dd", "ddddd", "BabyCat 4");
+//
+//			Cosmetic d5 = new Cosmetic(5, "ee", "eee", "BabyCat");
+//			Cosmetic d6 = new Cosmetic(6, "ff", "ffff", "Hello Good night");
+//			Cosmetic d7 = new Cosmetic(7, "gg", "ggg", "Tiramisu");
+//			Cosmetic d8 = new Cosmetic(8, "hh", "hhhh", "Tres Leches");
+//			Cosmetic d9 = new Cosmetic(9, "ii", "iii", "Coconut cream");
+//			Cosmetic d10 = new Cosmetic(10, "jjjj", "jjjj", "Dark C");
 //			 cosmeticDao.save(d1);
 //			 cosmeticDao.save(d2);
 //			 cosmeticDao.save(d3);
@@ -77,15 +77,17 @@ public class CosmeticApp {
 //			 cosmeticDao.save(d10);
 
 			List<Cosmetic> listOfCosmetic = cosmeticDao.findAll();
-			for (Cosmetic c : listOfCosmetic) {
-				System.out.println(c.toString());
-			}
+//			for (Cosmetic c : listOfCosmetic) {
+//				System.out.println(c.toString());
+//			}
+//			System.out.println(" ============DELETE ==========");
+			cosmeticDao.deleteCosmetic(4);
 
-			Cosmetic dd6 = new Cosmetic(6, "cpdd", "ddddd", "dd6");
-			System.out.println("update d6");
-			cosmeticDao.updateCosmetic(dd6);
-
-			listOfCosmetic = cosmeticDao.findAll();
+//			Cosmetic dd6 = new Cosmetic(6, "cpdd", "ddddd", "dd6");
+//			System.out.println("update d6");
+//			cosmeticDao.updateCosmetic(dd6);
+//
+			//listOfCosmetic = cosmeticDao.findAll();
 			for (Cosmetic c : listOfCosmetic) {
 				System.out.println(c.toString());
 			}

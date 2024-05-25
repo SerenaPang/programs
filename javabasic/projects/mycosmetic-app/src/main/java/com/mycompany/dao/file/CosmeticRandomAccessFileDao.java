@@ -18,6 +18,7 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	private List<Cosmetic> listOfCosmetic = new ArrayList<>();
 	// create a file object
 	File file;
+	long fileSize;
 
 	private static final int CHAR_SIZE_IN_BYTES = 2;
 	private static final int ID_FIELD_SIZE_IN_BYTES = 4;
@@ -32,6 +33,24 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	// create a constructor that receive the file pass in the command line
 	public CosmeticRandomAccessFileDao(File file) {
 		this.file = file;
+
+	}
+
+	/**
+	 * Get the original length of the file
+	 */
+	public long getLength() {
+		try (RandomAccessFile randomFile = new RandomAccessFile(file, "r")) {
+			long fileLength = randomFile.length();
+
+			return fileLength;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + file);
+		}
 	}
 
 	/**
@@ -162,6 +181,56 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 		return updated;
 	}
 
+	private void deleteHelper(int indexToBeDeleted, long fileSize, RandomAccessFile randomFile) {
+		int currentIndex = indexToBeDeleted;
+		// case 1 : the last data entry is the one to be deleted OR
+		// case 2: the beginning or middle data entry to be deleted
+		try (randomFile) {
+			if (currentIndex + DATA_RECORD_SIZE_IN_BYTES == fileSize) {
+				randomFile.seek(currentIndex);
+				randomFile.writeInt(0);
+				writeString("0", randomFile);
+				writeString("0", randomFile);
+				writeString("0", randomFile);
+				// or just ignore the last entry
+				// fileSize = fileSize - DATA_RECORD_SIZE_IN_BYTES;
+			} else {
+				// overwrite the current entry with the next entry
+				int nxt = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+				while (nxt < fileSize) {
+					randomFile.seek(nxt);
+					//record the next entry
+					int nxtId = randomFile.readInt();
+					String nxtname = readString(randomFile);
+					String nxtbrand = readString(randomFile);
+					String nxtcategory = readString(randomFile);
+
+					nxt = nxt + DATA_RECORD_SIZE_IN_BYTES;
+					// overwrite the current data
+					randomFile.seek(currentIndex);
+					randomFile.writeInt(nxtId);
+					writeString(nxtname, randomFile);
+					writeString(nxtbrand, randomFile);
+					writeString(nxtcategory, randomFile);
+
+					// System.out.println("next id: " + nxtId + " starts at position " +
+					// nxtIdIndex);
+					currentIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+					
+				}
+				// decrease the size by one entry
+				fileSize = fileSize - DATA_RECORD_SIZE_IN_BYTES;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + file);
+		}
+
+	}
+
 	/**
 	 * delete specific data entry in the text file
 	 * 
@@ -169,8 +238,37 @@ public class CosmeticRandomAccessFileDao implements CosmeticDao {
 	 */
 	public boolean deleteCosmetic(int id) {
 		System.out.println("delete cosmetic");
+		try (RandomAccessFile randomFile = new RandomAccessFile(file.getPath(), "rw")) {
+			long fileLength = randomFile.length();
+			fileSize = fileLength;
+			int currentIndex = 0;
+			// find target id position
+			while (currentIndex + DATA_RECORD_SIZE_IN_BYTES < fileSize) {
+				randomFile.seek(currentIndex);
+				int currentId = randomFile.readInt();
+				// System.out.println("current Id: " + currentId);
+				// walker = walker + ZIP_FIELD_SIZE_IN_BYTES + NUM_FIELD_SIZE_IN_BYTES +
+				// NAME_FIELD_SIZE_IN_BYTES;
+				if (currentId == id) {
+					// case 1 : the last data entry is the one to be deleted OR
+					// case 2: the beginning or middle data entry to be deleted
+//					System.out.println(
+//							"found the target id: " + currentId + " starts at position " + targetIndexPosition);
+					break;
+				}
+				currentIndex = currentIndex + DATA_RECORD_SIZE_IN_BYTES;
+			}
 
-		return false;
+			deleteHelper(currentIndex, fileSize, randomFile);
+			return true;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to open the file " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to access " + file);
+		}
 	}
 
 	/**
