@@ -17,6 +17,6 @@ public class AppTest {
     public void threePlusFiveEqualsEight()
     {	
     	App app = new App();
-        assertEquals(8, app.add(3,5));
+        assertEquals(3, app.add(3,5));
     }
 }
