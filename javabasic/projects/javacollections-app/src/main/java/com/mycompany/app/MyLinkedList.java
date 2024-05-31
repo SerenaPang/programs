@@ -78,23 +78,22 @@ public class MyLinkedList {
 		ListNode cur = head;
 		while (cur != null) {
 			if (cur.value == value) {
-				//case 1: remove head, make target's next element the new head
-				//case 2: remove middle, connect the previous element to the current's next element
-				//case 3: remove tail, find the element before last element and cut it
+				// case 1: remove head, make target's next element the new head
+				// case 2: remove middle, connect the previous element to the current's next
+				// element
+				// case 3: remove tail, find the element before last element and cut it
 				if (pre == null) {
 					return cur.next;
-				}				
-				else if (cur.next == null) {
+				} else if (cur.next == null) {
 					pre.next = null;
 					return head;
-				}
-				else {
+				} else {
 					pre.next = cur.next;
-				}			
+				}
 			}
 			pre = cur;
 			cur = cur.next;
-		}		
+		}
 		return head;
 	}
 }

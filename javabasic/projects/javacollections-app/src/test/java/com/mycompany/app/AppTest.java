@@ -1,20 +1,31 @@
 package com.mycompany.app;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import com.mycompany.app.ListNode;
+import com.mycompany.app.MyLinkedList;
 
 /**
- * Unit test for simple App.
+ * Unit test for java collections App.
  */
 public class AppTest 
 {
     /**
-     * Rigorous Test :-)
+     * Test length method for linked list
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void testLength()
     {
-        assertTrue( true );
+    	ListNode head = new ListNode(0);
+    	ListNode node1 = new ListNode(1);
+    	ListNode node2 = new ListNode(2);
+    	ListNode node3 = new ListNode(3);
+    	head.next = node1;
+    	node1.next = node2;
+    	node2.next = node3;
+    	MyLinkedList myList = new MyLinkedList(head);
+    	assertEquals(4, myList.length(head));
     }
 }
