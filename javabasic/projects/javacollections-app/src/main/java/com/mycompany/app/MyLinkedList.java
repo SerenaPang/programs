@@ -29,6 +29,7 @@ public class MyLinkedList {
 		// count = index, and cur != null
 		while (count < index && cur != null) {
 			cur = cur.next;
+			count++;
 		}
 		return cur;
 	}
