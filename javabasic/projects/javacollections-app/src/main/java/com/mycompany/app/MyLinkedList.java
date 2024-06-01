@@ -40,17 +40,17 @@ public class MyLinkedList {
 	 * @return the head of the new list
 	 */
 	public ListNode appendTail(ListNode head, int value) {
-		ListNode newNode = new ListNode(value);
-		ListNode pre = head;
 		// case 1 head is empty, make it the head and the tail
-		if (pre == null) {
-			return newNode;
-		}
 		// case 2 find the tail and attach it
+		if (head == null) {
+			return new ListNode(value);
+		}
+		ListNode pre = head;
 		while (pre != null) {
 			pre = pre.next;
 		}
-		pre.next = newNode;
+		// exit the while loop when pre.next == null
+		pre.next = new ListNode(value);
 		return head;
 	}
 
@@ -75,25 +75,22 @@ public class MyLinkedList {
 	 * Remove the first matching value in the list
 	 */
 	public ListNode remove(ListNode head, int value) {
-		ListNode pre = null;
+		// case 1: remove head, make target's next element the new head
+		// case 2: remove middle, connect the previous element to the current's next
+		// element
+		// case 3: remove tail, find the element before last element and cut it
+		if (head == null) {
+			return null;
+		} else if (head.value == value) {
+			return head.next;
+		}
 		ListNode cur = head;
-		while (cur != null) {
-			if (cur.value == value) {
-				// case 1: remove head, make target's next element the new head
-				// case 2: remove middle, connect the previous element to the current's next
-				// element
-				// case 3: remove tail, find the element before last element and cut it
-				if (pre == null) {
-					return cur.next;
-				} else if (cur.next == null) {
-					pre.next = null;
-					return head;
-				} else {
-					pre.next = cur.next;
-				}
-			}
-			pre = cur;
+		while (cur.next != null && cur.next != null) {
 			cur = cur.next;
+		}
+		//now cur.next is the node to be removed
+		if (cur.next != null) {
+			cur = cur.next.next;
 		}
 		return head;
 	}
