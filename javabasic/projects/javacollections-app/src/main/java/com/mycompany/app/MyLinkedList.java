@@ -1,8 +1,8 @@
 package com.mycompany.app;
 
 public class MyLinkedList {
-	ListNode head;
-
+	private ListNode head;
+	private int length;
 	public MyLinkedList(ListNode head) {
 		this.head = head;
 	}
@@ -10,7 +10,7 @@ public class MyLinkedList {
 	/**
 	 * Return the length of the list
 	 */
-	public int length(ListNode head) {
+	public int length() {
 		int count = 0;
 		ListNode cur = head;
 		while (cur != null) {
@@ -18,6 +18,13 @@ public class MyLinkedList {
 			cur = cur.next;
 		}
 		return count;
+	}
+	
+	/**
+	 * Return the length of the list
+	 */
+	public int getLength() {
+		return length;
 	}
 
 	/**
@@ -39,18 +46,24 @@ public class MyLinkedList {
 	 * 
 	 * @return the head of the new list
 	 */
-	public ListNode appendTail(ListNode head, int value) {
-		// case 1 head is empty, make it the head and the tail
-		// case 2 find the tail and attach it
+	public ListNode appendTail(int value) {
+		ListNode newNode = new ListNode(value);
+		// case 1 head is empty, make it the head and the tail			
 		if (head == null) {
-			return new ListNode(value);
+			head = newNode;
+			length++;
+			return newNode;
 		}
-		ListNode pre = head;
-		while (pre != null) {
-			pre = pre.next;
+		// case 2 find the tail and attach it
+		ListNode pre = null;
+		ListNode current = head;
+		while (current != null) {
+			pre = current;
+			current = current.next;		
 		}
-		// exit the while loop when pre.next == null
-		pre.next = new ListNode(value);
+		// exit the while loop when current == null and pre == last node in list
+		pre.next = newNode;
+		length++;
 		return head;
 	}
 
