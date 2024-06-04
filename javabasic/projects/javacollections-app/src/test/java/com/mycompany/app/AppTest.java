@@ -20,9 +20,9 @@ public class AppTest
     @Test
     public void testLength()
     {
-    	ListNode head = new ListNode(0);
-    	MyLinkedList myList = new MyLinkedList(head);	
     	System.out.println("TEST LENGTH ");
+    	ListNode head = new ListNode(0);
+    	MyLinkedList myList = new MyLinkedList(head);
     	myList.appendTail(1);
     	myList.appendTail(2);
     	myList.appendTail(3);
@@ -73,9 +73,9 @@ public class AppTest
     @Test
     public void testAppendTail()
     {
-     	ListNode head = new ListNode(0);
-    	MyLinkedList myList = new MyLinkedList(head);	
     	System.out.println("TEST APPEND TAIL ");
+     	ListNode head = new ListNode(0);
+    	MyLinkedList myList = new MyLinkedList(head);
     	myList.appendTail(1);
     	myList.appendTail(2);
     	myList.appendTail(3);
@@ -97,30 +97,26 @@ public class AppTest
     @Test
     public void testAppendHead()
     {
-//    	ListNode head = new ListNode(0);
-//    	ListNode node1 = new ListNode(1);
-//    	ListNode node2 = new ListNode(2);
-//    	ListNode node3 = new ListNode(3);
-//    	ListNode node4 = new ListNode(4);
-//    	head.next = node1;
-//    	node1.next = node2;
-//    	node2.next = node3;
-//    	node3.next = node4;
-//    	MyLinkedList myList = new MyLinkedList(head);   	
-//    	myList.appendHead(head, 4);
-//    	
-//      ListNode head2 = new ListNode(4);
-//    	ListNode n1 = new ListNode(0);
-//    	ListNode n2 = new ListNode(1);
-//    	ListNode n3 = new ListNode(2);   	
-//    	ListNode n4 = new ListNode(3);
-//    	
-//    	head2.next = n1;
-//    	n1.next = n2;
-//    	n2.next = n3;
-//    	n3.next = n4;
+    	System.out.println("TEST APPEND HEAD ");
+    	ListNode head = null;
+    	MyLinkedList myList = new MyLinkedList(head);
+    	myList.appendHead(1);  
+    	myList.appendHead(2);
+    	ListNode nHead = myList.appendHead(3);
+    	int[] resultArray = new int[3];
     	
- //   	assertEquals(head, head2);
+    	int len = myList.getLength();
+    	System.out.println("!!!len in append head: " + len);
+    	for(int i = 0; i < len; i++) {
+    		int value = nHead.value;
+    		resultArray[i] = value;
+    		nHead = nHead.next;
+    	}	
+    	for (int i = 0; i < resultArray.length; i++) {
+    		System.out.println("val: " + resultArray[i]);
+    	}
+    	int[] expectedArray = {3,2,1};
+    	assertArrayEquals(expectedArray, resultArray);
     }
     
     /**

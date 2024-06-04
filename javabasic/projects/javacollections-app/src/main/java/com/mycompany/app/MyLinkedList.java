@@ -72,16 +72,21 @@ public class MyLinkedList {
 	 * 
 	 * @return the head of the new list
 	 */
-	public ListNode appendHead(ListNode head, int value) {
+	public ListNode appendHead(int value) {
 		ListNode newNode = new ListNode(value);
 		// case 1 head is empty, make it the new head
-		if (head == null) {
-			return newNode;
+		if (head == null) {			
+			head = new ListNode(value);;
+			length++;
+			return head;
 		}
 		// case 2 head is not empty, make the old head to be the next of the new head
 		// and return the new head
-		newNode.next = head;
-		return newNode;
+		ListNode oldHead = head;
+		newNode.next = oldHead;
+		head = newNode;
+		length++;
+		return head;
 	}
 
 	/**
