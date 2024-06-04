@@ -106,14 +106,13 @@ public class AppTest
     	int[] resultArray = new int[3];
     	
     	int len = myList.getLength();
-    	System.out.println("!!!len in append head: " + len);
     	for(int i = 0; i < len; i++) {
     		int value = nHead.value;
     		resultArray[i] = value;
     		nHead = nHead.next;
     	}	
     	for (int i = 0; i < resultArray.length; i++) {
-    		System.out.println("val: " + resultArray[i]);
+    		System.out.print("val: " + resultArray[i] + " ");
     	}
     	int[] expectedArray = {3,2,1};
     	assertArrayEquals(expectedArray, resultArray);
@@ -125,26 +124,26 @@ public class AppTest
     @Test
     public void testRemove()
     {
-//    	ListNode head = new ListNode(0);
-//    	ListNode node1 = new ListNode(1);
-//    	ListNode node2 = new ListNode(2);
-//    	ListNode node3 = new ListNode(3);
-//    
-//    	head.next = node1;
-//    	node1.next = node2;
-//    	node2.next = node3;
-//   
-//    	MyLinkedList myList = new MyLinkedList(head);   	
-//    	myList.remove(head, 2);
-//    	
-//    	ListNode head2 = new ListNode(0);
-//    	ListNode n1 = new ListNode(1);
-//    	ListNode n3 = new ListNode(3);   	
-//  	
-//    	head2.next = n1;
-//    	n1.next = n3;
-//    	
-//    	assertEquals(head, head2);
-    }
-    
+    	System.out.println("TEST REMOVE ");
+     	ListNode head = null;
+    	MyLinkedList myList = new MyLinkedList(head);
+     	myList.appendTail(0);
+    	myList.appendTail(1);
+    	myList.appendTail(2);
+    	myList.appendTail(3);
+    	//test remove
+    	ListNode nHead = myList.remove(2);
+    	
+    	int[] resultArray = new int[3];
+    	int index = 0;
+    	while (nHead != null) {
+    		int value = nHead.value;
+    		resultArray[index] = value;
+    		index++;
+    		nHead = nHead.next;
+    	}
+    	
+    	int[] expectedArray = {0,1,3};
+    	assertArrayEquals(expectedArray, resultArray);
+    } 
 }

@@ -76,7 +76,7 @@ public class MyLinkedList {
 		ListNode newNode = new ListNode(value);
 		// case 1 head is empty, make it the new head
 		if (head == null) {			
-			head = new ListNode(value);;
+			head = new ListNode(value);
 			length++;
 			return head;
 		}
@@ -92,23 +92,28 @@ public class MyLinkedList {
 	/**
 	 * Remove the first matching value in the list
 	 */
-	public ListNode remove(ListNode head, int value) {
+	public ListNode remove(int value) {
 		// case 1: remove head, make target's next element the new head
 		// case 2: remove middle, connect the previous element to the current's next
 		// element
 		// case 3: remove tail, find the element before last element and cut it
 		if (head == null) {
 			return null;
-		} else if (head.value == value) {
-			return head.next;
+		} else if (head.value == value && length == 1) {					
+			head = null;
+			length--;
+			return head;
 		}
-		ListNode cur = head;
-		while (cur.next != null && cur.next != null) {
-			cur = cur.next;
-		}
-		//now cur.next is the node to be removed
-		if (cur.next != null) {
-			cur = cur.next.next;
+		
+		ListNode pre = null;
+		ListNode current = head;
+		while (current != null) {
+			//delete current
+			if (current.value == value) {
+				pre.next = current.next;
+			}
+			pre = current;
+			current = current.next;		
 		}
 		return head;
 	}
