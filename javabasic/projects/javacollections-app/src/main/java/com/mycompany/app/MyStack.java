@@ -15,6 +15,7 @@ public class MyStack {
 		}
 		return false;
 	}
+	
 	/**
 	 * Looks at the object at the top of this stack without removing it from the stack
 	 * */
