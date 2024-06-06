@@ -11,7 +11,7 @@ import com.mycompany.app.MyQueue;
 /**
  * Unit test for MyQueue in java collections App.
  */
-public class MyQueueTest{
+public class MyQueueTest {
 	@Test
 	public void testSize() {
 		System.out.println("TEST Size ");
@@ -44,7 +44,7 @@ public class MyQueueTest{
 		System.out.println("size = " + result);
 		assertFalse(result);
 	}
-	
+
 	@Test
 	public void testPeekFirst() {
 		System.out.println("TEST PeekFirst");
@@ -69,7 +69,7 @@ public class MyQueueTest{
 		System.out.println("first = " + resultVal);
 		assertEquals(1, resultVal);
 	}
-	
+
 	@Test
 	public void testOfferLast2() {
 		System.out.println("TEST OfferLast");
@@ -88,7 +88,7 @@ public class MyQueueTest{
 		MyQueue queue = new MyQueue();
 		queue.offerLast(2);
 		queue.offerLast(3);
-		queue.offerLast(4);	
+		queue.offerLast(4);
 		ListNode result = queue.pollFirst();
 		int resultVal = result.value;
 		System.out.println("first = " + resultVal);
