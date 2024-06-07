@@ -63,7 +63,7 @@ public class MyBinarySearchTree {
 	 * @return TreeNode the root of the BST tree after deletion
 	 */
 	public TreeNode delete(int target) {
-		TreeNode ruturnRoot = root;
+		//TreeNode ruturnRoot = root;
 		if (root == null || root.value == target) {
 			return null;
 		}
@@ -82,19 +82,23 @@ public class MyBinarySearchTree {
 		//step 2:find replaced node in different cases 
 		//case 1: the node to be deleted had no children
 		if (root.left == null && root.right == null) {
-			pre.right = null;		
+			pre.right = null;
+			return pre;
 		}//case 2: the node to be deleted had no left children
 		else if (root.left == null && root.right != null) {
-			pre.right = root.right;		
+			pre.right = root.right;
+			return pre;
 		}//case 3: the node to be deleted had no right children
 		else if (root.left != null && root.right == null) {
-			pre.right = root.left;		
+			pre.right = root.left;
+			return pre;
 		} //case 4: the node to be deleted has both right and left children
 		else {
 			//case 4.1:the right child does not have left children
 			if (root.right.left == null) {//itself is the smallest
 				root.right.left = root.left; //the new node has to take over the deleted node's left child
 				pre.right = root.right; //replace the node
+				return pre.right;
 			}//case 4.2:the right child have left children
 			else {//find smallest in the left subtree, and move it up to replace the target node
 				//find smallest node
@@ -110,9 +114,9 @@ public class MyBinarySearchTree {
 				smallest.right = root.right;				
 				smallest.left = root.left;
 				pre.right = smallest;
+				return pre.right;
 			}
 		}
-		return ruturnRoot;
 	}
 	
 	private TreeNode findSmallest(TreeNode root) {
