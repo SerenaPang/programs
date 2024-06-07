@@ -9,33 +9,33 @@ import com.mycompany.app.TreeNode;
 import com.mycompany.app.MyBinarySearchTree;
 
 public class MyBinarySearchTreeTest {
-	
+
 	@Test
-	public void testInsert() {	
+	public void testInsert() {
 		System.out.println("TEST Insert ");
 		MyBinarySearchTree tree = new MyBinarySearchTree();
 
 		tree.insert(10);
 		tree.insert(5);
-		tree.insert(15);	
+		tree.insert(15);
 		tree.insert(4);
 		tree.insert(8);
-		tree.insert(6);	
-		tree.insert(9);	
-		tree.insert(16);	
+		tree.insert(6);
+		tree.insert(9);
+		tree.insert(16);
 		tree.insert(14);
-		TreeNode result = tree.insert(11);		
+		TreeNode result = tree.insert(11);
 		int resultVal = result.getValue();
 		System.out.println("result = " + resultVal);
 		int left = result.getLeft().getValue();
 		int right = result.getRight().getValue();
-		assertEquals(5, left);	
-		assertEquals(15, right);	
-		assertEquals(10, resultVal);		
+		assertEquals(5, left);
+		assertEquals(15, right);
+		assertEquals(10, resultVal);
 	}
-	
+
 	@Test
-	public void testSearch() {	
+	public void testSearch() {
 		System.out.println("TEST Search ");
 		MyBinarySearchTree tree = new MyBinarySearchTree();
 		tree.insert(1);
@@ -44,8 +44,21 @@ public class MyBinarySearchTreeTest {
 		TreeNode result = tree.search(1);
 		int resultVal = result.getValue();
 		System.out.println("result = " + resultVal);
-		assertEquals(1, resultVal);		
+		assertEquals(1, resultVal);
 	}
-	
-	
+
+	@Test
+	public void testDelete() {
+		System.out.println("TEST Delete ");
+		MyBinarySearchTree tree = new MyBinarySearchTree();
+		tree.insert(1);
+		tree.insert(3);
+		tree.insert(2);	
+		tree.delete(2);
+
+		TreeNode result = tree.search(2);
+//		int resultVal = result.getValue();
+//		System.out.println("result = " + resultVal);
+		assertEquals(null, result);
+	}
 }

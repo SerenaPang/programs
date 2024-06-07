@@ -5,7 +5,6 @@ package com.mycompany.app;
  */
 public class MyBinarySearchTree {
 	private TreeNode root;
-
 	/**
 	 * Insert an element with BST rule: every node to the left of itself is smaller
 	 * than itself and every node to the right are greater than itself
@@ -63,10 +62,89 @@ public class MyBinarySearchTree {
 	 * @param target the Node's value to be deleted in this BST
 	 * @return TreeNode the root of the BST tree after deletion
 	 */
-	public TreeNode delete(int value) {
-		
-		
-		
-		return null;
+	public TreeNode delete(int target) {
+		TreeNode ruturnRoot = root;
+		if (root == null || root.value == target) {
+			return null;
+		}
+		//step 1: Find the node to be deleted
+		TreeNode pre = null;
+		while (root != null && root.value != target) {
+			if (root.value < target) {
+				pre = root;
+				root = root.right;
+			} else {
+				pre = root;
+				root = root.left;
+			}		
+		}		
+		//now root.value == target, and pre == root's parent
+		//step 2:find replaced node in different cases 
+		//case 1: the node to be deleted had no children
+		if (root.left == null && root.right == null) {
+			pre.right = null;		
+		}//case 2: the node to be deleted had no left children
+		else if (root.left == null && root.right != null) {
+			pre.right = root.right;		
+		}//case 3: the node to be deleted had no right children
+		else if (root.left != null && root.right == null) {
+			pre.right = root.left;		
+		} //case 4: the node to be deleted has both right and left children
+		else {
+			//case 4.1:the right child does not have left children
+			if (root.right.left == null) {//itself is the smallest
+				root.right.left = root.left; //the new node has to take over the deleted node's left child
+				pre.right = root.right; //replace the node
+			}//case 4.2:the right child have left children
+			else {//find smallest in the left subtree, and move it up to replace the target node
+				//find smallest node
+				TreeNode previousNode = null;
+				TreeNode smallest = root;
+				while (smallest != null && smallest.left != null) {
+					previousNode = smallest;
+					smallest = smallest.left;
+				}
+				//The parent of the smallest node has to take over the right child of the smallest node
+				previousNode.left = smallest.right;
+				//The smallest node goes up to replace the deleted node and take over the left and right child of the delted node
+				smallest.right = root.right;				
+				smallest.left = root.left;
+				pre.right = smallest;
+			}
+		}
+		return ruturnRoot;
+	}
+	
+	private TreeNode findSmallest(TreeNode root) {
+		while (root != null && root.left != null) {
+			root = root.left;
+		}
+		return root;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
