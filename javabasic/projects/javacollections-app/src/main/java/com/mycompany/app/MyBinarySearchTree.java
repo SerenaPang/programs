@@ -1,4 +1,9 @@
 package com.mycompany.app;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+
+import java.util.ArrayList;
 
 /**
  * Implementation of a Binary Search Tree and its operations (iterative)
@@ -125,30 +130,34 @@ public class MyBinarySearchTree {
 		}
 		return root;
 	}
+	
+	/**
+	 * Pre order traversal iteratively traverse a tree (root, left right)
+	 * */
+	public int[] preOrder(TreeNode root) {	
+		if (root == null) {
+			return null;
+		}
+		//Use a stack to push and pop element in the tree
+		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
+		List nodeList = new ArrayList<Integer>();
+		stack.offerFirst(root);
+		while (!stack.isEmpty()) {
+			TreeNode cur = stack.pollFirst();
+			Integer val = (Integer)cur.value;
+			nodeList.add(cur);
+			if (cur.right != null) {
+				stack.offerFirst(cur.right);
+			}
+			if (cur.left != null) {
+				stack.offerFirst(cur.left);
+			}
+		}
+		int size = nodeList.size() - 1;
+		int[] result = new int[size];
+		for (int i = 0; i < size; i++) {
+			result[i] = (int)nodeList.get(i);
+		}
+		return result;
+	}		
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
