@@ -67,68 +67,51 @@ public class MyBinarySearchTree {
 	 * @param target the Node's value to be deleted in this BST
 	 * @return TreeNode the root of the BST tree after deletion
 	 */
-	public TreeNode delete(int target) {
+	public TreeNode delete(TreeNode root, int target) {
 		//TreeNode ruturnRoot = root;
-		if (root == null || root.value == target) {
+		if (root == null) {
 			return null;
 		}
-		//step 1: Find the node to be deleted
-		TreeNode pre = null;
-		while (root != null && root.value != target) {
-			if (root.value < target) {
-				pre = root;
-				root = root.right;
-			} else {
-				pre = root;
-				root = root.left;
-			}		
-		}		
-		//now root.value == target, and pre == root's parent
-		//step 2:find replaced node in different cases 
-		//case 1: the node to be deleted had no children
-		if (root.left == null && root.right == null) {
-			pre.right = null;
-			return pre;
-		}//case 2: the node to be deleted had no left children
-		else if (root.left == null && root.right != null) {
-			pre.right = root.right;
-			return pre;
-		}//case 3: the node to be deleted had no right children
-		else if (root.left != null && root.right == null) {
-			pre.right = root.left;
-			return pre;
-		} //case 4: the node to be deleted has both right and left children
-		else {
-			//case 4.1:the right child does not have left children
-			if (root.right.left == null) {//itself is the smallest
-				root.right.left = root.left; //the new node has to take over the deleted node's left child
-				pre.right = root.right; //replace the node
-				return pre.right;
-			}//case 4.2:the right child have left children
-			else {//find smallest in the left subtree, and move it up to replace the target node
-				//find smallest node
-				TreeNode previousNode = null;
-				TreeNode smallest = root;
-				while (smallest != null && smallest.left != null) {
-					previousNode = smallest;
-					smallest = smallest.left;
-				}
-				//The parent of the smallest node has to take over the right child of the smallest node
-				previousNode.left = smallest.right;
-				//The smallest node goes up to replace the deleted node and take over the left and right child of the delted node
-				smallest.right = root.right;				
-				smallest.left = root.left;
-				pre.right = smallest;
-				return pre.right;
-			}
+		//find target node
+		if (root.value > target) {
+			root.left = delete(root.left, target);
+			return root; //until root.value == target, it will return root
+		} else if (root.value < target) {
+			root.right = delete(root.right, target);
+			return root;
 		}
+		//case 1 & case 2
+		if (root.left == null) {
+			return root.right;
+		}//case 3
+		else if (root.right == null) {
+			return root.left;
+		}		
+		//guarantee root.left and root.right both are not null
+		//case 4.1 root's right child's left is null, means right is the smallest node
+		if (root.right.left == null) {
+			root.right.left = root.left;
+			return root.right;
+		}
+		//case 4.2 root's right child's left is not null, means left subtree has the smallest node
+		//step 1: find and delete the smallest node
+		TreeNode smallest = deleteSmallest(root.right);
+		//step 2: connect the smallest node with root.left and root.right
+		smallest.left = root.left;
+		smallest.right = root.right;
+		//step 3: return the smallest node
+		return smallest;
 	}
 	
-	private TreeNode findSmallest(TreeNode root) {
-		while (root != null && root.left != null) {
-			root = root.left;
+	private TreeNode deleteSmallest(TreeNode cur) {
+		TreeNode pre = cur;
+		cur = cur.left;
+		while (cur.left != null) {
+			pre = cur;
+			cur = cur.left;
 		}
-		return root;
+		pre.left = pre.left.right;//which is the smallest node's right child
+		return cur;
 	}
 	
 	/**

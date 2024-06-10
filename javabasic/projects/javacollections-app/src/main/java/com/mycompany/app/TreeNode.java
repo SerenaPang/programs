@@ -1,9 +1,9 @@
 package com.mycompany.app;
 
 public class TreeNode{
-	 int value;
-	 TreeNode left;
-	 TreeNode right;
+	 protected int value;
+	 protected TreeNode left;
+	 protected TreeNode right;
 	
 	public TreeNode(int val) {
 		this.value = val;

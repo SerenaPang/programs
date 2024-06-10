@@ -49,14 +49,24 @@ public class MyBinarySearchTreeTest {
 
 	@Test
 	public void testDelete() {
-//		System.out.println("TEST Delete ");
-//		MyBinarySearchTree tree = new MyBinarySearchTree();
-//		tree.insert(8);
-//		tree.insert(3);
-//		tree.insert(2);	
-//		TreeNode result = tree.delete(8);
-//		int resultVal = result.getValue();
-//		System.out.println("result = " + resultVal);
-//		assertEquals(null, result);
+		System.out.println("TEST Delete ");
+		MyBinarySearchTree tree = new MyBinarySearchTree();		
+		TreeNode root = tree.insert(3);
+		tree.insert(8);
+		tree.insert(2);	
+		tree.insert(6);
+		tree.insert(12);	
+		tree.insert(11);
+		tree.insert(14);
+		tree.insert(9);
+		tree.insert(10);
+		
+		TreeNode result = tree.delete(root, 8);
+		int resultVal = result.getValue();
+		System.out.println("result = " + resultVal);
+		
+		TreeNode searchDele = tree.search(8);
+		assertEquals(null, searchDele);
+		//assertEquals(8, resultVal);
 	}
 }
