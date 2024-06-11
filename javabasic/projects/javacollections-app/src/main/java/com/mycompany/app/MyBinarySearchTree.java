@@ -2,7 +2,7 @@ package com.mycompany.app;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-
+import com.mycompany.app.TreeNode;
 import java.util.ArrayList;
 
 /**
@@ -117,18 +117,19 @@ public class MyBinarySearchTree {
 	/**
 	 * Pre order traversal iteratively traverse a tree (root, left right)
 	 * */
-	public int[] preOrder(TreeNode root) {	
+	public List<TreeNode> preOrder() {	
 		if (root == null) {
 			return null;
 		}
 		//Use a stack to add the root and add to a list, then add the right and left node
 		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
-		List nodeList = new ArrayList<Integer>();
+		List nodeList = new ArrayList<TreeNode>();
 		stack.offerFirst(root);
 		while (!stack.isEmpty()) {
 			TreeNode cur = stack.pollFirst();
-			Integer val = (Integer)cur.value;
 			//add the element to the list
+			//Integer curVal = cur.value;
+			//System.out.print("  " +  curVal +"  ");
 			nodeList.add(cur);
 			//put the right subtree aside on the stack, so it will be the last to poll
 			if (cur.right != null) {
@@ -138,13 +139,8 @@ public class MyBinarySearchTree {
 			if (cur.left != null) {
 				stack.offerFirst(cur.left);
 			}
-		}
-		int size = nodeList.size() - 1;
-		int[] result = new int[size];
-		for (int i = 0; i < size; i++) {
-			result[i] = (int)nodeList.get(i);
-		}
-		return result;
+		}	
+		return nodeList;
 	}
 	
 	/**
@@ -156,8 +152,19 @@ public class MyBinarySearchTree {
 		}
 		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
 		List nodeList = new ArrayList<Integer>();
-		//The end is the root with all the left subtree nodes printed
+		//helperNode tells wheather the node is the root with all the left subtree nodes added
+		TreeNode helperNode = root;
 		
+		while (helperNode != null || !stack.isEmpty()) {
+			if (helperNode != null) {//means there are left nodes, we need to continue traverse
+				stack.offerFirst(helperNode);
+				helperNode = helperNode.left;
+			} else {//if the helper == null then the current stack top is the node with all left subtree printed, now pop it and print it, then go to the right
+				helperNode = stack.pollFirst();
+				nodeList.add(helperNode);
+				helperNode = helperNode.right;
+			}
+		}		
 		int size = nodeList.size() - 1;
 		int[] result = new int[size]; 
 		for (int i = 0; i < size; i++) {
@@ -166,31 +173,22 @@ public class MyBinarySearchTree {
 		return result;
 	}
 	
-	/**
-	 * An inorder traverse's helper method to decide wheather the node is the root with all the left subtree nodes printed
-	 * */
-	public void helper() {
-		//if the helper == null then the current stack top is the node with all left subtree printed, now pop it and print it
-		//
-		//else, it is the next node we need to traverse
-	}
-	
-	/**
-	 * In order traversal iteratively traverse a tree (left, right, root)
-	 * */
-	public int[] postOrder(TreeNode root) {	
-		if (root == null) {
-			return null;
-		}
-		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
-		List nodeList = new ArrayList<Integer>();
-		
-
-		int size = nodeList.size() - 1;
-		int[] result = new int[size];
-		for (int i = 0; i < size; i++) {
-			result[i] = (int)nodeList.get(i);
-		}
-		return result;
-	}	
+//	/**
+//	 * In order traversal iteratively traverse a tree (left, right, root)
+//	 * */
+//	public int[] postOrder(TreeNode root) {	
+//		if (root == null) {
+//			return null;
+//		}
+//		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
+//		List nodeList = new ArrayList<Integer>();
+//		
+//
+//		int size = nodeList.size() - 1;
+//		int[] result = new int[size];
+//		for (int i = 0; i < size; i++) {
+//			result[i] = (int)nodeList.get(i);
+//		}
+//		return result;
+//	}	
 }
