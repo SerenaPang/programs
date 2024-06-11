@@ -173,22 +173,54 @@ public class MyBinarySearchTree {
 		return result;
 	}
 	
-//	/**
-//	 * In order traversal iteratively traverse a tree (left, right, root)
-//	 * */
-//	public int[] postOrder(TreeNode root) {	
-//		if (root == null) {
-//			return null;
-//		}
-//		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
-//		List nodeList = new ArrayList<Integer>();
-//		
-//
-//		int size = nodeList.size() - 1;
-//		int[] result = new int[size];
-//		for (int i = 0; i < size; i++) {
-//			result[i] = (int)nodeList.get(i);
-//		}
-//		return result;
-//	}	
+	/**
+	 * In order traversal iteratively traverse a tree (left, right, root)
+	 * */
+	public int[] postOrder(TreeNode root) {	
+		if (root == null) {
+			return null;
+		}
+		Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
+		List nodeList = new ArrayList<Integer>();
+		
+		TreeNode pre = null;
+		stack.offerFirst(root);		
+		while (!stack.isEmpty()) {
+			TreeNode current = stack.peekFirst();
+			////if pre is null -> going down (left subtree has priority)
+			if (pre == null || current == pre.left || current == pre.right) {
+				//if pre is current's parent -> going down (left subtree has priority)
+				if (current.left != null) {
+					stack.offerFirst(current.left);
+				} else if (current.right != null) {
+					stack.offerFirst(current.right);
+				} else {
+					//current's left and right are null means we visited all nodes from left to right and root are visited
+					nodeList.add(current);
+					stack.pollFirst();
+				}
+			} // left or right tree is finished, from bottom goes up
+			else if (pre == current.left)//from left subtree -> left subtree finished, going cur.right
+			{
+				if (current.right != null) {
+					stack.offerFirst(current.right);
+				} else {
+					nodeList.add(current);
+					stack.pollFirst();
+				}
+			} 
+			else {//from right subtree -> right subtree finished, pop cur, going up
+				nodeList.add(current);
+				stack.pollFirst();
+			}
+			pre = current;
+		}
+
+		int size = nodeList.size() - 1;
+		int[] result = new int[size];
+		for (int i = 0; i < size; i++) {
+			result[i] = (int)nodeList.get(i);
+		}
+		return result;
+	}	
 }
