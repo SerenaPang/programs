@@ -119,12 +119,21 @@ public class MinHeap {
 	}
 	
 	/**
-	 * update the element in the min heap
+	 * update the element in the min heap, either perform percolate up/down to maintain the heap's property
 	 * @return the original value
 	 * */
 	public int update(int index, int element) {
-		
-		return -1;
+		int originalElement = array[index];
+		if (index < 0 || index > size - 1) {
+			throw new ArrayIndexOutOfBoundsException("invalid index range");
+		}
+		array[index] = element; //replace the new element with the original one in array
+		if (originalElement > element) { //which means new element is smaller, should goes up
+			percolateUp(index);
+		} else {//means new element is greater than old one, should goes down
+			percolateDown(index);			
+		}
+		return originalElement;
 	}
 	
 	/**
