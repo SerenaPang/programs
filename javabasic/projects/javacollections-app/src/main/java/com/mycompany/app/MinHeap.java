@@ -66,7 +66,17 @@ public class MinHeap {
 	 * Do this until the element does not need to be moved
 	 * */
 	private void percolateUp(int index) {
-		
+		//keep percolate up until - reach the top; the heap peroperty is maintained
+		while (index > 0) {
+			int parentIndex = (index - 1) / 2; //compare parent node with its children
+			//if the value of the parent node is greater than index's value
+			if (array[parent] > array[index]) {//the priority of parent is less than index
+				swap(parent, index); //node has to go up to exchange position with its parent
+			} else {
+				break;
+			}
+			index = parent;//compare the next parent node
+		}
 	}
 	
 	/**
