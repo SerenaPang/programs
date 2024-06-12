@@ -1,5 +1,6 @@
 package com.mycompany.app;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 /**
  * Implementation of the operations for a min heap(priority queue)
@@ -105,13 +106,21 @@ public class MinHeap {
 	
 	/**
 	 * add an element to the min heap
+	 * perform percolate up to maintain the heap's property
 	 * */
 	public void offer(int element) {
-		
+		if (size == array.length) {
+			//when adding new element, expand the array if necessary
+			array = Arrays.copyOf(array, (int)array,length * 1.5);
+		}
+		array[size] = element;//add to the end of the array
+		size++;
+		percolateUp(size - 1);//perform percolate up from the end of the array
 	}
 	
 	/**
 	 * update the element in the min heap
+	 * @return the original value
 	 * */
 	public int update(int index, int element) {
 		
