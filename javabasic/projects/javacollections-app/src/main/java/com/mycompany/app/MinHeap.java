@@ -57,7 +57,9 @@ public class MinHeap {
 	 * of from the nodes on the deepest level to the root
 	 * */
 	private void heapify() {
-		
+		for (int i = size / 2 - 1; i >= 0; i--) {
+			percolateDown(i);
+		}
 	}
 	
 	/**
