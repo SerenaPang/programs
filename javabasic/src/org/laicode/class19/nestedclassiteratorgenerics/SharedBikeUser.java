@@ -8,6 +8,10 @@ public class SharedBikeUser {
 	public SharedBikeUser(String name) {
 		this.name = name;
 	}
+	
+	public void printName() {
+		System.out.println("name: " + name);
+	}
 
 	/**
 	 * This is a static inner class.
@@ -16,5 +20,20 @@ public class SharedBikeUser {
 		//it can only visit the static member, it can not visit the non static member
 		//String owner = name //compile error 
 		String key;
+		
+		public void lock() {
+			System.out.println("Lock the bike now...");
+		}
+	}
+	
+	public static void main(String[] args) {
+		SharedBikeUser.Bike sb1 = new SharedBikeUser.Bike();
+		sb1.lock();
+		SharedBikeUser.Bike sb2 = new SharedBikeUser.Bike();
+		SharedBikeUser.Bike sb3 = new SharedBikeUser.Bike();
+		SharedBikeUser.Bike sb4 = new SharedBikeUser.Bike();
+		SharedBikeUser.Bike sb5 = new SharedBikeUser.Bike();
+		SharedBikeUser diana = new SharedBikeUser("Diana");
+		diana.printName();
 	}
 }
