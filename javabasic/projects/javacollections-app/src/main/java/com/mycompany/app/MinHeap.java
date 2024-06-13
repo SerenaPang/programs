@@ -70,12 +70,12 @@ public class MinHeap {
 		while (index > 0) {
 			int parentIndex = (index - 1) / 2; //compare parent node with its children
 			//if the value of the parent node is greater than index's value
-			if (array[parent] > array[index]) {//the priority of parent is less than index
-				swap(parent, index); //node has to go up to exchange position with its parent
+			if (array[parentIndex] > array[index]) {//the priority of parent is less than index
+				swap(parentIndex, index); //node has to go up to exchange position with its parent
 			} else {
 				break;
 			}
-			index = parent;//compare the next parent node
+			index = parentIndex;//compare the next parent node
 		}
 	}
 	
@@ -86,7 +86,25 @@ public class MinHeap {
 	 * Do this ubtil the element does not need be moved.
 	 * */
 	private void percolateDown(int index) {
-		
+		//cut the array in half, and review the node from back to the begining
+		while (index <= size / 2 - 1) { //last parent node, we don't want to review more than this
+			//first compare the 2 children node
+			int leftChild = index * 2 + 1;
+			int rightChild = index * 2 + 2;
+			//choose left to be swap candidate, because it must have left child but not necessary right child
+			int swap = leftChild;
+			//check if right child exist,and if left or right has more priority
+			if (rightChild <= size - 1 && array[leftChild] >= array[rightChild]) {
+					swap = rightChild; //right has more priority, swap with the right child
+			}
+			//now we have the result of left/right is the smallest, compare the parent node
+			if (array[index] > array[swap]) {//check if parent node or the smallest child node is less priority
+				swap(index, swap);
+			} else {//parent node has more priority, we do not need to swap
+				break;
+			}
+			index = swap;//update the current index to next swap
+		}
 	}
 	
 	/**
@@ -121,7 +139,7 @@ public class MinHeap {
 	public void offer(int element) {
 		if (size == array.length) {
 			//when adding new element, expand the array if necessary
-			array = Arrays.copyOf(array, (int)array,length * 1.5);
+			array = Arrays.copyOf(array, (int)(array.length * 1.5));
 		}
 		array[size] = element;//add to the end of the array
 		size++;
