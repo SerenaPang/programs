@@ -25,6 +25,29 @@ public class FindMiddle {
 		}
 		return min;
 	}
+	
+	public static <E> void printAr(Comparable[] inputArr) {
+		for (Comparable element : inputArr) {
+			System.out.printf("%s ", element);
+		}
+		System.out.println();
+	}
+	
+	//how to declare generic method if return type is void
+	public static <E> void printArray(E[] inputArr) {
+		for (E element : inputArr) {
+			System.out.printf("%s ", element);
+		}
+		System.out.println();
+	}
+	
+	//It's the same as
+	public static void printArr(Object[] inputArr) {
+		for (Object element : inputArr) {
+			System.out.printf("%s ", element);
+		}
+		System.out.println();
+	}
 
 	public static void main(String[] args) {
 		// test find middle element example
