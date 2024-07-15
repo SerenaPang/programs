@@ -91,6 +91,7 @@ public class MyBinarySearchTreeTest {
 //		int[] result = new int[size - 1];
 //		for (int i = 0; i < size; i++) {
 //			int curVal = nodeList.get(i).value;
+	//curVal.intValue(); //unboxing
 //			result[i] = curVal;
 //			System.out.println(curVal);
 //		}
